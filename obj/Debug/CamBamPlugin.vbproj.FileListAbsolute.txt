@@ -1,0 +1,14 @@
+C:\Program Files (x86)\CamBam plus 0.9.8\plugins\CamBamPlugin.dll
+C:\Program Files (x86)\CamBam plus 0.9.8\plugins\CamBamPlugin.pdb
+C:\Program Files (x86)\CamBam plus 0.9.8\plugins\CamBamPlugin.xml
+C:\Program Files (x86)\CamBam plus 0.9.8\plugins\nqo-GN\CamBamPlugin.resources.dll
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.CalForm.resources
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.Resources.resources
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.UnCalForm.resources
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.CalForm.nqo-GN.resources
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.vbproj.GenerateResource.Cache
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\nqo-GN\CamBamPlugin.resources.dll
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.dll
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.xml
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.pdb
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBam\CamBamPlugin\CamBamPlugin\obj\Debug\CamBamPlugin.vbprojResolveAssemblyReference.cache
