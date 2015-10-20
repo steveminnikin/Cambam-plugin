@@ -11,7 +11,7 @@ Public Class MyPlugin
     Public Shared myPart As CAM.CAMPart
     Public Shared myEngrave As CAM.MOPEngrave
     Public Shared myUI As CamBamUI
-    Public Shared ref As Integer
+    Public Shared ref As String
     Public Shared Number As Single
     'Public Shared StrikerAmount As Integer
     Public Shared PrimIDs As List(Of Integer)
@@ -69,7 +69,7 @@ Public Class MyPlugin
             Dim myVelocityMode As CamBam.Values.CBValue(Of VelocityModes)
             myVelocityMode.SetValue(VelocityModes.ExactStop)
             'myStartPoint.SetValue({0, 0, 0})
-            myFeedRate.SetValue(450.0)
+            myFeedRate.SetValue(500.0)
             myDepthInc.SetValue(0.45)
             myTarget.SetValue(-0.45)
             myClearance.SetValue(0.4)
@@ -81,7 +81,7 @@ Public Class MyPlugin
             myEngrave = New CamBam.CAM.MOPEngrave()
             myPart.MachineOps.Add(myEngrave)
             With myEngrave
-                .Name = "ENgraveName"
+                .Name = ref
                 .CutFeedrate = myFeedRate
                 .DepthIncrement = myDepthInc
                 .TargetDepth = myTarget
@@ -93,6 +93,10 @@ Public Class MyPlugin
 
             End With
 
+            Dim myCustomHeader As New CamBam.Values.CBValue(Of String)
+            myCustomHeader.SetValue("( Full Volume: " & ")")
+            myEngrave.CustomMOPHeader = myCustomHeader
+            myEngrave.Name = ref & " Comment"
 
         End If
 
@@ -109,7 +113,7 @@ Public Class MyPlugin
                 '    Return 150
         End Select
     End Function
-    Public Shared Sub WriteRef(r As Integer, p As Single, x As Single)
+    Public Shared Sub WriteRef(r As String, p As Single, x As Single)
         Dim refXPos As Single = p + 40
         Dim myCamText As New MText()
         myCamText.Text = r

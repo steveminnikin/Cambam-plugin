@@ -120,7 +120,7 @@ Public Class CalForm
     End Sub
 
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles txtRef.TextChanged
-        ref = CInt(txtRef.Text)
+        ref = txtRef.Text
     End Sub
 
     Private Sub NumDips_ValueChanged(sender As Object, e As EventArgs) Handles NumDips.ValueChanged
