@@ -77,11 +77,11 @@ Public Class MyPlugin
             myToolNumber.SetValue(10)
             myArcCentreMode = ArcCenterModes.IncrementalFromP1
             myDoc.MachiningOptions.ArcCenterMode = myArcCentreMode
-            myPart = myDoc.CreatePart("Dipsticks")
+            myPart = myDoc.CreatePart("PartName")
             myEngrave = New CamBam.CAM.MOPEngrave()
             myPart.MachineOps.Add(myEngrave)
             With myEngrave
-                .Name = "Dipsticks"
+                .Name = "ENgraveName"
                 .CutFeedrate = myFeedRate
                 .DepthIncrement = myDepthInc
                 .TargetDepth = myTarget
