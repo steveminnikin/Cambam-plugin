@@ -115,7 +115,7 @@ Public Class MyPlugin
         myCamText.Text = r
         myCamText.Font = "1CamBam_Stick_3"
         myCamText.Height = "5.5"
-        myCamText.Location = 1 + x & "," & refXPos & ",0"
+        myCamText.Location = 0.5 + x & "," & refXPos & ",0"
         myUI.ActiveView.CADFile.Add(myCamText, myLayer)
     End Sub
     Public Shared Sub WriteUnits(u As String, h As Single, x As Single)

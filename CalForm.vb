@@ -96,7 +96,7 @@ Public Class CalForm
         volCamText.Text = vol
         volCamText.Font = "1CamBam_Stick_3"
         volCamText.Height = "5.5"
-        volCamText.Location = 1 + x & "," & y + 68 & ",0"
+        volCamText.Location = 0.5 + x & "," & y + 68 & ",0"
         myUI.ActiveView.CADFile.Add(volCamText, myLayer)
         'units text
         unitsCamText.Text = units
