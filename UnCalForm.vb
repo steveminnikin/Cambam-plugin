@@ -228,7 +228,7 @@ Public Class UnCalForm
     End Sub
 
     Private Sub txtRef_TextChanged(sender As Object, e As EventArgs) Handles txtRef.TextChanged
-        ref = CInt(txtRef.Text)
+        ref = txtRef.Text
     End Sub
 
     Private Sub chkHalfIncs_CheckedChanged(sender As Object, e As EventArgs) Handles chkHalfIncs.CheckedChanged
