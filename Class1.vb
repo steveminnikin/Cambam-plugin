@@ -1,9 +1,6 @@
 ﻿
-Imports CamBam.ThisApplication
-Imports System
-Imports System.Text
 Imports System.Windows.Forms
-Imports System.IO
+
 
 Public Class MyPlugin
     Public Shared myDoc As CADFile
@@ -32,14 +29,20 @@ Public Class MyPlugin
         ui.Menus.mnuPlugins.DropDownItems.Add(mi)
 
         'create submenu items
-        Dim uncal, cal As New ToolStripMenuItem
+        Dim uncal, cal, text, custom As New ToolStripMenuItem
         uncal.Text = "Uncalibrated"
         cal.Text = "Calibrated"
+        text.Text = "Text Only"
+        custom.Text = "Custom"
         'add submenu items to Dipsticks menu item
         mi.DropDownItems.Add(uncal)
         mi.DropDownItems.Add(cal)
+        mi.DropDownItems.Add(text)
+        mi.DropDownItems.Add(custom)
         AddHandler uncal.Click, AddressOf uncal_clicked
         AddHandler cal.Click, AddressOf cal_clicked
+        AddHandler text.Click, AddressOf text_clicked
+        AddHandler custom.Click, AddressOf custom_clicked
     End Sub
     Public Shared Sub uncal_clicked(ByVal sender As Object, ByVal e As EventArgs)
         Dim myUncalForm As New UnCalForm
@@ -48,6 +51,14 @@ Public Class MyPlugin
     Public Shared Sub cal_clicked(ByVal sender As Object, ByVal e As EventArgs)
         Dim myCalForm As New CalForm
         myCalForm.Show()
+    End Sub
+    Public Shared Sub text_clicked(ByVal sender As Object, ByVal e As EventArgs)
+        Dim mytextForm As New textForm
+        mytextForm.Show()
+    End Sub
+    Public Shared Sub custom_clicked(ByVal sender As Object, ByVal e As EventArgs)
+        Dim myCustomForm As New CustomForm
+        myCustomForm.Show()
     End Sub
     Public Shared Sub CreateLayer(n As Single)
         myDoc = myUI.ActiveView.CADFile
@@ -58,17 +69,16 @@ Public Class MyPlugin
     End Sub
     Public Shared Sub CreatePart()
         If Not myUI.ActiveView.CADFile.HasPart("Dipsticks") Then
-            Dim myFeedRate As CamBam.Values.CBValue(Of Double)
-            Dim myDepthInc As CamBam.Values.CBValue(Of Double)
-            Dim myTarget As CamBam.Values.CBValue(Of Double)
-            Dim myClearance As CamBam.Values.CBValue(Of Double)
-            Dim myToolDiameter As CamBam.Values.CBValue(Of Double)
-            Dim myToolNumber As CamBam.Values.CBValue(Of Integer)
-            Dim myArcCentreMode As CamBam.CAM.ArcCenterModes
-            'Dim myStartPoint As CamBam.Values.CBValue(Of Point3F)
-            Dim myVelocityMode As CamBam.Values.CBValue(Of VelocityModes)
+            Dim myFeedRate As CamBam.Values.CBValue(Of Double),
+            myDepthInc As CamBam.Values.CBValue(Of Double),
+            myTarget As CamBam.Values.CBValue(Of Double),
+            myClearance As CamBam.Values.CBValue(Of Double),
+            myToolDiameter As CamBam.Values.CBValue(Of Double),
+            myToolNumber As CamBam.Values.CBValue(Of Integer),
+            myArcCentreMode As CamBam.CAM.ArcCenterModes,
+            myVelocityMode As CamBam.Values.CBValue(Of VelocityModes)
+
             myVelocityMode.SetValue(VelocityModes.ExactStop)
-            'myStartPoint.SetValue({0, 0, 0})
             myFeedRate.SetValue(500.0)
             myDepthInc.SetValue(0.45)
             myTarget.SetValue(-0.45)
@@ -158,7 +168,8 @@ Public Class MyPlugin
         myCamText.Location = 11 + xPos & "," & UniPos & ",0"
         myUI.ActiveView.CADFile.Add(myCamText, myLayer)
     End Sub
-    
+
+
     Public Shared Function isDivisible(x As Integer, y As Integer) As Boolean
         Return (x Mod y) = 0
     End Function

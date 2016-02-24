@@ -32,3 +32,4 @@ C:\Users\User\Documents\Projects\Cambam-plugin\obj\Debug\nqo-GN\CamBamPlugin.res
 C:\Users\User\Documents\Projects\Cambam-plugin\obj\Debug\CamBamPlugin.dll
 C:\Users\User\Documents\Projects\Cambam-plugin\obj\Debug\CamBamPlugin.xml
 C:\Users\User\Documents\Projects\Cambam-plugin\obj\Debug\CamBamPlugin.pdb
+C:\Users\User\Documents\Visual Studio 2013\Projects\CamBamPlugin\obj\Debug\CamBamPlugin.textForm.resources

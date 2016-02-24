@@ -1,12 +1,4 @@
-﻿Imports CamBam
-Imports CamBam.CAD
-Imports CamBam.UI
-Imports CamBam.Util
-Imports CamBam.ThisApplication
-Imports System
-Imports System.Text
-Imports System.Windows.Forms
-Imports System.IO
+﻿Imports System.Windows.Forms
 Imports CamBamPlugin.MyPlugin
 Imports System.Math
 
