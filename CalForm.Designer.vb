@@ -47,6 +47,7 @@ Partial Class CalForm
         Me.Label10 = New System.Windows.Forms.Label()
         Me.txtSecondLine = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -184,11 +185,18 @@ Partial Class CalForm
         resources.ApplyResources(Me.Label11, "Label11")
         Me.Label11.Name = "Label11"
         '
+        'CheckBox1
+        '
+        resources.ApplyResources(Me.CheckBox1, "CheckBox1")
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
         'CalForm
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.txtSecondLine)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.txtMarkedVolumes)
@@ -244,4 +252,5 @@ Partial Class CalForm
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents txtSecondLine As Windows.Forms.TextBox
     Friend WithEvents Label11 As Windows.Forms.Label
+    Friend WithEvents CheckBox1 As Windows.Forms.CheckBox
 End Class

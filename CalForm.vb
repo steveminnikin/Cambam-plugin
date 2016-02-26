@@ -12,15 +12,13 @@ Public Class CalForm
     Private increments As Single
     Private markedVolIncrement As Single
     Private isFileSelected As Boolean
+    Private isRegIncrements As Boolean
 
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         If isFileSelected Then
             CreateLayer(ref)
             CreatePart()
             Process()
-            'myUI.ActiveView.SelectAllVisibleGeometry()
-            'myEngrave.GenerateToolpaths(myUI.ActiveView.CADFile)
-            'CAMUtils.GenerateGCodeOutput(myUI.ActiveView)
             myUI.ActiveView.RefreshView()
             Me.Visible = False
         Else
@@ -33,23 +31,31 @@ Public Class CalForm
         Dim myElements As String()
         Try
             Using sR As New StreamReader(myfile)
-                'Dim myline As String
-                'myline = sR.ReadToEnd
-                'myElements = myline.Split(",")
-                'myList.Add(myElements(0), myElements(1))
                 Do
                     myElements = sR.ReadLine.Split(",")
-                    myList.Add(myElements(0), myElements(1))
+                    If isRegIncrements Then
+                        myList.Add(myElements(1), myElements(0))
+                    Else
+                        myList.Add(myElements(0), myElements(1))
+                    End If
+
+
                 Loop While Not myList.Equals(Nothing)
-            End Using       
+            End Using
         Catch ex As Exception
             MessageBox.Show("End of File")
         End Try
         For Each i As KeyValuePair(Of String, String) In myList
             Drawline(i.Key, CreateCopies(Number))
-            If isMultipleOfMarkedInterval(i.Value) Or i.Value = fullVol Or i.Value = increments Then
+            If Not isRegIncrements Then
+                If isMultipleOfMarkedInterval(i.Value) Or i.Value = fullVol Or i.Value = increments Then
+                    WriteNumber(i.Key, i.Value, CreateCopies(Number))
+                End If
+            Else
                 WriteNumber(i.Key, i.Value, CreateCopies(Number))
             End If
+
+
         Next
         WriteUnits("LITRE", DipHeight, CreateCopies(Number))
         WriteRef(ref, DipHeight, CreateCopies(Number))
@@ -156,5 +162,9 @@ Public Class CalForm
 
     Private Sub txtSecondLine_TextChanged(sender As Object, e As EventArgs) Handles txtSecondLine.TextChanged
         secondLine.Text = txtSecondLine.Text
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        isRegIncrements = CheckBox1.Checked
     End Sub
 End Class

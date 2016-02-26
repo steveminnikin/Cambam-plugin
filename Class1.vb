@@ -30,20 +30,17 @@ Public Class MyPlugin
         ui.Menus.mnuPlugins.DropDownItems.Add(mi)
 
         'create submenu items
-        Dim uncal, cal, text, custom As New ToolStripMenuItem
+        Dim uncal, cal, text As New ToolStripMenuItem
         uncal.Text = "Uncalibrated"
         cal.Text = "Calibrated"
         text.Text = "Text Only"
-        custom.Text = "Custom"
         'add submenu items to Dipsticks menu item
         mi.DropDownItems.Add(uncal)
         mi.DropDownItems.Add(cal)
         mi.DropDownItems.Add(text)
-        mi.DropDownItems.Add(custom)
         AddHandler uncal.Click, AddressOf uncal_clicked
         AddHandler cal.Click, AddressOf cal_clicked
         AddHandler text.Click, AddressOf text_clicked
-        AddHandler custom.Click, AddressOf custom_clicked
     End Sub
     Public Shared Sub uncal_clicked(ByVal sender As Object, ByVal e As EventArgs)
         Dim myUncalForm As New UnCalForm
@@ -56,10 +53,6 @@ Public Class MyPlugin
     Public Shared Sub text_clicked(ByVal sender As Object, ByVal e As EventArgs)
         Dim mytextForm As New textForm
         mytextForm.Show()
-    End Sub
-    Public Shared Sub custom_clicked(ByVal sender As Object, ByVal e As EventArgs)
-        Dim myCustomForm As New CustomForm
-        myCustomForm.Show()
     End Sub
     Public Shared Sub CreateLayer(n As Single)
         myDoc = myUI.ActiveView.CADFile

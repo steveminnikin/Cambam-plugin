@@ -9,6 +9,7 @@ Public Class textForm
         FirstLineText.Text = TextBox1.Text
         SecondLineText.Text = TextBox2.Text
         WriteVerticalInfo(FirstLineText, SecondLineText, ystartPoint)
+        CreateLayer(3)
         CreatePart()
         myUI.ActiveView.RefreshView()
         Me.Visible = False
@@ -22,8 +23,6 @@ Public Class textForm
         secondLine.Height = "6"
         firstLine.Transform.RotZ(1.571)
         secondLine.Transform.RotZ(1.571)
-
-        CreateLayer(3)
 
         If secondLine.Text.Equals("") Then
             firstLine.Location = yLocation & ",-6"
