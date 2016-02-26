@@ -1,11 +1,7 @@
-﻿Imports CamBam
-Imports CamBam.ThisApplication
-Imports System
-Imports System.Text
-Imports System.Windows.Forms
-Imports System.IO
+﻿Imports System.Windows.Forms
 Imports CamBamPlugin.MyPlugin
 Imports System.Math
+Imports CamBamPlugin.textForm
 
 Public Class CalForm
     Private myfile As String
@@ -59,7 +55,8 @@ Public Class CalForm
         WriteRef(ref, DipHeight, CreateCopies(Number))
         WriteSWC(DipHeight, CreateCopies(Number), "LITRE", Round(fullVol * 0.97))
         WriteClientRef(DipHeight, CreateCopies(Number), clientRef, refText)
-        WriteAdditionalInfo(DipHeight, CreateCopies(Number), additionalInfo)
+        WriteVerticalInfo(firstLine, secondLine, DipHeight + If(Not clientRef = "", 148, 105))
+        'WriteAdditionalInfo(DipHeight, CreateCopies(Number), additionalInfo)
     End Sub
 
     Private Sub Drawline(l As Single, x As Single)
@@ -128,7 +125,8 @@ Public Class CalForm
     End Sub
 
     Private Sub txtAddInfo_LostFocus(sender As Object, e As EventArgs) Handles txtAddInfo.LostFocus
-        additionalInfo = txtAddInfo.Text
+        firstLine.Text = txtAddInfo.Text
+
     End Sub
 
     Private Sub TextBox1_TextChanged_2(sender As Object, e As EventArgs) Handles txtFullVol.TextChanged
@@ -154,5 +152,9 @@ Public Class CalForm
 
     Private Sub chkStriker_CheckedChanged(sender As Object, e As EventArgs) Handles chkStriker.CheckedChanged
         If chkStriker.Checked Then refText = True
+    End Sub
+
+    Private Sub txtSecondLine_TextChanged(sender As Object, e As EventArgs) Handles txtSecondLine.TextChanged
+        secondLine.Text = txtSecondLine.Text
     End Sub
 End Class

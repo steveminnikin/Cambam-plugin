@@ -14,7 +14,8 @@ Public Class MyPlugin
     Public Shared PrimIDs As List(Of Integer)
     Public Shared clientRef As String = ""
     Public Shared yPos As Single
-    Public Shared additionalInfo As String = ""
+    Public Shared firstLine As New MText
+    Public Shared secondLine As New MText
     Public Shared refText As Boolean
     Public Shared numInterval As Integer
 

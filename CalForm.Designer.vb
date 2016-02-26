@@ -45,6 +45,8 @@ Partial Class CalForm
         Me.txtIncrements = New System.Windows.Forms.TextBox()
         Me.txtMarkedVolumes = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
+        Me.txtSecondLine = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
         CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -171,11 +173,24 @@ Partial Class CalForm
         resources.ApplyResources(Me.Label10, "Label10")
         Me.Label10.Name = "Label10"
         '
+        'txtSecondLine
+        '
+        Me.txtSecondLine.BackColor = System.Drawing.Color.White
+        resources.ApplyResources(Me.txtSecondLine, "txtSecondLine")
+        Me.txtSecondLine.Name = "txtSecondLine"
+        '
+        'Label11
+        '
+        resources.ApplyResources(Me.Label11, "Label11")
+        Me.Label11.Name = "Label11"
+        '
         'CalForm
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.Controls.Add(Me.txtSecondLine)
+        Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.txtMarkedVolumes)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.txtIncrements)
@@ -227,4 +242,6 @@ Partial Class CalForm
     Public WithEvents txtIncrements As System.Windows.Forms.TextBox
     Public WithEvents txtMarkedVolumes As System.Windows.Forms.TextBox
     Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents txtSecondLine As Windows.Forms.TextBox
+    Friend WithEvents Label11 As Windows.Forms.Label
 End Class
