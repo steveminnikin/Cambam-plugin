@@ -8,17 +8,16 @@ Public Class MyPlugin
     Public Shared myPart As CAM.CAMPart
     Public Shared myEngrave As CAM.MOPEngrave
     Public Shared myUI As CamBamUI
-    Public Shared ref As String
+    Public Shared ref As String = ""
     Public Shared Number As Single
     'Public Shared StrikerAmount As Integer
     Public Shared PrimIDs As List(Of Integer)
     Public Shared clientRef As String = ""
     Public Shared yPos As Single
-    Public Shared firstLine As New MText
-    Public Shared secondLine As New MText
+    Public Shared firstLine As New MText With {.Text = ""}
+    Public Shared secondLine As New MText With {.Text = ""}
     Public Shared refText As Boolean
     Public Shared numInterval As Integer
-
     Public Shared isMarkedIncrement As Boolean
 
 
@@ -54,7 +53,7 @@ Public Class MyPlugin
         Dim mytextForm As New textForm
         mytextForm.Show()
     End Sub
-    Public Shared Sub CreateLayer(n As Single)
+    Public Shared Sub CreateLayer(Optional n As String = "")
         myDoc = myUI.ActiveView.CADFile
         myLayer = New CamBam.CAD.Layer
         myLayer.Name = n & "_Dipstick"

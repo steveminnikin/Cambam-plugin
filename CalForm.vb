@@ -58,10 +58,10 @@ Public Class CalForm
 
         Next
         WriteUnits("LITRE", DipHeight, CreateCopies(Number))
-        WriteRef(ref, DipHeight, CreateCopies(Number))
+        If Not ref.Equals("") Then WriteRef(ref, DipHeight, CreateCopies(Number))
         WriteSWC(DipHeight, CreateCopies(Number), "LITRE", Round(fullVol * 0.97))
-        WriteClientRef(DipHeight, CreateCopies(Number), clientRef, refText)
-        WriteVerticalInfo(firstLine, secondLine, DipHeight + If(Not clientRef = "", 148, 105))
+        If Not clientRef.Equals("") Then WriteClientRef(DipHeight, CreateCopies(Number), clientRef, refText)
+        If Not firstLine.Text.Equals("") Then WriteVerticalInfo(firstLine, secondLine, DipHeight + If(Not clientRef = "", 148, 105))
         'WriteAdditionalInfo(DipHeight, CreateCopies(Number), additionalInfo)
     End Sub
 
@@ -80,7 +80,8 @@ Public Class CalForm
         Dim myCamText As New MText()
         myCamText.Text = n
         myCamText.Font = "1CamBam_Stick_3"
-        myCamText.Height = "5.5"
+        'adjusts the size of the volume text so htat it always fits on to the dipstick
+        myCamText.Height = IIf(n > 99999, "5", "5.5")
         myCamText.Location = 0.5 + x & "," & NoPos & ",0"
         myUI.ActiveView.CADFile.Add(myCamText, myLayer)
     End Sub
@@ -89,6 +90,7 @@ Public Class CalForm
         Dim swcCamText As New MText()
         Dim volCamText As New MText()
         Dim unitsCamText As New MText()
+        Dim centreText As Single
         'swc text
         swcCamText.Text = "SWC"
         swcCamText.Font = "1CamBam_Stick_3"
@@ -98,8 +100,9 @@ Public Class CalForm
         'vol text
         volCamText.Text = vol
         volCamText.Font = "1CamBam_Stick_3"
-        volCamText.Height = "5.5"
-        volCamText.Location = 0.5 + x & "," & y + 68 & ",0"
+        volCamText.Height = IIf(vol > 99999, "5", "5.5")
+        centreText = IIf(vol > 9999, 0.5, 3)
+        volCamText.Location = centreText + x & "," & y + 68 & ",0"
         myUI.ActiveView.CADFile.Add(volCamText, myLayer)
         'units text
         unitsCamText.Text = units
@@ -115,8 +118,14 @@ Public Class CalForm
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+
+
         OpenFileDialog1.ShowDialog()
         myfile = OpenFileDialog1.FileName
+        txtFullVol.Text = TrimFullVolume(myfile)
+        txtIncrements.Text = TrimIncrements(myfile)
+        txtMarkedVolumes.Text = addSuggestedMarkedIncrements(txtIncrements.Text)
 
         If Not myfile = "" Then isFileSelected = True
 
@@ -167,4 +176,47 @@ Public Class CalForm
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         isRegIncrements = CheckBox1.Checked
     End Sub
+    Private Function TrimFullVolume(fileName As String) As Integer
+        Dim fullVolume As String
+        Dim position As Integer
+
+        position = myfile.IndexOf("FV ")
+        fullVolume = myfile.Substring(position + 3)
+        position = fullVolume.IndexOf("_INCS")
+        fullVolume = fullVolume.Remove(position)
+
+        Return fullVolume
+    End Function
+    Private Function TrimIncrements(fileName As String) As Integer
+        Dim increments As String
+        Dim position As Integer
+
+        position = myfile.IndexOf("_INCS ")
+        increments = myfile.Remove(0, position + 5)
+
+        Return increments
+    End Function
+
+    Private Function addSuggestedMarkedIncrements(increments As Integer) As Integer
+        Select Case increments
+            Case 25
+                Return 100
+            Case 50
+                Return 200
+            Case 100
+                Return 500
+            Case 200, 250
+                Return 1000
+            Case 400
+                Return 800
+            Case 500
+                Return 2000
+            Case 750
+                Return 3000
+            Case 1000
+                Return 5000
+            Case Else
+                Return 0
+        End Select
+    End Function
 End Class
