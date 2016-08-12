@@ -43,13 +43,17 @@ Partial Class UnCalForm
         Me.Label5 = New System.Windows.Forms.Label()
         Me.txtMarkedIncrements = New System.Windows.Forms.TextBox()
         Me.lblIntervals = New System.Windows.Forms.Label()
+        Me.txtSecondLine = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.txtAddInfo = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnSubmit
         '
         Me.btnSubmit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSubmit.Location = New System.Drawing.Point(249, 293)
+        Me.btnSubmit.Location = New System.Drawing.Point(249, 346)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(75, 23)
         Me.btnSubmit.TabIndex = 7
@@ -130,7 +134,7 @@ Partial Class UnCalForm
         Me.txtVal.AutoSize = True
         Me.txtVal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVal.ForeColor = System.Drawing.Color.Red
-        Me.txtVal.Location = New System.Drawing.Point(33, 290)
+        Me.txtVal.Location = New System.Drawing.Point(33, 343)
         Me.txtVal.Name = "txtVal"
         Me.txtVal.Size = New System.Drawing.Size(40, 16)
         Me.txtVal.TabIndex = 8
@@ -209,7 +213,7 @@ Partial Class UnCalForm
         'chkHalfIncs
         '
         Me.chkHalfIncs.AutoSize = True
-        Me.chkHalfIncs.Location = New System.Drawing.Point(204, 263)
+        Me.chkHalfIncs.Location = New System.Drawing.Point(204, 316)
         Me.chkHalfIncs.Name = "chkHalfIncs"
         Me.chkHalfIncs.Size = New System.Drawing.Size(122, 17)
         Me.chkHalfIncs.TabIndex = 6
@@ -244,11 +248,55 @@ Partial Class UnCalForm
         Me.lblIntervals.TabIndex = 18
         Me.lblIntervals.Text = "MMs"
         '
+        'txtSecondLine
+        '
+        Me.txtSecondLine.BackColor = System.Drawing.Color.White
+        Me.txtSecondLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        Me.txtSecondLine.Location = New System.Drawing.Point(135, 285)
+        Me.txtSecondLine.Name = "txtSecondLine"
+        Me.txtSecondLine.Size = New System.Drawing.Size(176, 22)
+        Me.txtSecondLine.TabIndex = 23
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        Me.Label11.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Label11.Location = New System.Drawing.Point(35, 288)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(83, 16)
+        Me.Label11.TabIndex = 24
+        Me.Label11.Text = "Second Line"
+        '
+        'txtAddInfo
+        '
+        Me.txtAddInfo.BackColor = System.Drawing.Color.White
+        Me.txtAddInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        Me.txtAddInfo.Location = New System.Drawing.Point(135, 257)
+        Me.txtAddInfo.Name = "txtAddInfo"
+        Me.txtAddInfo.Size = New System.Drawing.Size(176, 22)
+        Me.txtAddInfo.TabIndex = 21
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        Me.Label6.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Label6.Location = New System.Drawing.Point(35, 260)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(84, 16)
+        Me.Label6.TabIndex = 22
+        Me.Label6.Text = "Vertical Info?"
+        '
         'UnCalForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(349, 381)
+        Me.Controls.Add(Me.txtSecondLine)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.txtAddInfo)
+        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.lblIntervals)
         Me.Controls.Add(Me.txtMarkedIncrements)
         Me.Controls.Add(Me.Label5)
@@ -299,4 +347,8 @@ Partial Class UnCalForm
     Friend WithEvents Label5 As Windows.Forms.Label
     Friend WithEvents txtMarkedIncrements As Windows.Forms.TextBox
     Friend WithEvents lblIntervals As System.Windows.Forms.Label
+    Friend WithEvents txtSecondLine As Windows.Forms.TextBox
+    Friend WithEvents Label11 As Windows.Forms.Label
+    Friend WithEvents txtAddInfo As Windows.Forms.TextBox
+    Friend WithEvents Label6 As Windows.Forms.Label
 End Class

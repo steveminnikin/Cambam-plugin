@@ -23,7 +23,7 @@ Public Class MyPlugin
         mi.DropDownItems.Add(text)
         AddHandler uncal.Click, AddressOf uncal_clicked
         AddHandler cal.Click, AddressOf cal_clicked
-        'AddHandler text.Click, AddressOf text_clicked
+        AddHandler text.Click, AddressOf text_clicked
     End Sub
     Public Shared Sub uncal_clicked(ByVal sender As Object, ByVal e As EventArgs)
         Dim myUncalForm As New UnCalForm
@@ -33,8 +33,8 @@ Public Class MyPlugin
         Dim myCalForm As New CalForm
         myCalForm.Show()
     End Sub
-    'Public Shared Sub text_clicked(ByVal sender As Object, ByVal e As EventArgs)
-    '    Dim mytextForm As New textForm
-    '    mytextForm.Show()
-    'End Sub
+    Public Shared Sub text_clicked(ByVal sender As Object, ByVal e As EventArgs)
+        Dim mytextForm As New textForm
+        mytextForm.Show()
+    End Sub
 End Class

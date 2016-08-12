@@ -12,8 +12,8 @@ Public Class CommonDetails
     Shared Property SecondLineText As New MText
     Shared Property ref As String
 
-    Public Sub New(Optional calForm As CalForm = Nothing, Optional unCalForm As UnCalForm = Nothing)
-        If IsNothing(unCalForm) Then
+    Public Sub New(Optional calForm As CalForm = Nothing, Optional unCalForm As UnCalForm = Nothing, Optional textForm As textForm = Nothing)
+        If Not IsNothing(calForm) Then
             ClientRef = calForm.txtClientRef.Text
             RefText = calForm.chkStriker.Checked
             Copies = calForm.NumDips.Value
@@ -24,11 +24,16 @@ Public Class CommonDetails
             FirstLineText.Text = calForm.txtAddInfo.Text
             SecondLineText.Text = calForm.txtSecondLine.Text
             ref = calForm.txtRef.Text
-        Else
+        ElseIf Not IsNothing(unCalForm) Then
             ref = unCalForm.txtRef.Text
             Increments = unCalForm.txtIncs.Text
             DipHeight = unCalForm.txtHeight.Text
             Copies = unCalForm.NumDips.Value
+            FirstLineText.Text = unCalForm.txtAddInfo.Text
+            SecondLineText.Text = unCalForm.txtSecondLine.Text
+        Else
+            FirstLineText.Text = textForm.TextBox1.Text
+            SecondLineText.Text = textForm.TextBox2.Text
         End If
 
     End Sub
@@ -145,23 +150,22 @@ Public Class CommonDetails
             myUI.ActiveView.CADFile.Add(myCamText)
         End If
     End Sub
-    Public Shared Function WriteAdditionalInfo(yPos As Single, xPos As Single, text As String) As Layer
 
-
-    End Function
     Public Shared Sub WriteVerticalInfo(firstLine As MText, secondLine As MText, yLocation As String)
 
         firstLine.Font = "1CamBam_Stick_3"
-        secondLine.Font = "1CamBam_Stick_3"
         firstLine.Height = "6"
-        secondLine.Height = "6"
         firstLine.Transform.RotZ(1.571)
-        secondLine.Transform.RotZ(1.571)
 
         If secondLine.Text.Equals("") Then
             firstLine.Location = yLocation & ",-6"
             myUI.ActiveView.CADFile.Add(firstLine)
+
         Else
+            secondLine.Font = "1CamBam_Stick_3"
+            secondLine.Height = "6"
+            secondLine.Transform.RotZ(1.571)
+
             Dim firstLineYCentre As Double
             Dim secondLineCentroid As New Point3F
             Dim secondLineYCentre As Double
@@ -177,6 +181,7 @@ Public Class CommonDetails
             secondLine.Transform.Translate(0, DiffCentres, 0)
             myUI.ActiveView.CADFile.Add(firstLine)
             myUI.ActiveView.CADFile.Add(secondLine)
+
         End If
     End Sub
 
