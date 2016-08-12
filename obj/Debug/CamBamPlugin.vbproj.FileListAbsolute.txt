@@ -33,3 +33,14 @@ C:\Users\User\Documents\Projects\Cambam-plugin\obj\Debug\CamBamPlugin.dll
 C:\Users\User\Documents\Projects\Cambam-plugin\obj\Debug\CamBamPlugin.xml
 C:\Users\User\Documents\Projects\Cambam-plugin\obj\Debug\CamBamPlugin.pdb
 C:\Users\User\Documents\Visual Studio 2013\Projects\CamBamPlugin\obj\Debug\CamBamPlugin.textForm.resources
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.vbprojResolveAssemblyReference.cache
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.CalForm.resources
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.Resources.resources
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.textForm.resources
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.UnCalForm.resources
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.CalForm.nqo-GN.resources
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.GenerateResource.Cache
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\nqo-GN\CamBamPlugin.resources.dll
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.dll
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.xml
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.pdb

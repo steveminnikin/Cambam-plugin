@@ -1,71 +1,101 @@
 ﻿Imports System.Windows.Forms
 Imports CamBamPlugin.MyPlugin
 Imports System.Math
+Imports CamBamPlugin.CommonDetails
 
 Public Class UnCalForm
-    Private inc As Single
-    Private hei As Single
-    Private markedInc
+    Private _dipHeight As Single
+    Private _increments As Single
+    Private _markedIncrements As Single
+    Private commonDetails As CommonDetails
+    Private isMarkedIncrement As Boolean
     Private Property Increments As Single
         Get
-            Return inc
+            Return _increments
         End Get
         Set(value As Single)
             Select Case CboUnits.SelectedIndex
                 Case 0
-                    inc = value
+                    _increments = value
                 Case 1
-                    inc = value * 10
+                    _increments = value * 10
                 Case 2
-                    inc = value * 25.4
+                    _increments = value * 25.4
             End Select
         End Set
     End Property
     Private Property markedIncrement As Single
         Get
-            Return markedInc
+            Return _markedIncrements
         End Get
         Set(value As Single)
             Select Case CboUnits.SelectedIndex
                 Case 0
-                    markedInc = value
+                    _markedIncrements = value
                 Case 1
-                    markedInc = value * 10
+                    _markedIncrements = value * 10
                 Case 2
-                    markedInc = value * 25.4
+                    _markedIncrements = value * 25.4
             End Select
         End Set
     End Property
     Private Property DipHeight() As Single
         Get
-            Return hei
+            Return _dipHeight
         End Get
         Set(value As Single)
             Select Case CboUnits.SelectedIndex
                 Case 0
-                    hei = value
+                    _dipHeight = value
                 Case 1
-                    hei = value * 10
+                    _dipHeight = value * 10
                 Case 2
-                    hei = value * 25.4
+                    _dipHeight = value * 25.4
             End Select
         End Set
     End Property
 
     Private Sub BtnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
-        CreateLayer(ref)
-        'CreatePart()
+
+        'clear the current dipstick from the UI and create a fresh template
+        myUI.FileNew(True, True, True)
+        commonDetails = New CommonDetails(, Me)
+        Dim myDoc As New CADFile
+        Dim myLayer As Layer
+        Dim myPart As CAMPart
+        Dim cboUnits As String
+        Dim markedIncrement As Single
+
+        cboUnits = GetUnitString(Me.CboUnits.SelectedIndex)
+        markedIncrement = Me.txtMarkedIncrements.Text
+
+        myDoc = CreateCADFile()
+        myLayer = CreateLayer(myDoc, ref)
+        myPart = CreatePart(myDoc, ref)
+
+        DrawLinesAndNumbers(cboUnits, markedIncrement)
+        WriteUnits(cboUnits, DipHeight, CreateCopies(Copies))
+        If Not ref.Equals("") Then WriteRef(ref, DipHeight, CreateCopies(Copies))
+        WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
+        ' If Not FirstLineText.Text.Equals("") Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not ClientRef = "", 148, 105))
+
+        myUI.ActiveView.RefreshView()
+        commonDetails = Nothing
+        Me.Hide()
+    End Sub
+    Private Sub DrawLinesAndNumbers(cboUnits As String, markedIncrement As Single)
+
         Dim l As Single
-        Dim unit As String = GetUnitString(CboUnits)
+
         Do While l + Increments < DipHeight
             l += Increments
             If chkHalfIncs.Checked Then
-                DrawHalfIncs(l - (Increments / 2), CreateCopies(Number))
+                DrawHalfIncs(l - (Increments / 2), CreateCopies(Copies))
             End If
-            DrawLine(l, CreateCopies(Number))
-            If isMultipleOfMarkedInterval(l) Or l = DipHeight Or l = Increments Then
+            DrawLine(l, CreateCopies(Copies))
+            If isMultipleOfMarkedInterval(UnitConv(l), markedIncrement) Or l = DipHeight Or l = Increments Then
                 isMarkedIncrement = True
-                WriteNumber(l, UnitConv(l), CreateCopies(Number))
+                WriteNumber(l, UnitConv(l), CreateCopies(Copies))
             Else
                 isMarkedIncrement = False
             End If
@@ -73,19 +103,11 @@ Public Class UnCalForm
         'adds top line for inches
         'If CboUnits.SelectedIndex = 2 Then
         If chkHalfIncs.Checked Then
-            DrawHalfIncs(DipHeight - (Increments / 2), CreateCopies(Number))
+            DrawHalfIncs(DipHeight - (Increments / 2), CreateCopies(Copies))
         End If
 
-        DrawLine(DipHeight, CreateCopies(Number))
-        WriteNumber(DipHeight, UnitConv(DipHeight), CreateCopies(Number))
-        'End If
-        WriteUnits(unit, DipHeight, CreateCopies(Number))
-        WriteRef(ref, DipHeight, CreateCopies(Number))
-        'myUI.ActiveView.SelectAllVisibleGeometry()
-        CreatePart()
-        'CAMUtils.GenerateGCodeOutput(myUI.ActiveView)
-        myUI.ActiveView.RefreshView()
-        Me.Visible = False
+        DrawLine(DipHeight, CreateCopies(Copies))
+        WriteNumber(DipHeight, UnitConv(DipHeight), CreateCopies(Copies))
     End Sub
     Private Sub DrawLine(l As Single, x As Single)
         Dim myPoly As New Polyline()
@@ -93,7 +115,7 @@ Public Class UnCalForm
         myPoly.Add(x, l, 0)
         myPoly.Add(x + 20, l, 0)
         'add it to active drawing
-        myDoc.Add(myPoly, myLayer)
+        myUI.ActiveView.CADFile.Add(myPoly)
     End Sub
     Private Sub WriteNumber(l As Single, n As Single, x As Single)
         Dim myCamText As New MText()
@@ -103,11 +125,11 @@ Public Class UnCalForm
         myCamText.Font = "1CamBam_Stick_3"
         myCamText.Height = "5.5"
         myCamText.Location = 0.5 + x & "," & NoPos & ",0"
-        myDoc.Add(myCamText, myLayer)
+        myUI.ActiveView.CADFile.Add(myCamText)
 
 
     End Sub
-    Private Function isMultipleOfMarkedInterval(inc As Single) As Boolean
+    Private Function isMultipleOfMarkedInterval(inc As Single, markedIncrement As Single) As Boolean
         Return (Round(inc, 1) Mod markedIncrement) = 0
     End Function
     Private Sub DrawHalfIncs(incr As Single, x As Single)
@@ -129,22 +151,22 @@ Public Class UnCalForm
             myHalfIncs.Add(x + 10, incr, 0)
             myHalfIncs.Add(x + 20, incr, 0)
         End If
-        myDoc.Add(myHalfIncs, myLayer)
+        myUI.ActiveView.CADFile.Add(myHalfIncs)
     End Sub
     Private Sub CdoUnits_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboUnits.SelectedIndexChanged
         Select Case CboUnits.SelectedIndex
             Case 0
                 lblIncs.Text = "MMs"
                 lblHeight.Text = "MMs"
-                lblintervals.Text = "MMs"
+                lblIntervals.Text = "MMs"
             Case 1
                 lblIncs.Text = "CMs"
                 lblHeight.Text = "CMs"
-                lblintervals.Text = "CMs"
+                lblIntervals.Text = "CMs"
             Case 2
                 lblIncs.Text = "In"
                 lblHeight.Text = "In"
-                lblintervals.Text = "In"
+                lblIntervals.Text = "In"
         End Select
     End Sub
 
@@ -193,8 +215,8 @@ Public Class UnCalForm
 
     End Sub
 
-    Private Function GetUnitString(u As ComboBox) As String
-        Select Case u.SelectedIndex
+    Private Function GetUnitString(u As Integer) As String
+        Select Case u
             Case 0
                 Return "MMs"
             Case 1
@@ -214,21 +236,5 @@ Public Class UnCalForm
                 Return Round(x / 25.4, 0)
         End Select
     End Function
-
-    Public Sub NumDips_ValueChanged(sender As Object, e As EventArgs) Handles NumDips.ValueChanged
-        Number = NumDips.Value
-    End Sub
-
-    Private Sub txtRef_TextChanged(sender As Object, e As EventArgs) Handles txtRef.TextChanged
-        ref = txtRef.Text
-    End Sub
-
-    Private Sub chkHalfIncs_CheckedChanged(sender As Object, e As EventArgs) Handles chkHalfIncs.CheckedChanged
-
-    End Sub
-
-    Private Sub txtMarkedIncrements_LostFocus(sender As Object, e As EventArgs) Handles txtMarkedIncrements.LostFocus
-        markedIncrement = txtMarkedIncrements.Text
-    End Sub
 
 End Class

@@ -1,36 +1,55 @@
 ﻿Imports System.Windows.Forms
 Imports CamBamPlugin.MyPlugin
 Imports System.Math
-Imports CamBamPlugin.textForm
+Imports CamBamPlugin.CommonDetails
 
 Public Class CalForm
-    Private myfile As String
-    Private myList As SortedList(Of String, String)
-    Private DipHeight As Single
-    Private yPos As Single
-    Private fullVol As Single
-    Private increments As Single
-    Private markedVolIncrement As Single
+    Private myFile As String
     Private isFileSelected As Boolean
     Private isRegIncrements As Boolean
+    Private commonDetails As CommonDetails
+    Private WefcoVol As String
 
-    Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
+    Private Sub btnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click
+
         If isFileSelected Then
-            CreateLayer(ref)
-            CreatePart()
-            Process()
+            'clear the current dipstick from the UI and create a fresh template
+            myUI.FileNew(True, True, True)
+            commonDetails = New CommonDetails(Me)
+            Dim myDoc As New CADFile
+            Dim myLayer As Layer
+            Dim myPart As CAMPart
+            Dim myList As SortedList(Of String, String)
+
+            WefcoVol = txtWefco.Text & "000"
+            myDoc = CreateCADFile()
+            myLayer = CreateLayer(myDoc, ref)
+            myPart = CreatePart(myDoc, ref)
+
+            myList = CreateVolumeHeightPairsFromFile(myFile, ref)
+            DrawLinesAndNumbers(myList, ref)
+            WriteUnits("LITRE", DipHeight, CreateCopies(Copies))
+            If Not ref.Equals("") Then WriteRef(ref, DipHeight, CreateCopies(Copies))
+            WriteSWC(DipHeight, CreateCopies(Copies), "LITRE", Round(FullVol * 0.97))
+            WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
+            If Not WefcoVol.Equals("000") Then WriteWefcoRef(WefcoVol, DipHeight, CreateCopies(Copies))
+            If Not FirstLineText.Text.Equals("") Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not ClientRef = "", 148, 105))
+
             myUI.ActiveView.RefreshView()
-            Me.Visible = False
+            Me.ResetText()
+            commonDetails = Nothing
+            Me.Hide()
         Else
             MessageBox.Show("You must select a file!")
         End If
     End Sub
 
-    Public Sub Process()
-        myList = New SortedList(Of String, String)
+    Private Function CreateVolumeHeightPairsFromFile(myFile As String, ref As String) As SortedList(Of String, String)
+        Dim myList As New SortedList(Of String, String)
         Dim myElements As String()
+
         Try
-            Using sR As New StreamReader(myfile)
+            Using sR As New StreamReader(myFile)
                 Do
                     myElements = sR.ReadLine.Split(",")
                     If isRegIncrements Then
@@ -38,31 +57,24 @@ Public Class CalForm
                     Else
                         myList.Add(myElements(0), myElements(1))
                     End If
-
-
                 Loop While Not myList.Equals(Nothing)
             End Using
         Catch ex As Exception
             MessageBox.Show("End of File")
         End Try
+        Return myList
+    End Function
+    Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)
         For Each i As KeyValuePair(Of String, String) In myList
-            Drawline(i.Key, CreateCopies(Number))
+            Drawline(i.Key, CreateCopies(CommonDetails.Copies))
             If Not isRegIncrements Then
-                If isMultipleOfMarkedInterval(i.Value) Or i.Value = fullVol Or i.Value = increments Then
-                    WriteNumber(i.Key, i.Value, CreateCopies(Number))
+                If isMultipleOfMarkedInterval(i.Value) Or i.Value = FullVol Or i.Value = Increments Then
+                    WriteNumber(i, CreateCopies(CommonDetails.Copies))
                 End If
             Else
-                WriteNumber(i.Key, i.Value, CreateCopies(Number))
+                WriteNumber(i, CreateCopies(CommonDetails.Copies))
             End If
-
-
         Next
-        WriteUnits("LITRE", DipHeight, CreateCopies(Number))
-        If Not ref.Equals("") Then WriteRef(ref, DipHeight, CreateCopies(Number))
-        WriteSWC(DipHeight, CreateCopies(Number), "LITRE", Round(fullVol * 0.97))
-        If Not clientRef.Equals("") Then WriteClientRef(DipHeight, CreateCopies(Number), clientRef, refText)
-        If Not firstLine.Text.Equals("") Then WriteVerticalInfo(firstLine, secondLine, DipHeight + If(Not clientRef = "", 148, 105))
-        'WriteAdditionalInfo(DipHeight, CreateCopies(Number), additionalInfo)
     End Sub
 
     Private Sub Drawline(l As Single, x As Single)
@@ -71,19 +83,19 @@ Public Class CalForm
         myPoly.Add(x, l, 0)
         myPoly.Add(x + 20, l, 0)
         'add it to active drawing
-        myUI.ActiveView.CADFile.Add(myPoly, myLayer)
+        myUI.ActiveView.CADFile.Add(myPoly)
     End Sub
 
-    Private Sub WriteNumber(l As Single, n As Single, x As Single)
-        Dim NoPos As Single = l + 7
+    Private Sub WriteNumber(i As KeyValuePair(Of String, String), x As Single)
+        Dim NoPos As Single = i.Key + 7
         'add some text
         Dim myCamText As New MText()
-        myCamText.Text = n
+        myCamText.Text = i.Value
         myCamText.Font = "1CamBam_Stick_3"
         'adjusts the size of the volume text so htat it always fits on to the dipstick
-        myCamText.Height = IIf(n > 99999, "5", "5.5")
+        myCamText.Height = IIf(i.Value > 99999, "5", "5.5")
         myCamText.Location = 0.5 + x & "," & NoPos & ",0"
-        myUI.ActiveView.CADFile.Add(myCamText, myLayer)
+        myUI.ActiveView.CADFile.Add(myCamText)
     End Sub
 
     Private Sub WriteSWC(y As Single, x As Single, units As String, vol As Single)
@@ -96,20 +108,20 @@ Public Class CalForm
         swcCamText.Font = "1CamBam_Stick_3"
         swcCamText.Height = "5.5"
         swcCamText.Location = 3 + x & "," & y + 76 & ",0"
-        myUI.ActiveView.CADFile.Add(swcCamText, myLayer)
+        myUI.ActiveView.CADFile.Add(swcCamText)
         'vol text
         volCamText.Text = vol
         volCamText.Font = "1CamBam_Stick_3"
         volCamText.Height = IIf(vol > 99999, "5", "5.5")
         centreText = IIf(vol > 9999, 0.5, 3)
         volCamText.Location = centreText + x & "," & y + 68 & ",0"
-        myUI.ActiveView.CADFile.Add(volCamText, myLayer)
+        myUI.ActiveView.CADFile.Add(volCamText)
         'units text
         unitsCamText.Text = units
         unitsCamText.Font = "1CamBam_Stick_3"
         unitsCamText.Height = "5"
         unitsCamText.Location = 1 + x & "," & y + 60 & ",0"
-        myUI.ActiveView.CADFile.Add(unitsCamText, myLayer)
+        myUI.ActiveView.CADFile.Add(unitsCamText)
 
     End Sub
     Private Function isMultipleOfMarkedInterval(inc As Single) As Boolean
@@ -120,79 +132,33 @@ Public Class CalForm
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
 
-
         OpenFileDialog1.ShowDialog()
-        myfile = OpenFileDialog1.FileName
-        txtFullVol.Text = TrimFullVolume(myfile)
-        txtIncrements.Text = TrimIncrements(myfile)
-        txtMarkedVolumes.Text = addSuggestedMarkedIncrements(txtIncrements.Text)
-
-        If Not myfile = "" Then isFileSelected = True
-
-    End Sub
-
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles txtRef.TextChanged
-        ref = txtRef.Text
-    End Sub
-
-    Private Sub NumDips_ValueChanged(sender As Object, e As EventArgs) Handles NumDips.ValueChanged
-        Number = NumDips.Value
-    End Sub
-
-    Private Sub txtAddInfo_LostFocus(sender As Object, e As EventArgs) Handles txtAddInfo.LostFocus
-        firstLine.Text = txtAddInfo.Text
+        myFile = OpenFileDialog1.FileName
+        If Not myFile = "" Then
+            isFileSelected = True
+            txtFullVol.Text = TrimFullVolume(myFile)
+            txtIncrements.Text = TrimIncrements(myFile)
+            txtMarkedVolumes.Text = addSuggestedMarkedIncrements(txtIncrements.Text)
+        End If
 
     End Sub
-
-    Private Sub TextBox1_TextChanged_2(sender As Object, e As EventArgs) Handles txtFullVol.TextChanged
-        fullVol = txtFullVol.Text
-    End Sub
-
-    Private Sub txtDipHeight_LostFocus(sender As Object, e As EventArgs) Handles txtDipHeight.LostFocus
-        DipHeight = txtDipHeight.Text
-    End Sub
-
-    Private Sub txtClientRef_TextChanged(sender As Object, e As EventArgs) Handles txtClientRef.TextChanged
-        clientRef = txtClientRef.Text
-    End Sub
-
-    
-    Private Sub txtNumInterval_TextChanged(sender As Object, e As EventArgs) Handles txtIncrements.TextChanged
-        increments = txtIncrements.Text
-    End Sub
-
-    Private Sub txtMarkedVolumes_TextChanged(sender As Object, e As EventArgs) Handles txtMarkedVolumes.TextChanged
-        markedVolIncrement = txtMarkedVolumes.Text
-    End Sub
-
-    Private Sub chkStriker_CheckedChanged(sender As Object, e As EventArgs) Handles chkStriker.CheckedChanged
-        If chkStriker.Checked Then refText = True
-    End Sub
-
-    Private Sub txtSecondLine_TextChanged(sender As Object, e As EventArgs) Handles txtSecondLine.TextChanged
-        secondLine.Text = txtSecondLine.Text
-    End Sub
-
-    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
-        isRegIncrements = CheckBox1.Checked
-    End Sub
-    Private Function TrimFullVolume(fileName As String) As Integer
+    Private Function TrimFullVolume(myFile As String) As Integer
         Dim fullVolume As String
         Dim position As Integer
 
-        position = myfile.IndexOf("FV ")
-        fullVolume = myfile.Substring(position + 3)
+        position = myFile.IndexOf("FV ")
+        fullVolume = myFile.Substring(position + 3)
         position = fullVolume.IndexOf("_INCS")
         fullVolume = fullVolume.Remove(position)
 
         Return fullVolume
     End Function
-    Private Function TrimIncrements(fileName As String) As Integer
+    Private Function TrimIncrements(myFile As String) As Integer
         Dim increments As String
         Dim position As Integer
 
-        position = myfile.IndexOf("_INCS ")
-        increments = myfile.Remove(0, position + 5)
+        position = myFile.IndexOf("_INCS ")
+        increments = myFile.Remove(0, position + 5)
 
         Return increments
     End Function
@@ -219,4 +185,23 @@ Public Class CalForm
                 Return 0
         End Select
     End Function
+
+    Private Sub WriteWefcoRef(volume As String, ypos As Single, x As Integer)
+        Dim volCamText As New MText()
+        Dim unitsCamText As New MText()
+        Dim centreText As Single
+
+        volCamText.Text = volume
+        volCamText.Font = "1CamBam_Stick_3"
+        volCamText.Height = IIf(volume > 99999, "5", "5.5")
+        centreText = IIf(volume > 9999, 0.5, 3)
+        volCamText.Location = centreText + x & "," & ypos + 153 & ",0"
+        myUI.ActiveView.CADFile.Add(volCamText)
+        'units text
+        unitsCamText.Text = "LITRE"
+        unitsCamText.Font = "1CamBam_Stick_3"
+        unitsCamText.Height = "5"
+        unitsCamText.Location = 1 + x & "," & ypos + 145 & ",0"
+        myUI.ActiveView.CADFile.Add(unitsCamText)
+    End Sub
 End Class

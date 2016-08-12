@@ -48,6 +48,9 @@ Partial Class CalForm
         Me.txtSecondLine = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.txtWefco = New System.Windows.Forms.TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
         CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -191,11 +194,30 @@ Partial Class CalForm
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
+        'txtWefco
+        '
+        Me.txtWefco.BackColor = System.Drawing.Color.White
+        resources.ApplyResources(Me.txtWefco, "txtWefco")
+        Me.txtWefco.Name = "txtWefco"
+        '
+        'Label12
+        '
+        resources.ApplyResources(Me.Label12, "Label12")
+        Me.Label12.Name = "Label12"
+        '
+        'Label13
+        '
+        resources.ApplyResources(Me.Label13, "Label13")
+        Me.Label13.Name = "Label13"
+        '
         'CalForm
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.txtWefco)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.txtSecondLine)
         Me.Controls.Add(Me.Label11)
@@ -253,4 +275,7 @@ Partial Class CalForm
     Friend WithEvents txtSecondLine As Windows.Forms.TextBox
     Friend WithEvents Label11 As Windows.Forms.Label
     Friend WithEvents CheckBox1 As Windows.Forms.CheckBox
+    Public WithEvents txtWefco As Windows.Forms.TextBox
+    Friend WithEvents Label12 As Windows.Forms.Label
+    Friend WithEvents Label13 As Windows.Forms.Label
 End Class
