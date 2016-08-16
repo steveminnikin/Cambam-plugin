@@ -105,7 +105,9 @@
     <Compile Include="textForm.Designer.vb">
       <DependentUpon>textForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="textForm.vb" />
+    <Compile Include="textForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UnCalForm.Designer.vb">
       <DependentUpon>UnCalForm.vb</DependentUpon>
     </Compile>

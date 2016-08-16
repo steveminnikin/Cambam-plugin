@@ -11,6 +11,7 @@ Public Class CommonDetails
     Shared Property FirstLineText As New MText
     Shared Property SecondLineText As New MText
     Shared Property ref As String
+    Shared Property refSecondLine As String
 
     Public Sub New(Optional calForm As CalForm = Nothing, Optional unCalForm As UnCalForm = Nothing, Optional textForm As textForm = Nothing)
         If Not IsNothing(calForm) Then
@@ -32,8 +33,13 @@ Public Class CommonDetails
             FirstLineText.Text = unCalForm.txtAddInfo.Text
             SecondLineText.Text = unCalForm.txtSecondLine.Text
         Else
-            FirstLineText.Text = textForm.TextBox1.Text
-            SecondLineText.Text = textForm.TextBox2.Text
+            ref = textForm.txtOurRef.Text
+            refSecondLine = textForm.txtTankLetter.Text
+            RefText = textForm.chkRef.Checked
+            ClientRef = textForm.txtClientRef.Text
+            DipHeight = textForm.txtFullVolHeight.Text
+            FirstLineText.Text = textForm.txtFirstVertical.Text
+            SecondLineText.Text = textForm.txtSecondVertical.Text
         End If
 
     End Sub
@@ -112,16 +118,19 @@ Public Class CommonDetails
                 Return 30
         End Select
     End Function
-    Public Shared Function WriteRef(r As String, p As Single, x As Single) As Layer
-        Dim refXPos As Single = p + 40
+    Public Shared Sub WriteRef(ref As String, fullVolHeight As Single, x As Single)
+        Dim refYPos As Single = fullVolHeight + 40
         Dim myCamText As New MText()
-        myCamText.Text = r
+
+        myCamText.Text = ref
         myCamText.Font = "1CamBam_Stick_3"
         myCamText.Height = "5.5"
-        myCamText.Location = 0.5 + x & "," & refXPos & ",0"
+        myCamText.Location = 0.5 + x & "," & refYPos & ",0"
         myUI.ActiveView.CADFile.Add(myCamText)
-    End Function
-    Public Shared Function WriteUnits(u As String, h As Single, x As Single) As Layer
+
+
+    End Sub
+    Public Shared Sub WriteUnits(u As String, h As Single, x As Single)
         Dim myCamText As New MText()
         Dim UniPos As Single = h + 14
         myCamText.Text = u
@@ -129,26 +138,41 @@ Public Class CommonDetails
         myCamText.Height = "5"
         myCamText.Location = 1 + x & "," & UniPos & ",0"
         myUI.ActiveView.CADFile.Add(myCamText)
-    End Function
+    End Sub
     Public Shared Sub WriteClientRef(yPos As Single, xPos As Single, text As String, ref As Boolean)
+        Dim secondLineText As New MText()
+        Dim UniPos As Single = yPos + 105
+
         If ref Then
             Dim refCamText As New MText()
             Dim refPos As Single = yPos + 113
+
             refCamText.Text = "REF"
             refCamText.Font = "1CamBam_Stick_3"
             refCamText.Height = "5.5"
             refCamText.Location = 3 + xPos & "," & refPos & ",0"
             myUI.ActiveView.CADFile.Add(refCamText)
         End If
+
         If Not text.Equals("") Then
             Dim myCamText As New MText()
-            Dim UniPos As Single = yPos + 105
+
             myCamText.Text = text
             myCamText.Font = "1CamBam_Stick_3"
             myCamText.Height = "5.5"
             myCamText.Location = 1 + xPos & "," & UniPos & ",0"
             myUI.ActiveView.CADFile.Add(myCamText)
+
         End If
+
+        If Not IsNothing(refSecondLine) Then
+            SecondLineText.Text = refSecondLine
+            SecondLineText.Font = "1CamBam_Stick_3"
+            SecondLineText.Height = "5.5"
+            secondLineText.Location = 8 + xPos & "," & UniPos - 8 & ",0"
+            myUI.ActiveView.CADFile.Add(SecondLineText)
+        End If
+
     End Sub
 
     Public Shared Sub WriteVerticalInfo(firstLine As MText, secondLine As MText, yLocation As String)
