@@ -40,6 +40,7 @@ Partial Class textForm
         Me.txtTankNumber = New System.Windows.Forms.TextBox()
         Me.chkTank = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Button1
@@ -216,11 +217,23 @@ Partial Class textForm
         Me.Label1.TabIndex = 28
         Me.Label1.Text = "TANK?"
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Italic)
+        Me.Label2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Label2.Location = New System.Drawing.Point(266, 28)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(58, 16)
+        Me.Label2.TabIndex = 32
+        Me.Label2.Text = "required"
+        '
         'textForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(420, 334)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.txtTankNumber)
         Me.Controls.Add(Me.chkTank)
         Me.Controls.Add(Me.Label1)
@@ -264,4 +277,5 @@ Partial Class textForm
     Friend WithEvents txtTankNumber As Windows.Forms.TextBox
     Friend WithEvents chkTank As Windows.Forms.CheckBox
     Friend WithEvents Label1 As Windows.Forms.Label
+    Public WithEvents Label2 As Windows.Forms.Label
 End Class

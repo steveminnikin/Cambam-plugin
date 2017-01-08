@@ -7,35 +7,38 @@ Public Class textForm
     Property tankNumber As String
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If txtFullVolHeight.Text.Equals("") Then
+            MsgBox("You must enter a FV Height!")
+        Else
+            Dim ystartPoint As String = "0"
+            Dim myDoc As New CADFile
+            Dim myLayer As Layer
+            Dim myPart As CAMPart
 
-        Dim ystartPoint As String = "0"
-        Dim myDoc As New CADFile
-        Dim myLayer As Layer
-        Dim myPart As CAMPart
-
-        commonDetails = New CommonDetails(,, Me)
-        addTank = chkTank.Checked
-        tankNumber = txtTankNumber.Text
-
-
-        myUI.FileNew(True, True, True)
-
-        myDoc = CreateCADFile()
-        myLayer = CreateLayer(myDoc, ref)
-        myPart = CreatePart(myDoc, ref)
-
-        WriteRef(ref, DipHeight, 0)
-        WriteClientRef(DipHeight, 0, ClientRef, RefText)
-        If addTank Then WriteTank(tankNumber, DipHeight, 0)
-        WriteVerticalInfo(FirstLineText, SecondLineText, ystartPoint)
+            commonDetails = New CommonDetails(,, Me)
+            addTank = chkTank.Checked
+            tankNumber = txtTankNumber.Text
 
 
+            myUI.FileNew(True, True, True)
+
+            myDoc = CreateCADFile()
+            myLayer = CreateLayer(myDoc, ref)
+            myPart = CreatePart(myDoc, ref)
+
+            WriteRef(ref, DipHeight, 0)
+            WriteClientRef(DipHeight, 0, ClientRef, RefText)
+            If addTank Then WriteTank(tankNumber, DipHeight, 0)
+            WriteVerticalInfo(FirstLineText, SecondLineText, ystartPoint)
 
 
-        myUI.ActiveView.RefreshView()
-        Me.ResetText()
-        commonDetails = Nothing
-        Me.Hide()
+
+
+            myUI.ActiveView.RefreshView()
+            Me.ResetText()
+            commonDetails = Nothing
+            Me.Hide()
+        End If
     End Sub
 
     Private Shared Sub WriteTank(tankNumber As String, DipHeight As Single, x As Single)
@@ -58,4 +61,6 @@ Public Class textForm
 
 
     End Sub
+
+
 End Class
