@@ -47,7 +47,7 @@ Partial Class CalForm
         Me.Label10 = New System.Windows.Forms.Label()
         Me.txtSecondLine = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.chkRegIncs = New System.Windows.Forms.CheckBox()
         Me.txtWefco = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -188,11 +188,11 @@ Partial Class CalForm
         resources.ApplyResources(Me.Label11, "Label11")
         Me.Label11.Name = "Label11"
         '
-        'CheckBox1
+        'chkRegIncs
         '
-        resources.ApplyResources(Me.CheckBox1, "CheckBox1")
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.chkRegIncs, "chkRegIncs")
+        Me.chkRegIncs.Name = "chkRegIncs"
+        Me.chkRegIncs.UseVisualStyleBackColor = True
         '
         'txtWefco
         '
@@ -218,7 +218,7 @@ Partial Class CalForm
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.txtWefco)
-        Me.Controls.Add(Me.CheckBox1)
+        Me.Controls.Add(Me.chkRegIncs)
         Me.Controls.Add(Me.txtSecondLine)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.txtMarkedVolumes)
@@ -274,7 +274,7 @@ Partial Class CalForm
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents txtSecondLine As Windows.Forms.TextBox
     Friend WithEvents Label11 As Windows.Forms.Label
-    Friend WithEvents CheckBox1 As Windows.Forms.CheckBox
+    Friend WithEvents chkRegIncs As Windows.Forms.CheckBox
     Public WithEvents txtWefco As Windows.Forms.TextBox
     Friend WithEvents Label12 As Windows.Forms.Label
     Friend WithEvents Label13 As Windows.Forms.Label

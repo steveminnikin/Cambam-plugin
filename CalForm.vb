@@ -22,6 +22,7 @@ Public Class CalForm
             Dim myList As SortedList(Of String, String)
 
             WefcoVol = txtWefco.Text & "000"
+            isRegIncrements = chkRegIncs.Checked
             myDoc = CreateCADFile()
             myLayer = CreateLayer(myDoc, ref)
             myPart = CreatePart(myDoc, ref)
@@ -204,4 +205,5 @@ Public Class CalForm
         unitsCamText.Location = 1 + x & "," & ypos + 145 & ",0"
         myUI.ActiveView.CADFile.Add(unitsCamText)
     End Sub
+
 End Class
