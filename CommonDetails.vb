@@ -7,34 +7,34 @@ Public Class CommonDetails
     Shared Property FullVol As String
     Shared Property DipHeight As String
     Shared Property Increments As String
-    Shared Property markedVolIncrement As String
+    Shared Property MarkedVolIncrement As String
     Shared Property FirstLineText As New MText
     Shared Property SecondLineText As New MText
-    Shared Property ref As String
-    Shared Property refSecondLine As String
+    Shared Property Ref As String
+    Shared Property RefSecondLine As String
 
     Public Sub New(Optional calForm As CalForm = Nothing, Optional unCalForm As UnCalForm = Nothing, Optional textForm As textForm = Nothing)
         If Not IsNothing(calForm) Then
             ClientRef = calForm.txtClientRef.Text
             RefText = calForm.chkStriker.Checked
             Copies = calForm.NumDips.Value
-            markedVolIncrement = calForm.txtMarkedVolumes.Text
+            MarkedVolIncrement = calForm.txtMarkedVolumes.Text
             Increments = calForm.txtIncrements.Text
             DipHeight = calForm.txtDipHeight.Text
             FullVol = calForm.txtFullVol.Text
             FirstLineText.Text = calForm.txtAddInfo.Text
             SecondLineText.Text = calForm.txtSecondLine.Text
-            ref = calForm.txtRef.Text
+            Ref = calForm.txtRef.Text
         ElseIf Not IsNothing(unCalForm) Then
-            ref = unCalForm.txtRef.Text
+            Ref = unCalForm.txtRef.Text
             Increments = unCalForm.txtIncs.Text
             DipHeight = unCalForm.txtHeight.Text
             Copies = unCalForm.NumDips.Value
             FirstLineText.Text = unCalForm.txtAddInfo.Text
             SecondLineText.Text = unCalForm.txtSecondLine.Text
         Else
-            ref = textForm.txtOurRef.Text
-            refSecondLine = textForm.txtTankLetter.Text
+            Ref = textForm.txtOurRef.Text
+            RefSecondLine = textForm.txtTankLetter.Text
             RefText = textForm.chkRef.Checked
             ClientRef = textForm.txtClientRef.Text
             DipHeight = textForm.txtFullVolHeight.Text
@@ -55,9 +55,10 @@ Public Class CommonDetails
         Return myDoc
     End Function
     Public Shared Function CreateLayer(myDoc As CADFile, Optional n As String = "") As Layer
-        Dim myLayer = New Layer
-        myLayer.Name = n & " Dipstick Layer"
-        myLayer.Visible = True
+        Dim myLayer = New Layer With {
+            .Name = n & " Dipstick Layer",
+            .Visible = True
+        }
         myDoc.Layers.Add(myLayer)
 
         Return myLayer
@@ -120,12 +121,12 @@ Public Class CommonDetails
     End Function
     Public Shared Sub WriteRef(ref As String, fullVolHeight As Single, x As Single)
         Dim refYPos As Single = fullVolHeight + 40
-        Dim myCamText As New MText()
-
-        myCamText.Text = ref
-        myCamText.Font = "1CamBam_Stick_3"
-        myCamText.Height = "5.5"
-        myCamText.Location = 0.5 + x & "," & refYPos & ",0"
+        Dim myCamText As New MText With {
+            .Text = ref,
+            .Font = "1CamBam_Stick_3",
+            .Height = "5.5",
+            .Location = 1.5 + x & "," & refYPos & ",0"
+        }
         myUI.ActiveView.CADFile.Add(myCamText)
 
 
@@ -155,19 +156,19 @@ Public Class CommonDetails
         End If
 
         If Not text.Equals("") Then
-            Dim myCamText As New MText()
-
-            myCamText.Text = text
-            myCamText.Font = "1CamBam_Stick_3"
-            myCamText.Height = "5.5"
-            myCamText.Location = 1 + xPos & "," & UniPos & ",0"
+            Dim myCamText As New MText With {
+                .Text = text,
+                .Font = "1CamBam_Stick_3",
+                .Height = "5.5",
+                .Location = 1 + xPos & "," & UniPos & ",0"
+            }
             myUI.ActiveView.CADFile.Add(myCamText)
 
         End If
 
-        If Not IsNothing(refSecondLine) Then
-            SecondLineText.Text = refSecondLine
-            SecondLineText.Font = "1CamBam_Stick_3"
+        If Not IsNothing(RefSecondLine) Then
+            secondLineText.Text = RefSecondLine
+            secondLineText.Font = "1CamBam_Stick_3"
             SecondLineText.Height = "5.5"
             secondLineText.Location = 8 + xPos & "," & UniPos - 8 & ",0"
             myUI.ActiveView.CADFile.Add(SecondLineText)
@@ -209,7 +210,7 @@ Public Class CommonDetails
         End If
     End Sub
 
-    Public Shared Function isDivisible(x As Integer, y As Integer) As Boolean
+    Public Shared Function IsDivisible(x As Integer, y As Integer) As Boolean
         Return (x Mod y) = 0
     End Function
 End Class

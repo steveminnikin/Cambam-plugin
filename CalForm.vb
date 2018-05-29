@@ -10,7 +10,7 @@ Public Class CalForm
     Private commonDetails As CommonDetails
     Private WefcoVol As String
 
-    Private Sub btnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click
+    Private Sub BtnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click
 
         If isFileSelected Then
             'clear the current dipstick from the UI and create a fresh template
@@ -24,13 +24,13 @@ Public Class CalForm
             WefcoVol = txtWefco.Text & "000"
             isRegIncrements = chkRegIncs.Checked
             myDoc = CreateCADFile()
-            myLayer = CreateLayer(myDoc, ref)
-            myPart = CreatePart(myDoc, ref)
+            myLayer = CreateLayer(myDoc, Ref)
+            myPart = CreatePart(myDoc, Ref)
 
-            myList = CreateVolumeHeightPairsFromFile(myFile, ref)
-            DrawLinesAndNumbers(myList, ref)
+            myList = CreateVolumeHeightPairsFromFile(myFile, Ref)
+            DrawLinesAndNumbers(myList, Ref)
             WriteUnits("LITRE", DipHeight, CreateCopies(Copies))
-            If Not ref.Equals("") Then WriteRef(ref, DipHeight, CreateCopies(Copies))
+            If Not Ref.Equals("") Then WriteRef(Ref, DipHeight, CreateCopies(Copies))
             WriteSWC(DipHeight, CreateCopies(Copies), "LITRE", Round(FullVol * 0.97))
             WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
             If Not WefcoVol.Equals("000") Then WriteWefcoRef(WefcoVol, DipHeight, CreateCopies(Copies))
@@ -69,7 +69,7 @@ Public Class CalForm
         For Each i As KeyValuePair(Of String, String) In myList
             Drawline(i.Key, CreateCopies(CommonDetails.Copies))
             If Not isRegIncrements Then
-                If isMultipleOfMarkedInterval(i.Value) Or i.Value = FullVol Or i.Value = Increments Then
+                If IsMultipleOfMarkedInterval(i.Value) Or i.Value = FullVol Or i.Value = Increments Then
                     WriteNumber(i, CreateCopies(CommonDetails.Copies))
                 End If
             Else
@@ -90,12 +90,13 @@ Public Class CalForm
     Private Sub WriteNumber(i As KeyValuePair(Of String, String), x As Single)
         Dim NoPos As Single = i.Key + 7
         'add some text
-        Dim myCamText As New MText()
-        myCamText.Text = i.Value
-        myCamText.Font = "1CamBam_Stick_3"
         'adjusts the size of the volume text so htat it always fits on to the dipstick
-        myCamText.Height = IIf(i.Value > 99999, "5", "5.5")
-        myCamText.Location = 0.5 + x & "," & NoPos & ",0"
+        Dim myCamText As New MText With {
+            .Text = i.Value,
+            .Font = "1CamBam_Stick_3",
+            .Height = IIf(i.Value > 99999, "5", "5.5"),
+            .Location = 0.5 + x & "," & NoPos & ",0"
+        }
         myUI.ActiveView.CADFile.Add(myCamText)
     End Sub
 
@@ -125,8 +126,8 @@ Public Class CalForm
         myUI.ActiveView.CADFile.Add(unitsCamText)
 
     End Sub
-    Private Function isMultipleOfMarkedInterval(inc As Single) As Boolean
-        Return (inc Mod markedVolIncrement) = 0
+    Private Function IsMultipleOfMarkedInterval(inc As Single) As Boolean
+        Return (inc Mod MarkedVolIncrement) = 0
     End Function
 
 
@@ -139,7 +140,7 @@ Public Class CalForm
             isFileSelected = True
             txtFullVol.Text = TrimFullVolume(myFile)
             'txtIncrements.Text = TrimIncrements(myFile)
-            txtMarkedVolumes.Text = addSuggestedMarkedIncrements(txtIncrements.Text)
+            txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(txtIncrements.Text)
             txtFullVol.Text = TrimFullHeight(myFile)
         End If
 
@@ -175,7 +176,7 @@ Public Class CalForm
         Return fullMark
     End Function
 
-    Private Function addSuggestedMarkedIncrements(increments As Integer) As Integer
+    Private Function AddSuggestedMarkedIncrements(increments As Integer) As Integer
         Select Case increments
             Case 25
                 Return 100

@@ -3,8 +3,8 @@ Imports CamBamPlugin.CommonDetails
 
 Public Class textForm
     Private commonDetails As CommonDetails
-    Property addTank As Boolean
-    Property tankNumber As String
+    Property AddTank As Boolean
+    Property TankNumber As String
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If txtFullVolHeight.Text.Equals("") Then
@@ -16,19 +16,19 @@ Public Class textForm
             Dim myPart As CAMPart
 
             commonDetails = New CommonDetails(,, Me)
-            addTank = chkTank.Checked
-            tankNumber = txtTankNumber.Text
+            AddTank = chkTank.Checked
+            TankNumber = txtTankNumber.Text
 
 
             myUI.FileNew(True, True, True)
 
             myDoc = CreateCADFile()
-            myLayer = CreateLayer(myDoc, ref)
-            myPart = CreatePart(myDoc, ref)
+            myLayer = CreateLayer(myDoc, Ref)
+            myPart = CreatePart(myDoc, Ref)
 
-            WriteRef(ref, DipHeight, 0)
+            WriteRef(Ref, DipHeight, 0)
             WriteClientRef(DipHeight, 0, ClientRef, RefText)
-            If addTank Then WriteTank(tankNumber, DipHeight, 0)
+            If AddTank Then WriteTank(TankNumber, DipHeight, 0)
             WriteVerticalInfo(FirstLineText, SecondLineText, ystartPoint)
 
 

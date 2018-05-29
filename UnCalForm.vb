@@ -70,12 +70,12 @@ Public Class UnCalForm
         markedIncrement = Me.txtMarkedIncrements.Text
 
         myDoc = CreateCADFile()
-        myLayer = CreateLayer(myDoc, ref)
-        myPart = CreatePart(myDoc, ref)
+        myLayer = CreateLayer(myDoc, Ref)
+        myPart = CreatePart(myDoc, Ref)
 
         DrawLinesAndNumbers(cboUnits, markedIncrement)
         WriteUnits(cboUnits, DipHeight, CreateCopies(Copies))
-        If Not ref.Equals("") Then WriteRef(ref, DipHeight, CreateCopies(Copies))
+        If Not Ref.Equals("") Then WriteRef(Ref, DipHeight, CreateCopies(Copies))
         WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
         ' If Not FirstLineText.Text.Equals("") Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not ClientRef = "", 148, 105))
 

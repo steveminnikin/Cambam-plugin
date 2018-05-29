@@ -55,3 +55,4 @@ C:\Users\steve\Source\Repos\Cambam-plugin\obj\Debug\nqo-GN\CamBamPlugin.resource
 C:\Users\steve\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.dll
 C:\Users\steve\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.xml
 C:\Users\steve\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.pdb
+C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.CoreCompileInputs.cache
