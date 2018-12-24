@@ -7,6 +7,7 @@ Public Class CommonDetails
     Shared Property FullVol As String
     Shared Property DipHeight As String
     Shared Property Increments As String
+    Shared Property tankDetails As String
     Shared Property MarkedVolIncrement As String
     Shared Property FirstLineText As New MText
     Shared Property SecondLineText As New MText
@@ -97,7 +98,7 @@ Public Class CommonDetails
 
         Dim myEngrave = New CamBam.CAM.MOPEngrave()
         With myEngrave
-            .Name = ref & " Engraving Op"
+            .Name = tankDetails
             .CutFeedrate = myFeedRate
             .DepthIncrement = myDepthInc
             .TargetDepth = myTarget

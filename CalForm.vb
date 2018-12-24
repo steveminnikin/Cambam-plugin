@@ -139,9 +139,10 @@ Public Class CalForm
         If Not myFile = "" Then
             isFileSelected = True
             txtFullVol.Text = TrimFullVolume(myFile)
-            'txtIncrements.Text = TrimIncrements(myFile)
+            txtIncrements.Text = TrimIncrements(myFile)
+            tankDetails = TrimTankDimensionsFromFileName(myFile)
             txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(txtIncrements.Text)
-            txtFullVol.Text = TrimFullHeight(myFile)
+            'txtFullVol.Text = TrimFullHeight(myFile)
         End If
 
     End Sub
@@ -156,25 +157,44 @@ Public Class CalForm
 
         Return fullVolume
     End Function
-    'Private Function TrimIncrements(myFile As String) As Integer
-    '    Dim increments As String
+    Private Function TrimIncrements(myFile As String) As Integer
+        Dim increments As String
+        Dim incrementsPlusDetails As String
+        Dim startPosition As Integer
+        Dim endPosition As Integer
+
+        startPosition = myFile.IndexOf("_INCS ")
+        incrementsPlusDetails = myFile.Remove(0, startPosition + 5)
+
+        endPosition = incrementsPlusDetails.IndexOf("_(")
+        increments = incrementsPlusDetails.Remove(endPosition)
+
+        Return increments
+    End Function
+    Function TrimTankDimensionsFromFileName(myFile As String) As String
+        Dim tankDimensions As String
+        Dim startPosition As Integer
+        Dim endPosition As Integer
+        Dim length As Integer
+
+        startPosition = myFile.IndexOf("(")
+        endPosition = myFile.IndexOf(")") - 1
+        length = endPosition - startPosition
+        tankDimensions = myFile.Substring(startPosition + 1, length)
+
+
+        Return tankDimensions
+    End Function
+
+    'Private Function TrimFullHeight(myFile As String) As Integer
+    '    Dim fullMark As String
     '    Dim position As Integer
 
-    '    position = myFile.IndexOf("_INCS ")
-    '    increments = myFile.Remove(0, position + 5)
+    '    position = myFile.IndexOf("_@ ")
+    '    fullMark = myFile.Remove(0, position + 5)
 
-    '    Return increments
+    '    Return fullMark
     'End Function
-
-    Private Function TrimFullHeight(myFile As String) As Integer
-        Dim fullMark As String
-        Dim position As Integer
-
-        position = myFile.IndexOf("_@ ")
-        fullMark = myFile.Remove(0, position + 5)
-
-        Return fullMark
-    End Function
 
     Private Function AddSuggestedMarkedIncrements(increments As Integer) As Integer
         Select Case increments
