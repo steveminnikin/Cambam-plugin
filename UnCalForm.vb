@@ -68,6 +68,9 @@ Public Class UnCalForm
 
         cboUnits = GetUnitString(Me.CboUnits.SelectedIndex)
         markedIncrement = Me.txtMarkedIncrements.Text
+        If chkLaser.Checked Then
+            CommonDetails.Laser = True
+        End If
 
         myDoc = CreateCADFile()
         myLayer = CreateLayer(myDoc, Ref)
@@ -236,5 +239,6 @@ Public Class UnCalForm
                 Return Round(x / 25.4, 0)
         End Select
     End Function
+
 
 End Class
