@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UnCalForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class UnCalForm
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UnCalForm))
         Me.btnSubmit = New System.Windows.Forms.Button()
@@ -47,7 +47,6 @@ Partial Class UnCalForm
         Me.Label11 = New System.Windows.Forms.Label()
         Me.txtAddInfo = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.chkLaser = New System.Windows.Forms.CheckBox()
         CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -289,22 +288,11 @@ Partial Class UnCalForm
         Me.Label6.TabIndex = 22
         Me.Label6.Text = "Vertical Info?"
         '
-        'chkLaser
-        '
-        Me.chkLaser.AutoSize = True
-        Me.chkLaser.Location = New System.Drawing.Point(57, 316)
-        Me.chkLaser.Name = "chkLaser"
-        Me.chkLaser.Size = New System.Drawing.Size(86, 17)
-        Me.chkLaser.TabIndex = 25
-        Me.chkLaser.Text = "Laser gCode"
-        Me.chkLaser.UseVisualStyleBackColor = True
-        '
         'UnCalForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(349, 381)
-        Me.Controls.Add(Me.chkLaser)
         Me.Controls.Add(Me.txtSecondLine)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.txtAddInfo)
@@ -363,5 +351,4 @@ Partial Class UnCalForm
     Friend WithEvents Label11 As Windows.Forms.Label
     Friend WithEvents txtAddInfo As Windows.Forms.TextBox
     Friend WithEvents Label6 As Windows.Forms.Label
-    Friend WithEvents chkLaser As Windows.Forms.CheckBox
 End Class
