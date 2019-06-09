@@ -13,6 +13,7 @@ Public Class CommonDetails
     Shared Property SecondLineText As New MText
     Shared Property Ref As String
     Shared Property RefSecondLine As String
+    Shared Property Laser As Boolean
 
     Public Sub New(Optional calForm As CalForm = Nothing, Optional unCalForm As UnCalForm = Nothing, Optional textForm As textForm = Nothing)
         If Not IsNothing(calForm) Then
@@ -52,12 +53,16 @@ Public Class CommonDetails
         myDoc = myUI.ActiveView.CADFile
         myArcCentreMode = ArcCenterModes.IncrementalFromP1
         myDoc.MachiningOptions.ArcCenterMode = myArcCentreMode
+        If Laser Then
+            myDoc.MachiningOptions.Style = "laserEngrave"
+            myDoc.MachiningOptions.PostProcessor = "Laser"
+        End If
 
         Return myDoc
     End Function
     Public Shared Function CreateLayer(myDoc As CADFile, Optional n As String = "") As Layer
         Dim myLayer = New Layer With {
-            .Name = n & " Dipstick Layer",
+            .Name = n & " Dipstick CAD",
             .Visible = True
         }
         myDoc.Layers.Add(myLayer)
@@ -67,17 +72,21 @@ Public Class CommonDetails
     Public Shared Function CreatePart(myDoc As CADFile, Optional ref As String = "") As CAMPart
         If Not myUI.ActiveView.CADFile.HasPart("Dipstick Machine Part") Then
             Dim myPart As New CAMPart
-            Dim myEngravingOp As New MOPEngrave()
+            Dim spindleEngravingOp As New MOPEngrave()
+            Dim laserEngraveOp As New MOPEngrave()
 
-            myEngravingOp = CreateEngraving(ref)
+            spindleEngravingOp = CreateEngraving(ref, False)
+            laserEngraveOp = CreateEngraving(ref, True)
 
             myPart = myDoc.CreatePart("Dipstick Machine Part")
-            myPart.MachineOps.Add(myEngravingOp)
+            myPart.MachineOps.Add(spindleEngravingOp)
+            myPart.MachineOps.Add(laserEngraveOp)
+
             Return myPart
         End If
 
     End Function
-    Public Shared Function CreateEngraving(ref As String) As MOPEngrave
+    Public Shared Function CreateEngraving(ref As String, laser As Boolean) As MOPEngrave
         Dim myFeedRate As CamBam.Values.CBValue(Of Double),
             myDepthInc As CamBam.Values.CBValue(Of Double),
             myTarget As CamBam.Values.CBValue(Of Double),
@@ -88,17 +97,24 @@ Public Class CommonDetails
             myCustomHeader As New CamBam.Values.CBValue(Of String)
 
         myVelocityMode.SetValue(VelocityModes.ExactStop)
-        myFeedRate.SetValue(500.0)
-        myDepthInc.SetValue(0.45)
-        myTarget.SetValue(-0.45)
-        myClearance.SetValue(0.4)
+        If laser Then
+            myFeedRate.SetValue(500.0)
+            myDepthInc.SetValue(0.01)
+            myTarget.SetValue(-0.01)
+            myClearance.SetValue(0.01)
+        Else
+            myFeedRate.SetValue(500.0)
+            myDepthInc.SetValue(0.45)
+            myTarget.SetValue(-0.45)
+            myClearance.SetValue(0.4)
+        End If
         myToolDiameter.SetValue(1.0)
         myToolNumber.SetValue(10)
         myCustomHeader.SetValue("( Full Volume: " & ")")
 
         Dim myEngrave = New CamBam.CAM.MOPEngrave()
         With myEngrave
-            .Name = tankDetails
+            .Name = IIf(laser, tankDetails + " Laser", tankDetails + " Spindle")
             .CutFeedrate = myFeedRate
             .DepthIncrement = myDepthInc
             .TargetDepth = myTarget
@@ -108,6 +124,7 @@ Public Class CommonDetails
             '.StartPoint = myStartPoint
             .VelocityMode = myVelocityMode
             .CustomMOPHeader = myCustomHeader
+            .Style = IIf(laser, "laserEngrave", "Engrave")
 
         End With
         Return myEngrave
