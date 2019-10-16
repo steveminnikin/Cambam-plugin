@@ -68,9 +68,9 @@ Public Class UnCalForm
 
         cboUnits = GetUnitString(Me.CboUnits.SelectedIndex)
         markedIncrement = Me.txtMarkedIncrements.Text
-        If chkLaser.Checked Then
-            CommonDetails.Laser = True
-        End If
+        'If chkLaser.Checked Then
+        '    CommonDetails.Laser = True
+        'End If
 
         myDoc = CreateCADFile()
         myLayer = CreateLayer(myDoc, Ref)
