@@ -61,7 +61,6 @@ C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.t
 C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.UnCalForm.resources
 C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.CalForm.nqo-GN.resources
 C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.GenerateResource.cache
-C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.CoreCompileInputs.cache
 C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\nqo-GN\CamBamPlugin.resources.dll
 C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.dll
 C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.xml
