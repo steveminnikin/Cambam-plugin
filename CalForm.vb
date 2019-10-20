@@ -61,7 +61,7 @@ Public Class CalForm
                 Loop While Not myList.Equals(Nothing)
             End Using
         Catch ex As Exception
-            MessageBox.Show("End of File")
+
         End Try
         Return myList
     End Function
