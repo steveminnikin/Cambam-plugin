@@ -53,14 +53,18 @@ Public Class CalForm
 
         Try
             Using sR As New StreamReader(myFile)
+                Dim line As String
                 Do
-                    myElements = sR.ReadLine.Split(",")
+                    line = sR.ReadLine()
+                    If line Is Nothing Then Exit Do
+
+                    myElements = line.Split(",")
                     If isRegIncrements Then
                         myList.Add(myElements(1), myElements(0))
                     Else
                         myList.Add(myElements(0), myElements(1))
                     End If
-                Loop While Not myList.Equals(Nothing)
+                Loop
             End Using
         Catch ex As Exception
 
