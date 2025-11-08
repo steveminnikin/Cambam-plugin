@@ -71,13 +71,13 @@ Public Class CalForm
                         End If
                     Loop
                 End Using
-        Catch ex As IO.FileNotFoundException
-            MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Catch ex As IO.IOException
-            MessageBox.Show("Error reading file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Catch ex As Exception
-            MessageBox.Show("Error parsing calibration file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+            Catch ex As IO.FileNotFoundException
+                MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Catch ex As IO.IOException
+                MessageBox.Show("Error reading file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Catch ex As Exception
+                MessageBox.Show("Error parsing calibration file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         Return myList
     End Function
     Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)

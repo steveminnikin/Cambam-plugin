@@ -59,9 +59,29 @@ End Function
 **Impact:** Returns uninitialized value if combo box has unexpected state
 **Fix:** Add default case to return x or throw exception
 
+### 5. ✅ FIXED: Vertical Text Mutation Bug
+**File:** `CommonDetails.vb:206-238`
+**Status:** Fixed
+**Issue:** Shared MText objects are mutated by Transform operations, causing rotation/translation to accumulate
+```vb
+Shared Property FirstLineText As New MText
+Shared Property SecondLineText As New MText
+
+Public Shared Sub WriteVerticalInfo(firstLine As MText, secondLine As MText, yLocation As String)
+    firstLine.Transform.RotZ(...)  ' Mutates shared object!
+    secondLine.Transform.RotZ(...)  ' Mutates shared object!
+End Sub
+```
+**Impact:**
+- First run: Text rotated 90° correctly
+- Second run: Text rotated 180° (upside down)
+- Third run: Text rotated 270°
+- Text from previous run persists
+**Fix:** Create new MText objects in WriteVerticalInfo instead of mutating shared objects
+
 ## High Priority Bugs (Can cause unexpected behavior)
 
-### 5. ✅ FIXED: Silent Error Handling
+### 6. ✅ FIXED: Silent Error Handling
 **File:** `CalForm.vb:69`
 **Status:** Fixed in commit 3957466
 **Issue:** Empty catch block silently swallows all exceptions
@@ -73,14 +93,14 @@ End Try
 **Impact:** File parsing errors are hidden from user, returns empty list
 **Fix:** Log error and show user-friendly message, or rethrow specific exceptions
 
-### 6. No Input Validation on File Selection
+### 7. No Input Validation on File Selection
 **File:** `CalForm.vb:139-147`
 **Status:** OPEN
 **Issue:** No validation that selected file is a valid CSV or exists
 **Impact:** Could attempt to parse invalid files, leading to confusing errors
 **Fix:** Validate file exists, has .csv extension, is readable
 
-### 7. No Validation on Numeric Inputs
+### 8. No Validation on Numeric Inputs
 **File:** `CalForm.vb`, `UnCalForm.vb`
 **Status:** OPEN
 **Issue:** No validation that numeric fields contain valid numbers before parsing
@@ -89,21 +109,21 @@ End Try
 
 ## Medium Priority Bugs (Code quality issues)
 
-### 8. Hardcoded Magic Numbers in Text Positioning
+### 9. Hardcoded Magic Numbers in Text Positioning
 **File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`
 **Status:** PARTIALLY FIXED
 **Issue:** Many hardcoded values still exist in forms (not using DipstickConstants)
 **Impact:** Inconsistent positioning, hard to maintain
 **Fix:** Migrate remaining magic numbers to DipstickConstants
 
-### 9. Inconsistent String Validation
+### 10. Inconsistent String Validation
 **File:** Multiple files
 **Status:** OPEN
 **Issue:** Mix of `String.Equals("")`, `= ""`, and no validation
 **Impact:** Inconsistent behavior, potential bugs
 **Fix:** Standardize on `String.IsNullOrWhiteSpace()`
 
-### 10. No Disposal of Graphics Objects
+### 11. No Disposal of Graphics Objects
 **File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`
 **Status:** OPEN
 **Issue:** Creating `MText` and `Polyline` objects without ensuring disposal
@@ -112,14 +132,14 @@ End Try
 
 ## Low Priority (Future Improvements)
 
-### 11. Shared State in CommonDetails
+### 12. Shared State in CommonDetails
 **File:** `CommonDetails.vb`
 **Status:** OPEN (by design, but not ideal)
 **Issue:** All properties are Shared, creating global mutable state
 **Impact:** Could cause issues if multiple forms are opened simultaneously
 **Fix:** Refactor to use DipstickModel instance instead of shared properties
 
-### 12. Lack of Unit Tests
+### 13. Lack of Unit Tests
 **File:** All files
 **Status:** OPEN
 **Issue:** No automated tests for business logic
@@ -130,7 +150,8 @@ End Try
 
 ## Bug Fix Priority Order
 
-1. **Critical first:** Fix missing return statements (bugs 2-4)
-2. **High priority:** Improve error handling (bug 5)
-3. **Medium priority:** Add input validation (bugs 6-7)
-4. **Low priority:** Code quality improvements (bugs 8-12)
+1. **Critical first:** Fix missing return statements (bugs 2-4) ✅ DONE
+2. **High priority:** Fix vertical text mutation bug (bug 5) ✅ DONE
+3. **High priority:** Improve error handling (bug 6) ✅ DONE
+4. **Medium priority:** Add input validation (bugs 7-8)
+5. **Low priority:** Code quality improvements (bugs 9-13)
