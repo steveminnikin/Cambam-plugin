@@ -8,9 +8,8 @@ Public Class CalibrationData
 
 #Region "Properties"
     ''' <summary>
-    ''' Dictionary mapping volume (in liters) to height (in millimeters)
-    ''' Key: Volume as string (e.g., "100", "200")
-    ''' Value: Height as string (e.g., "150.5")
+    ''' Dictionary mapping volume (in liters) to height (in millimeters).
+    ''' Key: Volume as string, Value: Height as string
     ''' </summary>
     Public Property VolumeHeightPairs As SortedList(Of String, String)
 
@@ -25,7 +24,7 @@ Public Class CalibrationData
     Public Property Increments As Integer
 
     ''' <summary>
-    ''' Tank dimensions extracted from filename (e.g., "1200x800x600")
+    ''' Tank dimensions extracted from filename (e.g. 1200x800x600)
     ''' </summary>
     Public Property TankDimensions As String
 

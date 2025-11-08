@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(dir /s \"C:\\Users\\steve\\OneDrive\\Code\\Cambam-plugin\")",
+      "Bash(Get-ChildItem -Path \"C:\\Users\\steve\\OneDrive\\Code\\Cambam-plugin\" -Recurse -File)",
+      "Bash(Select-Object FullName)",
+      "Bash(ForEach-Object { $_ullName })",
+      "Bash(find:*)",
+      "Bash(msbuild:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

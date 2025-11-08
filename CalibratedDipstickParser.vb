@@ -34,14 +34,14 @@ Public Class CalibratedDipstickParser
             data.Increments = ExtractIncrements(filePath)
             data.TankDimensions = ExtractTankDimensions(filePath)
         Catch ex As Exception
-            Throw New FormatException("Failed to parse filename. Expected format: 'FV XXX_INCS YYY_(dimensions).csv'", ex)
+            Throw New FormatException("Failed to parse filename. Expected format: FV XXX_INCS YYY_(dimensions).csv", ex)
         End Try
 
         ' Parse CSV file for volume/height pairs
         Try
             data.VolumeHeightPairs = ReadVolumeHeightPairs(filePath, useRegularIncrements)
         Catch ex As Exception
-            Throw New FormatException("Failed to parse CSV file. Expected format: 'height,volume' per line", ex)
+            Throw New FormatException("Failed to parse CSV file. Expected format: height,volume per line", ex)
         End Try
 
         Return data
@@ -79,8 +79,8 @@ Public Class CalibratedDipstickParser
 
 #Region "Private Parsing Methods"
     ''' <summary>
-    ''' Extracts full volume from filename
-    ''' Expected format: "...FV XXX_INCS..."
+    ''' Extracts full volume from filename.
+    ''' Expected format: ...FV XXX_INCS...
     ''' </summary>
     Private Function ExtractFullVolume(filePath As String) As Integer
         Dim fileName As String = Path.GetFileName(filePath)
@@ -108,8 +108,8 @@ Public Class CalibratedDipstickParser
     End Function
 
     ''' <summary>
-    ''' Extracts increments from filename
-    ''' Expected format: "..._INCS YYY_(..."
+    ''' Extracts increments from filename.
+    ''' Expected format: ..._INCS YYY_(...)
     ''' </summary>
     Private Function ExtractIncrements(filePath As String) As Integer
         Dim fileName As String = Path.GetFileName(filePath)
@@ -137,8 +137,8 @@ Public Class CalibratedDipstickParser
     End Function
 
     ''' <summary>
-    ''' Extracts tank dimensions from filename
-    ''' Expected format: "...(1200x800x600)..."
+    ''' Extracts tank dimensions from filename.
+    ''' Expected format: ...(1200x800x600)...
     ''' </summary>
     Private Function ExtractTankDimensions(filePath As String) As String
         Dim fileName As String = Path.GetFileName(filePath)
@@ -164,7 +164,7 @@ Public Class CalibratedDipstickParser
     ''' Reads volume/height pairs from CSV file
     ''' </summary>
     ''' <param name="filePath">Path to CSV file</param>
-    ''' <param name="useRegularIncrements">If True, swap column order (height,volume)</param>
+    ''' <param name="useRegularIncrements">If True, swap column order to height,volume</param>
     ''' <returns>SortedList with volume as key and height as value</returns>
     Private Function ReadVolumeHeightPairs(filePath As String, useRegularIncrements As Boolean) As SortedList(Of String, String)
         Dim pairs As New SortedList(Of String, String)

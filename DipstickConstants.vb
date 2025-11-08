@@ -79,7 +79,7 @@ Public Class DipstickConstants
     Public Const DEFAULT_TEXT_HEIGHT As Single = 5.5
 
     ''' <summary>
-    ''' Text height for large numbers (> 99999)
+    ''' Text height for large numbers (greater than 99999)
     ''' </summary>
     Public Const LARGE_NUMBER_TEXT_HEIGHT As Single = 5.0
 
@@ -128,17 +128,17 @@ Public Class DipstickConstants
 
 #Region "Number Positioning"
     ''' <summary>
-    ''' X-offset for numbers when volume <= 9999
+    ''' X-offset for numbers when volume is less than or equal to 9999
     ''' </summary>
     Public Const NUMBER_X_OFFSET_SMALL As Single = 3
 
     ''' <summary>
-    ''' X-offset for numbers when volume > 9999 but <= 99999
+    ''' X-offset for numbers when volume is greater than 9999 but less than or equal to 99999
     ''' </summary>
     Public Const NUMBER_X_OFFSET_MEDIUM As Single = 0.5
 
     ''' <summary>
-    ''' X-offset for numbers when volume > 99999
+    ''' X-offset for numbers when volume is greater than 99999
     ''' </summary>
     Public Const NUMBER_X_OFFSET_LARGE As Single = -2
 
@@ -156,7 +156,7 @@ Public Class DipstickConstants
 
 #Region "Safe Working Capacity"
     ''' <summary>
-    ''' Safe Working Capacity as percentage of full volume (97%)
+    ''' Safe Working Capacity as percentage of full volume (0.97 or 97 percent)
     ''' </summary>
     Public Const SWC_PERCENTAGE As Double = 0.97
 

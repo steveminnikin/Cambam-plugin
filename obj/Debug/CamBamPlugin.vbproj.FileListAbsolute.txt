@@ -68,3 +68,14 @@ C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.p
 C:\Users\steve\source\repos\steveminnikin\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.CopyComplete
 C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.vbprojAssemblyReference.cache
 C:\Users\dipsticksRAF\Source\Repos\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.CopyComplete
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.AssemblyReference.cache
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.CalForm.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.Resources.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.textForm.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.UnCalForm.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.CalForm.nqo-GN.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.GenerateResource.cache
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.CoreCompileInputs.cache
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.dll
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.xml
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.pdb
