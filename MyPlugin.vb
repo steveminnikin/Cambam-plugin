@@ -1,6 +1,5 @@
 ﻿
 Imports System.Windows.Forms
-Imports CamBamPlugin.CommonDetails
 
 Namespace CamBamPlugin
 

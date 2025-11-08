@@ -1,5 +1,4 @@
-﻿Imports CamBamPlugin.MyPlugin
-Imports CamBamPlugin.CommonDetails
+﻿Namespace CamBamPlugin
 
 Public Class textForm
     Private commonDetails As CommonDetails
@@ -64,3 +63,5 @@ Public Class textForm
 
 
 End Class
+
+End Namespace

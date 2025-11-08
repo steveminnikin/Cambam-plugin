@@ -1,7 +1,7 @@
 ﻿Imports System.Windows.Forms
-Imports CamBamPlugin.MyPlugin
 Imports System.Math
-Imports CamBamPlugin.CommonDetails
+
+Namespace CamBamPlugin
 
 Public Class UnCalForm
     Private _dipHeight As Single
@@ -239,3 +239,5 @@ Public Class UnCalForm
 
 
 End Class
+
+End Namespace

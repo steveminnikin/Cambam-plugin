@@ -1,7 +1,7 @@
 ﻿Imports System.Windows.Forms
-Imports CamBamPlugin.MyPlugin
 Imports System.Math
-Imports CamBamPlugin.CommonDetails
+
+Namespace CamBamPlugin
 
 Public Class CalForm
     Private myFile As String
@@ -240,3 +240,5 @@ Public Class CalForm
 
 
 End Class
+
+End Namespace
