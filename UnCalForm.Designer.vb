@@ -1,4 +1,6 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+﻿Namespace CamBamPlugin
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UnCalForm
     Inherits System.Windows.Forms.Form
 
@@ -352,3 +354,5 @@ Partial Class UnCalForm
     Friend WithEvents txtAddInfo As Windows.Forms.TextBox
     Friend WithEvents Label6 As Windows.Forms.Label
 End Class
+
+End Namespace

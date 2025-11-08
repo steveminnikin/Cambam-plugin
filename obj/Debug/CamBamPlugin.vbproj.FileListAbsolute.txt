@@ -79,3 +79,7 @@ C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.vbproj.CoreCom
 C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.dll
 C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.xml
 C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.pdb
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.CamBamPlugin.CalForm.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.CamBamPlugin.textForm.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.CamBamPlugin.UnCalForm.resources
+C:\Users\steve\OneDrive\Code\Cambam-plugin\obj\Debug\CamBamPlugin.CamBamPlugin.CalForm.nqo-GN.resources

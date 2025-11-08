@@ -1,4 +1,6 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿Namespace CamBamPlugin
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class CalForm
     Inherits System.Windows.Forms.Form
 
@@ -279,3 +281,5 @@ Partial Class CalForm
     Friend WithEvents Label12 As Windows.Forms.Label
     Friend WithEvents Label13 As Windows.Forms.Label
 End Class
+
+End Namespace

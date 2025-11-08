@@ -1,4 +1,6 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+﻿Namespace CamBamPlugin
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class textForm
     Inherits System.Windows.Forms.Form
 
@@ -279,3 +281,5 @@ Partial Class textForm
     Friend WithEvents Label1 As Windows.Forms.Label
     Public WithEvents Label2 As Windows.Forms.Label
 End Class
+
+End Namespace
