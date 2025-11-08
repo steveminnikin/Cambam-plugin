@@ -9,7 +9,7 @@ Public Class textForm
     Property TankNumber As String
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If txtFullVolHeight.Text.Equals("") Then
+        If String.IsNullOrWhiteSpace(txtFullVolHeight.Text) Then
             MsgBox("You must enter a FV Height!")
         Else
             Dim ystartPoint As String = "0"
@@ -44,19 +44,19 @@ Public Class textForm
     End Sub
 
     Private Shared Sub WriteTank(tankNumber As String, DipHeight As Single, x As Single)
-        Dim refYPos As Single = DipHeight + 188
+        Dim refYPos As Single = DipHeight + DipstickConstants.TEXT_ONLY_REF_Y_OFFSET
         Dim tankText As New MText()
         Dim numberText As New MText()
 
         tankText.Text = "TANK"
-        tankText.Font = "1CamBam_Stick_3"
-        tankText.Height = "5.5"
-        tankText.Location = 0.5 + x & "," & refYPos & ",0"
+        tankText.Font = DipstickConstants.FONT_NAME
+        tankText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
+        tankText.Location = DipstickConstants.NUMBER_X_OFFSET_MEDIUM + x & "," & refYPos & ",0"
 
         numberText.Text = tankNumber
-        numberText.Font = "1CamBam_Stick_3"
-        numberText.Height = "5.5"
-        numberText.Location = 8 + x & "," & refYPos - 8 & ",0"
+        numberText.Font = DipstickConstants.FONT_NAME
+        numberText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
+        numberText.Location = DipstickConstants.TANK_NUMBER_X_OFFSET + x & "," & refYPos - DipstickConstants.TANK_NUMBER_Y_OFFSET & ",0"
 
         myUI.ActiveView.CADFile.Add(tankText)
         myUI.ActiveView.CADFile.Add(numberText)

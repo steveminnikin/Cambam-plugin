@@ -20,9 +20,9 @@ Public Class UnCalForm
                 Case 0
                     _increments = value
                 Case 1
-                    _increments = value * 10
+                    _increments = value * DipstickConstants.MM_PER_CM
                 Case 2
-                    _increments = value * 25.4
+                    _increments = value * DipstickConstants.MM_PER_INCH
             End Select
         End Set
     End Property
@@ -35,9 +35,9 @@ Public Class UnCalForm
                 Case 0
                     _markedIncrements = value
                 Case 1
-                    _markedIncrements = value * 10
+                    _markedIncrements = value * DipstickConstants.MM_PER_CM
                 Case 2
-                    _markedIncrements = value * 25.4
+                    _markedIncrements = value * DipstickConstants.MM_PER_INCH
             End Select
         End Set
     End Property
@@ -50,14 +50,19 @@ Public Class UnCalForm
                 Case 0
                     _dipHeight = value
                 Case 1
-                    _dipHeight = value * 10
+                    _dipHeight = value * DipstickConstants.MM_PER_CM
                 Case 2
-                    _dipHeight = value * 25.4
+                    _dipHeight = value * DipstickConstants.MM_PER_INCH
             End Select
         End Set
     End Property
 
     Private Sub BtnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
+
+        ' Validate marked increments if provided
+        If Not ValidateMarkedIncrements() Then
+            Return
+        End If
 
         'clear the current dipstick from the UI and create a fresh template
         myUI.FileNew(True, True, True)
@@ -69,7 +74,7 @@ Public Class UnCalForm
         Dim markedIncrement As Single
 
         cboUnits = GetUnitString(Me.CboUnits.SelectedIndex)
-        markedIncrement = Me.txtMarkedIncrements.Text
+        markedIncrement = If(String.IsNullOrWhiteSpace(Me.txtMarkedIncrements.Text), 0, CSng(Me.txtMarkedIncrements.Text))
 
         myDoc = CreateCADFile()
         myLayer = CreateLayer(myDoc, Ref)
@@ -77,9 +82,9 @@ Public Class UnCalForm
 
         DrawLinesAndNumbers(cboUnits, markedIncrement)
         WriteUnits(cboUnits, DipHeight, CreateCopies(Copies))
-        If Not Ref.Equals("") Then WriteRef(Ref, DipHeight, CreateCopies(Copies))
+        If Not String.IsNullOrWhiteSpace(Ref) Then WriteRef(Ref, DipHeight, CreateCopies(Copies))
         WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
-        ' If Not FirstLineText.Text.Equals("") Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not ClientRef = "", 148, 105))
+        ' If Not String.IsNullOrWhiteSpace(FirstLineText.Text) Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not String.IsNullOrWhiteSpace(ClientRef), 148, 105))
 
         myUI.ActiveView.RefreshView()
         commonDetails = Nothing
@@ -115,18 +120,18 @@ Public Class UnCalForm
         Dim myPoly As New Polyline()
 
         myPoly.Add(x, l, 0)
-        myPoly.Add(x + 20, l, 0)
+        myPoly.Add(x + DipstickConstants.LINE_LENGTH, l, 0)
         'add it to active drawing
         myUI.ActiveView.CADFile.Add(myPoly)
     End Sub
     Private Sub WriteNumber(l As Single, n As Single, x As Single)
         Dim myCamText As New MText()
-        Dim NoPos As Single = l + 6.5
+        Dim NoPos As Single = l + DipstickConstants.UNCALIBRATED_NUMBER_Y_OFFSET
 
         myCamText.Text = n
-        myCamText.Font = "1CamBam_Stick_3"
-        myCamText.Height = "5.5"
-        myCamText.Location = 0.5 + x & "," & NoPos & ",0"
+        myCamText.Font = DipstickConstants.FONT_NAME
+        myCamText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
+        myCamText.Location = DipstickConstants.NUMBER_X_OFFSET_MEDIUM + x & "," & NoPos & ",0"
         myUI.ActiveView.CADFile.Add(myCamText)
 
 
@@ -139,19 +144,19 @@ Public Class UnCalForm
         If isMarkedIncrement Then
             Select Case CboUnits.SelectedIndex
                 Case 0
-                    myHalfIncs.Add(x + 15, incr, 0)
-                    myHalfIncs.Add(x + 20, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_MM, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
                 Case 1
-                    myHalfIncs.Add(x + 12, incr, 0)
-                    myHalfIncs.Add(x + 20, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_CM, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
                 Case 2
-                    myHalfIncs.Add(x + 10, incr, 0)
-                    myHalfIncs.Add(x + 20, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_INCH, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
 
             End Select
         Else
-            myHalfIncs.Add(x + 10, incr, 0)
-            myHalfIncs.Add(x + 20, incr, 0)
+            myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_INCH, incr, 0)
+            myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
         End If
         myUI.ActiveView.CADFile.Add(myHalfIncs)
     End Sub
@@ -176,7 +181,7 @@ Public Class UnCalForm
         txtVal.Visible = False
         valInc.Visible = False
         btnSubmit.Enabled = True
-        If txtIncs.Text = "" Then
+        If String.IsNullOrWhiteSpace(txtIncs.Text) Then
             txtVal.Text = "You must enter a value in the Increments box"
             txtVal.Visible = True
             valInc.Visible = True
@@ -198,7 +203,7 @@ Public Class UnCalForm
         txtVal.Visible = False
         ValHei.Visible = False
         btnSubmit.Enabled = True
-        If txtHeight.Text = "" Then
+        If String.IsNullOrWhiteSpace(txtHeight.Text) Then
             txtVal.Text = "You must enter a value in the Height box"
             txtVal.Visible = True
             ValHei.Visible = True
@@ -233,13 +238,30 @@ Public Class UnCalForm
             Case 0
                 Return x
             Case 1
-                Return x / 10
+                Return x / DipstickConstants.MM_PER_CM
             Case 2
-                Return Round(x / 25.4, 0)
+                Return Round(x / DipstickConstants.MM_PER_INCH, 0)
             Case Else
                 ' Default to millimeters if invalid selection
                 Return x
         End Select
+    End Function
+
+    Private Function ValidateMarkedIncrements() As Boolean
+        ' Marked increments is optional, but if provided must be valid
+        If Not String.IsNullOrWhiteSpace(txtMarkedIncrements.Text) Then
+            Dim markedInc As Single
+            If Not Single.TryParse(txtMarkedIncrements.Text, markedInc) Then
+                MessageBox.Show("Marked Increments must be a valid number.", _
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return False
+            ElseIf markedInc < 0 Then
+                MessageBox.Show("Marked Increments cannot be negative.", _
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return False
+            End If
+        End If
+        Return True
     End Function
 
 

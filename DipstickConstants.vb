@@ -69,9 +69,44 @@ Public Class DipstickConstants
     Public Const SWC_Y_OFFSET As Single = 76
 
     ''' <summary>
+    ''' Y-axis offset above dipstick height for SWC volume text
+    ''' </summary>
+    Public Const SWC_VOLUME_Y_OFFSET As Single = 68
+
+    ''' <summary>
+    ''' Y-axis offset above dipstick height for SWC units text
+    ''' </summary>
+    Public Const SWC_UNITS_Y_OFFSET As Single = 60
+
+    ''' <summary>
     ''' Y-axis offset above dipstick height for client reference text
     ''' </summary>
     Public Const CLIENT_REF_Y_OFFSET As Single = 105
+
+    ''' <summary>
+    ''' Y-axis offset above dipstick height for Wefco volume text
+    ''' </summary>
+    Public Const WEFCO_VOLUME_Y_OFFSET As Single = 153
+
+    ''' <summary>
+    ''' Y-axis offset above dipstick height for Wefco units text
+    ''' </summary>
+    Public Const WEFCO_UNITS_Y_OFFSET As Single = 145
+
+    ''' <summary>
+    ''' Y-axis offset above line for calibrated number positioning
+    ''' </summary>
+    Public Const CALIBRATED_NUMBER_Y_OFFSET As Single = 7
+
+    ''' <summary>
+    ''' Y-axis offset above line for uncalibrated number positioning
+    ''' </summary>
+    Public Const UNCALIBRATED_NUMBER_Y_OFFSET As Single = 6.5
+
+    ''' <summary>
+    ''' Y-axis offset for text-only dipstick reference
+    ''' </summary>
+    Public Const TEXT_ONLY_REF_Y_OFFSET As Single = 188
 
     ''' <summary>
     ''' Default text height in millimeters
@@ -151,6 +186,26 @@ Public Class DipstickConstants
     ''' Threshold for large numbers
     ''' </summary>
     Public Const LARGE_NUMBER_THRESHOLD As Integer = 99999
+
+    ''' <summary>
+    ''' X-offset for SWC text
+    ''' </summary>
+    Public Const SWC_TEXT_X_OFFSET As Single = 3
+
+    ''' <summary>
+    ''' X-offset for units text
+    ''' </summary>
+    Public Const UNITS_TEXT_X_OFFSET As Single = 1
+
+    ''' <summary>
+    ''' X-offset for tank number text
+    ''' </summary>
+    Public Const TANK_NUMBER_X_OFFSET As Single = 8
+
+    ''' <summary>
+    ''' Y-offset for tank number text (below tank text)
+    ''' </summary>
+    Public Const TANK_NUMBER_Y_OFFSET As Single = 8
 
 #End Region
 

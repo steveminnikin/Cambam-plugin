@@ -93,35 +93,59 @@ End Try
 **Impact:** File parsing errors are hidden from user, returns empty list
 **Fix:** Log error and show user-friendly message, or rethrow specific exceptions
 
-### 7. No Input Validation on File Selection
-**File:** `CalForm.vb:139-147`
-**Status:** OPEN
+### 7. ✅ FIXED: No Input Validation on File Selection
+**File:** `CalForm.vb:149-230`
+**Status:** Fixed
 **Issue:** No validation that selected file is a valid CSV or exists
 **Impact:** Could attempt to parse invalid files, leading to confusing errors
-**Fix:** Validate file exists, has .csv extension, is readable
+**Fix:** Added `ValidateSelectedFile()` function that checks:
+- File exists
+- Has .csv extension
+- Is readable (not locked/permission denied)
+- Is not empty
+- File dialog now filters to CSV files by default
 
-### 8. No Validation on Numeric Inputs
-**File:** `CalForm.vb`, `UnCalForm.vb`
-**Status:** OPEN
+### 8. ✅ FIXED: No Validation on Numeric Inputs
+**File:** `CalForm.vb:238-305`, `UnCalForm.vb:250-265`
+**Status:** Fixed
 **Issue:** No validation that numeric fields contain valid numbers before parsing
 **Impact:** Could cause format exceptions or unexpected behavior
-**Fix:** Add input validation with user-friendly error messages
+**Fix:**
+- CalForm: Added `ValidateNumericInputs()` function that validates all numeric text boxes (Full Volume, Increments, Dipstick Height, Marked Volumes, Wefco Volume)
+- UnCalForm: Added `ValidateMarkedIncrements()` function (existing validation for Increments and Height was already present)
+- All validation uses `TryParse()` and provides clear user-friendly error messages
+- Submit button validation prevents processing invalid data
 
 ## Medium Priority Bugs (Code quality issues)
 
-### 9. Hardcoded Magic Numbers in Text Positioning
-**File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`
-**Status:** PARTIALLY FIXED
+### 9. ✅ FIXED: Hardcoded Magic Numbers in Text Positioning
+**File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`, `DipstickConstants.vb`
+**Status:** Fixed
 **Issue:** Many hardcoded values still exist in forms (not using DipstickConstants)
 **Impact:** Inconsistent positioning, hard to maintain
-**Fix:** Migrate remaining magic numbers to DipstickConstants
+**Fix:**
+- Added new constants to `DipstickConstants.vb`:
+  - SWC_VOLUME_Y_OFFSET, SWC_UNITS_Y_OFFSET
+  - WEFCO_VOLUME_Y_OFFSET, WEFCO_UNITS_Y_OFFSET
+  - CALIBRATED_NUMBER_Y_OFFSET, UNCALIBRATED_NUMBER_Y_OFFSET
+  - TEXT_ONLY_REF_Y_OFFSET
+  - SWC_TEXT_X_OFFSET, UNITS_TEXT_X_OFFSET
+  - TANK_NUMBER_X_OFFSET, TANK_NUMBER_Y_OFFSET
+- Replaced all hardcoded magic numbers in forms with appropriate constants
+- All font names now use DipstickConstants.FONT_NAME
+- All text heights use DipstickConstants constants
+- Unit conversions use MM_PER_CM and MM_PER_INCH constants
 
-### 10. Inconsistent String Validation
-**File:** Multiple files
-**Status:** OPEN
+### 10. ✅ FIXED: Inconsistent String Validation
+**File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`, `CommonDetails.vb`
+**Status:** Fixed
 **Issue:** Mix of `String.Equals("")`, `= ""`, and no validation
 **Impact:** Inconsistent behavior, potential bugs
-**Fix:** Standardize on `String.IsNullOrWhiteSpace()`
+**Fix:** Standardized all string empty checks to use `String.IsNullOrWhiteSpace()`
+- CalForm.vb: Updated Ref and FirstLineText checks
+- UnCalForm.vb: Updated Ref, text field validation checks
+- textForm.vb: Updated txtFullVolHeight validation
+- CommonDetails.vb: Updated text and RefSecondLine checks in WriteClientRef and WriteVerticalInfo
 
 ### 11. No Disposal of Graphics Objects
 **File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`
@@ -153,5 +177,8 @@ End Try
 1. **Critical first:** Fix missing return statements (bugs 2-4) ✅ DONE
 2. **High priority:** Fix vertical text mutation bug (bug 5) ✅ DONE
 3. **High priority:** Improve error handling (bug 6) ✅ DONE
-4. **Medium priority:** Add input validation (bugs 7-8)
-5. **Low priority:** Code quality improvements (bugs 9-13)
+4. **High priority:** Add file validation (bug 7) ✅ DONE
+5. **High priority:** Add input validation (bug 8) ✅ DONE
+6. **Medium priority:** Migrate magic numbers to constants (bug 9) ✅ DONE
+7. **Medium priority:** Standardize string validation (bug 10) ✅ DONE
+8. **Low priority:** Code quality improvements (bugs 11-13)

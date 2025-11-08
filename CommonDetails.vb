@@ -182,7 +182,7 @@ Public Class CommonDetails
                 myUI.ActiveView.CADFile.Add(refCamText)
             End If
 
-            If Not text.Equals("") Then
+            If Not String.IsNullOrWhiteSpace(text) Then
                 Dim myCamText As New MText With {
                 .Text = text,
                 .Font = DipstickConstants.FONT_NAME,
@@ -193,7 +193,7 @@ Public Class CommonDetails
 
             End If
 
-            If Not IsNothing(RefSecondLine) Then
+            If Not IsNothing(RefSecondLine) AndAlso Not String.IsNullOrWhiteSpace(RefSecondLine) Then
                 secondLineText.Text = RefSecondLine
                 secondLineText.Font = DipstickConstants.FONT_NAME
                 secondLineText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
@@ -213,7 +213,7 @@ Public Class CommonDetails
         }
             firstLineCopy.Transform.RotZ(DipstickConstants.VERTICAL_TEXT_ROTATION)
 
-            If secondLine.Text.Equals("") Then
+            If String.IsNullOrWhiteSpace(secondLine.Text) Then
                 firstLineCopy.Location = yLocation & ",-6"
                 myUI.ActiveView.CADFile.Add(firstLineCopy)
 
