@@ -1,4 +1,4 @@
-﻿Imports CamBamPlugin.MyPlugin
+﻿Imports CamBamPlugin.CamBamPlugin.MyPlugin
 
 Namespace CamBamPlugin
 

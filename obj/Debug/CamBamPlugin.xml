@@ -22,5 +22,379 @@ CamBamPlugin
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="T:CamBamPlugin.CamBamPlugin.DipstickConstants">
+ <summary>
+ Constants used throughout the dipstick generation plugin.
+ Centralizes all magic numbers for easier maintenance.
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.FONT_NAME">
+ <summary>
+ CamBam stick font used for all engraving text
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.TOOL_NUMBER">
+ <summary>
+ Tool number used for engraving operations
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.TOOL_DIAMETER">
+ <summary>
+ Tool diameter in millimeters
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.PART_NAME">
+ <summary>
+ Name of the CAM part created in CamBam
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.LASER_FEED_RATE">
+ <summary>
+ Feed rate for laser engraving in mm/min
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.SPINDLE_FEED_RATE">
+ <summary>
+ Feed rate for spindle engraving in mm/min
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.LASER_DEPTH_INCREMENT">
+ <summary>
+ Depth increment for laser engraving in mm
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.SPINDLE_DEPTH_INCREMENT">
+ <summary>
+ Depth increment for spindle engraving in mm
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.REF_Y_OFFSET">
+ <summary>
+ Y-axis offset above full volume height for reference text
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.UNITS_Y_OFFSET">
+ <summary>
+ Y-axis offset above dipstick height for units text
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.SWC_Y_OFFSET">
+ <summary>
+ Y-axis offset above dipstick height for SWC text
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.CLIENT_REF_Y_OFFSET">
+ <summary>
+ Y-axis offset above dipstick height for client reference text
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.DEFAULT_TEXT_HEIGHT">
+ <summary>
+ Default text height in millimeters
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.LARGE_NUMBER_TEXT_HEIGHT">
+ <summary>
+ Text height for large numbers (greater than 99999)
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.VERTICAL_TEXT_ROTATION">
+ <summary>
+ Rotation angle for vertical text (90 degrees in radians)
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.LINE_LENGTH">
+ <summary>
+ Length of measurement line markings in millimeters
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.HALF_LINE_LENGTH">
+ <summary>
+ Length of half-increment line markings in millimeters
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.SINGLE_COPY_X_OFFSET">
+ <summary>
+ X-offset for single dipstick copy
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.DUAL_COPY_X_OFFSET">
+ <summary>
+ X-offset for dual dipstick copies
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.MM_PER_CM">
+ <summary>
+ Millimeters per centimeter
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.MM_PER_INCH">
+ <summary>
+ Millimeters per inch
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.NUMBER_X_OFFSET_SMALL">
+ <summary>
+ X-offset for numbers when volume is less than or equal to 9999
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.NUMBER_X_OFFSET_MEDIUM">
+ <summary>
+ X-offset for numbers when volume is greater than 9999 but less than or equal to 99999
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.NUMBER_X_OFFSET_LARGE">
+ <summary>
+ X-offset for numbers when volume is greater than 99999
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.MEDIUM_NUMBER_THRESHOLD">
+ <summary>
+ Threshold for medium-sized numbers
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.LARGE_NUMBER_THRESHOLD">
+ <summary>
+ Threshold for large numbers
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.SWC_PERCENTAGE">
+ <summary>
+ Safe Working Capacity as percentage of full volume (0.97 or 97 percent)
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.HALF_INC_OFFSET_MM">
+ <summary>
+ X-offset for half-increment marks in millimeters
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.HALF_INC_OFFSET_CM">
+ <summary>
+ X-offset for half-increment marks in centimeters
+ </summary>
+</member>
+<member name="F:CamBamPlugin.CamBamPlugin.DipstickConstants.HALF_INC_OFFSET_INCH">
+ <summary>
+ X-offset for half-increment marks in inches
+ </summary>
+</member>
+<member name="T:CamBamPlugin.CamBamPlugin.DipstickModel">
+ <summary>
+ Represents the configuration data for generating a dipstick.
+ Replaces the scattered shared properties in CommonDetails.
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.Ref">
+ <summary>
+ Reference text displayed on the dipstick
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.ClientRef">
+ <summary>
+ Client reference text
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.TankRef">
+ <summary>
+ Tank reference text
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.TankDimensions">
+ <summary>
+ Tank dimensions extracted from filename or user input
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.FullVolume">
+ <summary>
+ Full volume capacity in liters
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.Height">
+ <summary>
+ Height of the dipstick in millimeters
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.FullVolHeight">
+ <summary>
+ Full volume height (for calibrated dipsticks)
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.Increments">
+ <summary>
+ Increment value (volume or distance depending on dipstick type)
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.Copies">
+ <summary>
+ Number of dipstick copies to generate (1 or 2)
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.IncludeStriker">
+ <summary>
+ Whether to include striker in the design
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.IncludeTank">
+ <summary>
+ Whether to include tank in the design
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.IsLaser">
+ <summary>
+ Engraving type: True for laser, False for spindle
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.IsCalibrated">
+ <summary>
+ Whether this is a calibrated dipstick (uses calibration data)
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.ShowHalfIncrements">
+ <summary>
+ Whether to show half-increment marks (uncalibrated only)
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.DipstickModel.UnitSystem">
+ <summary>
+ Unit system for uncalibrated dipsticks (0=mm, 1=cm, 2=inches)
+ </summary>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.DipstickModel.IsValid">
+ <summary>
+ Validates the model data
+ </summary>
+ <returns>True if valid, False otherwise</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.DipstickModel.GetValidationError">
+ <summary>
+ Gets validation error message if model is invalid
+ </summary>
+ <returns>Error message or empty string if valid</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.DipstickModel.CalculateSWC">
+ <summary>
+ Calculates Safe Working Capacity (97% of full volume)
+ </summary>
+ <returns>SWC value</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.DipstickModel.GetCopyOffset">
+ <summary>
+ Gets the X-offset for dipstick copies
+ </summary>
+ <returns>X-offset value</returns>
+</member>
+<member name="T:CamBamPlugin.CamBamPlugin.CalibrationData">
+ <summary>
+ Represents calibration data parsed from a CSV file for calibrated dipstick generation.
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.CalibrationData.VolumeHeightPairs">
+ <summary>
+ Dictionary mapping volume (in liters) to height (in millimeters).
+ Key: Volume as string, Value: Height as string
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.CalibrationData.FullVolume">
+ <summary>
+ Full volume capacity extracted from filename
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.CalibrationData.Increments">
+ <summary>
+ Volume increment value extracted from filename
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.CalibrationData.TankDimensions">
+ <summary>
+ Tank dimensions extracted from filename (e.g. 1200x800x600)
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.CalibrationData.FileName">
+ <summary>
+ Original filename (without path)
+ </summary>
+</member>
+<member name="P:CamBamPlugin.CamBamPlugin.CalibrationData.FilePath">
+ <summary>
+ Full file path
+ </summary>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibrationData.#ctor">
+ <summary>
+ Initializes a new instance of CalibrationData
+ </summary>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibrationData.IsValid">
+ <summary>
+ Checks if calibration data is valid
+ </summary>
+ <returns>True if data is valid</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibrationData.GetHeight(System.String)">
+ <summary>
+ Gets the height for a specific volume
+ </summary>
+ <param name="volume">Volume to look up</param>
+ <returns>Height as string, or Nothing if not found</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibrationData.GetFullVolumeHeight">
+ <summary>
+ Gets the height for the full volume
+ </summary>
+ <returns>Full volume height as Single</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibrationData.GetPointCount">
+ <summary>
+ Gets the number of calibration points
+ </summary>
+ <returns>Count of volume/height pairs</returns>
+</member>
+<member name="T:CamBamPlugin.CamBamPlugin.CalibratedDipstickParser">
+ <summary>
+ Parses calibration CSV files and extracts metadata from filenames.
+ Replaces the parsing logic scattered in CalForm.
+ </summary>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibratedDipstickParser.Parse(System.String,System.Boolean)">
+ <summary>
+ Parses a calibration file and returns CalibrationData
+ </summary>
+ <param name="filePath">Full path to the CSV file</param>
+ <param name="useRegularIncrements">True if using regular increments, False for volume-based</param>
+ <returns>CalibrationData object with parsed information</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibratedDipstickParser.SuggestMarkedIncrements(System.Int32)">
+ <summary>
+ Suggests marked volume increments based on calibration increments
+ </summary>
+ <param name="increments">Increment value from calibration data</param>
+ <returns>Suggested marked interval, or 0 if no suggestion</returns>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibratedDipstickParser.ExtractFullVolume(System.String)">
+ <summary>
+ Extracts full volume from filename.
+ Expected format: ...FV XXX_INCS...
+ </summary>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibratedDipstickParser.ExtractIncrements(System.String)">
+ <summary>
+ Extracts increments from filename.
+ Expected format: ..._INCS YYY_(...)
+ </summary>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibratedDipstickParser.ExtractTankDimensions(System.String)">
+ <summary>
+ Extracts tank dimensions from filename.
+ Expected format: ...(1200x800x600)...
+ </summary>
+</member>
+<member name="M:CamBamPlugin.CamBamPlugin.CalibratedDipstickParser.ReadVolumeHeightPairs(System.String,System.Boolean)">
+ <summary>
+ Reads volume/height pairs from CSV file
+ </summary>
+ <param name="filePath">Path to CSV file</param>
+ <param name="useRegularIncrements">If True, swap column order to height,volume</param>
+ <returns>SortedList with volume as key and height as value</returns>
+</member>
 </members>
 </doc>

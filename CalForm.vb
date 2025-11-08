@@ -1,7 +1,7 @@
 ﻿Imports System.Windows.Forms
 Imports System.Math
-Imports CamBamPlugin.MyPlugin
-Imports CamBamPlugin.CommonDetails
+Imports CamBamPlugin.CamBamPlugin.MyPlugin
+Imports CamBamPlugin.CamBamPlugin.CommonDetails
 
 Namespace CamBamPlugin
 
