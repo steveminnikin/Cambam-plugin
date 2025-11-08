@@ -1,5 +1,7 @@
 ﻿Imports CamBamPlugin.MyPlugin
 
+Namespace CamBamPlugin
+
 Public Class CommonDetails
     Shared Property ClientRef As String = ""
     Shared Property RefText As Boolean
@@ -232,4 +234,6 @@ Public Class CommonDetails
         Return (x Mod y) = 0
     End Function
 End Class
+
+End Namespace
 
