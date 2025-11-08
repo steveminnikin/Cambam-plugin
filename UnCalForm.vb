@@ -1,7 +1,6 @@
 ﻿Imports System.Windows.Forms
 Imports System.Math
 Imports CamBamPlugin.CamBamPlugin.MyPlugin
-Imports CamBamPlugin.CamBamPlugin.CommonDetails
 
 Namespace CamBamPlugin
 
@@ -76,33 +75,33 @@ Public Class UnCalForm
         cboUnits = GetUnitString(Me.CboUnits.SelectedIndex)
         markedIncrement = If(String.IsNullOrWhiteSpace(Me.txtMarkedIncrements.Text), 0, CSng(Me.txtMarkedIncrements.Text))
 
-        myDoc = CreateCADFile()
-        myLayer = CreateLayer(myDoc, Ref)
-        myPart = CreatePart(myDoc, Ref)
+        myDoc = commonDetails.CreateCADFile()
+        myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
+        myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
 
         DrawLinesAndNumbers(cboUnits, markedIncrement)
-        WriteUnits(cboUnits, DipHeight, CreateCopies(Copies))
-        If Not String.IsNullOrWhiteSpace(Ref) Then WriteRef(Ref, DipHeight, CreateCopies(Copies))
-        WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
-        ' If Not String.IsNullOrWhiteSpace(FirstLineText.Text) Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not String.IsNullOrWhiteSpace(ClientRef), 148, 105))
+        commonDetails.WriteUnits(cboUnits, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+        If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+        commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
+        ' If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + If(Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef), 148, 105))
 
         myUI.ActiveView.RefreshView()
         commonDetails = Nothing
         Me.Hide()
     End Sub
     Private Sub DrawLinesAndNumbers(cboUnits As String, markedIncrement As Single)
-
         Dim l As Single
+        Dim xOffset As Integer = commonDetails.Model.GetCopyOffset()
 
         Do While l + Increments < DipHeight
             l += Increments
             If chkHalfIncs.Checked Then
-                DrawHalfIncs(l - (Increments / 2), CreateCopies(Copies))
+                DrawHalfIncs(l - (Increments / 2), xOffset)
             End If
-            DrawLine(l, CreateCopies(Copies))
+            DrawLine(l, xOffset)
             If isMultipleOfMarkedInterval(UnitConv(l), markedIncrement) Or l = DipHeight Or l = Increments Then
                 isMarkedIncrement = True
-                WriteNumber(l, UnitConv(l), CreateCopies(Copies))
+                WriteNumber(l, UnitConv(l), xOffset)
             Else
                 isMarkedIncrement = False
             End If
@@ -110,11 +109,11 @@ Public Class UnCalForm
         'adds top line for inches
         'If CboUnits.SelectedIndex = 2 Then
         If chkHalfIncs.Checked Then
-            DrawHalfIncs(DipHeight - (Increments / 2), CreateCopies(Copies))
+            DrawHalfIncs(DipHeight - (Increments / 2), xOffset)
         End If
 
-        DrawLine(DipHeight, CreateCopies(Copies))
-        WriteNumber(DipHeight, UnitConv(DipHeight), CreateCopies(Copies))
+        DrawLine(DipHeight, xOffset)
+        WriteNumber(DipHeight, UnitConv(DipHeight), xOffset)
     End Sub
     Private Sub DrawLine(l As Single, x As Single)
         Dim myPoly As New Polyline()

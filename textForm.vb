@@ -1,5 +1,4 @@
 ﻿Imports CamBamPlugin.CamBamPlugin.MyPlugin
-Imports CamBamPlugin.CamBamPlugin.CommonDetails
 
 Namespace CamBamPlugin
 
@@ -24,14 +23,14 @@ Public Class textForm
 
             myUI.FileNew(True, True, True)
 
-            myDoc = CreateCADFile()
-            myLayer = CreateLayer(myDoc, Ref)
-            myPart = CreatePart(myDoc, Ref)
+            myDoc = commonDetails.CreateCADFile()
+            myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
+            myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
 
-            WriteRef(Ref, DipHeight, 0)
-            WriteClientRef(DipHeight, 0, ClientRef, RefText)
-            If AddTank Then WriteTank(TankNumber, DipHeight, 0)
-            WriteVerticalInfo(FirstLineText, SecondLineText, ystartPoint)
+            commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, 0)
+            commonDetails.WriteClientRef(commonDetails.Model.Height, 0, commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
+            If AddTank Then WriteTank(TankNumber, commonDetails.Model.Height, 0)
+            commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, ystartPoint)
 
 
 

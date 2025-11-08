@@ -1,7 +1,6 @@
 ﻿Imports System.Windows.Forms
 Imports System.Math
 Imports CamBamPlugin.CamBamPlugin.MyPlugin
-Imports CamBamPlugin.CamBamPlugin.CommonDetails
 
 Namespace CamBamPlugin
 
@@ -34,18 +33,18 @@ Public Class CalForm
 
         WefcoVol = txtWefco.Text & "000"
         isRegIncrements = chkRegIncs.Checked
-        myDoc = CreateCADFile()
-        myLayer = CreateLayer(myDoc, Ref)
-        myPart = CreatePart(myDoc, Ref)
+        myDoc = commonDetails.CreateCADFile()
+        myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
+        myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
 
-        myList = CreateVolumeHeightPairsFromFile(myFile, Ref)
-        DrawLinesAndNumbers(myList, Ref)
-        WriteUnits("LITRE", DipHeight, CreateCopies(Copies))
-        If Not String.IsNullOrWhiteSpace(Ref) Then WriteRef(Ref, DipHeight, CreateCopies(Copies))
-        WriteSWC(DipHeight, CreateCopies(Copies), "LITRE", Round(FullVol * 0.97))
-        WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
-        If Not WefcoVol.Equals("000") Then WriteWefcoRef(WefcoVol, DipHeight, CreateCopies(Copies))
-        If Not String.IsNullOrWhiteSpace(FirstLineText.Text) Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not String.IsNullOrWhiteSpace(ClientRef), 148, 105))
+        myList = CreateVolumeHeightPairsFromFile(myFile, commonDetails.Model.Ref)
+        DrawLinesAndNumbers(myList, commonDetails.Model.Ref)
+        commonDetails.WriteUnits("LITRE", commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+        If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+        WriteSWC(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), "LITRE", Round(commonDetails.Model.FullVolume * 0.97))
+        commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
+        If Not WefcoVol.Equals("000") Then WriteWefcoRef(WefcoVol, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+        If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + If(Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef), 148, 105))
 
         myUI.ActiveView.RefreshView()
         Me.ResetText()
@@ -87,14 +86,15 @@ Public Class CalForm
         Return myList
     End Function
     Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)
+        Dim xOffset As Integer = commonDetails.Model.GetCopyOffset()
         For Each i As KeyValuePair(Of String, String) In myList
-            Drawline(i.Key, CreateCopies(CommonDetails.Copies))
+            Drawline(i.Key, xOffset)
             If Not isRegIncrements Then
-                If IsMultipleOfMarkedInterval(i.Value) Or i.Value = FullVol Or i.Value = Increments Then
-                    WriteNumber(i, CreateCopies(CommonDetails.Copies))
+                If IsMultipleOfMarkedInterval(i.Value) Or i.Value = commonDetails.Model.FullVolume.ToString() Or i.Value = commonDetails.Model.Increments.ToString() Then
+                    WriteNumber(i, xOffset)
                 End If
             Else
-                WriteNumber(i, CreateCopies(CommonDetails.Copies))
+                WriteNumber(i, xOffset)
             End If
         Next
     End Sub

@@ -3,6 +3,12 @@
 Namespace CamBamPlugin
 
 Public Class CommonDetails
+    ' NEW: Instance-based model replacing shared state
+    Public Property Model As New DipstickModel
+    Public Property FirstLineText As New MText
+    Public Property SecondLineText As New MText
+
+    ' OLD: Shared properties (deprecated, will be removed after migration)
     Shared Property ClientRef As String = ""
     Shared Property RefText As Boolean
     Shared Property Copies As Single
@@ -11,14 +17,31 @@ Public Class CommonDetails
     Shared Property Increments As String
     Shared Property tankDetails As String
     Shared Property MarkedVolIncrement As String
-    Shared Property FirstLineText As New MText
-    Shared Property SecondLineText As New MText
+    Shared Property OldFirstLineText As New MText
+    Shared Property OldSecondLineText As New MText
     Shared Property Ref As String
     Shared Property RefSecondLine As String
     Shared Property Laser As Boolean
 
     Public Sub New(Optional calForm As CalForm = Nothing, Optional unCalForm As UnCalForm = Nothing, Optional textForm As textForm = Nothing)
         If Not IsNothing(calForm) Then
+            ' Populate NEW instance model
+            Model.ClientRef = calForm.txtClientRef.Text
+            Model.IncludeStriker = calForm.chkStriker.Checked
+            Model.Copies = CInt(calForm.NumDips.Value)
+            Model.Ref = calForm.txtRef.Text
+            Model.IsCalibrated = True
+
+            ' Parse numeric values safely
+            Single.TryParse(calForm.txtDipHeight.Text, Model.Height)
+            Single.TryParse(calForm.txtIncrements.Text, Model.Increments)
+            Decimal.TryParse(calForm.txtFullVol.Text, Model.FullVolume)
+
+            ' Text objects
+            FirstLineText.Text = calForm.txtAddInfo.Text
+            SecondLineText.Text = calForm.txtSecondLine.Text
+
+            ' OLD: Also populate shared properties for backwards compatibility during migration
             ClientRef = calForm.txtClientRef.Text
             RefText = calForm.chkStriker.Checked
             Copies = calForm.NumDips.Value
@@ -26,43 +49,74 @@ Public Class CommonDetails
             Increments = calForm.txtIncrements.Text
             DipHeight = calForm.txtDipHeight.Text
             FullVol = calForm.txtFullVol.Text
-            FirstLineText.Text = calForm.txtAddInfo.Text
-            SecondLineText.Text = calForm.txtSecondLine.Text
+            OldFirstLineText.Text = calForm.txtAddInfo.Text
+            OldSecondLineText.Text = calForm.txtSecondLine.Text
             Ref = calForm.txtRef.Text
+
         ElseIf Not IsNothing(unCalForm) Then
+            ' Populate NEW instance model
+            Model.Ref = unCalForm.txtRef.Text
+            Model.Copies = CInt(unCalForm.NumDips.Value)
+            Model.IsCalibrated = False
+
+            ' Parse numeric values safely
+            Single.TryParse(unCalForm.txtIncs.Text, Model.Increments)
+            Single.TryParse(unCalForm.txtHeight.Text, Model.Height)
+
+            ' Text objects
+            FirstLineText.Text = unCalForm.txtAddInfo.Text
+            SecondLineText.Text = unCalForm.txtSecondLine.Text
+
+            ' OLD: Also populate shared properties for backwards compatibility
             Ref = unCalForm.txtRef.Text
             Increments = unCalForm.txtIncs.Text
             DipHeight = unCalForm.txtHeight.Text
             Copies = unCalForm.NumDips.Value
-            FirstLineText.Text = unCalForm.txtAddInfo.Text
-            SecondLineText.Text = unCalForm.txtSecondLine.Text
+            OldFirstLineText.Text = unCalForm.txtAddInfo.Text
+            OldSecondLineText.Text = unCalForm.txtSecondLine.Text
+
         Else
+            ' Populate NEW instance model
+            Model.Ref = textForm.txtOurRef.Text
+            Model.ClientRef = textForm.txtClientRef.Text
+            Model.IncludeStriker = textForm.chkRef.Checked
+            Model.TankRef = textForm.txtTankLetter.Text
+
+            ' Parse numeric value safely
+            Single.TryParse(textForm.txtFullVolHeight.Text, Model.Height)
+
+            ' Text objects
+            FirstLineText.Text = textForm.txtFirstVertical.Text
+            SecondLineText.Text = textForm.txtSecondVertical.Text
+
+            ' OLD: Also populate shared properties for backwards compatibility
             Ref = textForm.txtOurRef.Text
             RefSecondLine = textForm.txtTankLetter.Text
             RefText = textForm.chkRef.Checked
             ClientRef = textForm.txtClientRef.Text
             DipHeight = textForm.txtFullVolHeight.Text
-            FirstLineText.Text = textForm.txtFirstVertical.Text
-            SecondLineText.Text = textForm.txtSecondVertical.Text
+            OldFirstLineText.Text = textForm.txtFirstVertical.Text
+            OldSecondLineText.Text = textForm.txtSecondVertical.Text
         End If
 
     End Sub
 
-    Public Shared Function CreateCADFile()
+    Public Function CreateCADFile() As CADFile
         Dim myDoc = New CADFile
         Dim myArcCentreMode As CamBam.CAM.ArcCenterModes
 
         myDoc = myUI.ActiveView.CADFile
         myArcCentreMode = ArcCenterModes.IncrementalFromP1
         myDoc.MachiningOptions.ArcCenterMode = myArcCentreMode
-        If Laser Then
+        If Model.IsLaser Then
             myDoc.MachiningOptions.Style = "laserEngrave"
             myDoc.MachiningOptions.PostProcessor = "Laser"
         End If
 
         Return myDoc
     End Function
-    Public Shared Function CreateLayer(myDoc As CADFile, Optional n As String = "") As Layer
+
+    Public Function CreateLayer(myDoc As CADFile, Optional n As String = "") As Layer
         Dim myLayer = New Layer With {
             .Name = n & " Dipstick CAD",
             .Visible = True
@@ -71,28 +125,29 @@ Public Class CommonDetails
 
         Return myLayer
     End Function
-    Public Shared Function CreatePart(myDoc As CADFile, Optional ref As String = "") As CAMPart
-            If Not myUI.ActiveView.CADFile.HasPart(DipstickConstants.PART_NAME) Then
-                Dim myPart As New CAMPart
-                Dim spindleEngravingOp As New MOPEngrave()
-                Dim laserEngraveOp As New MOPEngrave()
 
-                spindleEngravingOp = CreateEngraving(ref, False)
-                laserEngraveOp = CreateEngraving(ref, True)
+    Public Function CreatePart(myDoc As CADFile, Optional ref As String = "") As CAMPart
+        If Not myUI.ActiveView.CADFile.HasPart(DipstickConstants.PART_NAME) Then
+            Dim myPart As New CAMPart
+            Dim spindleEngravingOp As MOPEngrave
+            Dim laserEngraveOp As MOPEngrave
 
-                myPart = myDoc.CreatePart(DipstickConstants.PART_NAME)
-                myPart.MachineOps.Add(spindleEngravingOp)
-                myPart.MachineOps.Add(laserEngraveOp)
+            spindleEngravingOp = CreateEngraving(ref, False)
+            laserEngraveOp = CreateEngraving(ref, True)
 
-                Return myPart
-            Else
-                ' Part already exists - this should rarely happen since callers create fresh documents
-                ' Return Nothing as defensive measure (original bug was returning uninitialized value)
-                Return Nothing
-            End If
+            myPart = myDoc.CreatePart(DipstickConstants.PART_NAME)
+            myPart.MachineOps.Add(spindleEngravingOp)
+            myPart.MachineOps.Add(laserEngraveOp)
 
-        End Function
-        Public Shared Function CreateEngraving(ref As String, laser As Boolean) As MOPEngrave
+            Return myPart
+        Else
+            ' Part already exists - this should rarely happen since callers create fresh documents
+            ' Return Nothing as defensive measure (original bug was returning uninitialized value)
+            Return Nothing
+        End If
+    End Function
+
+    Public Function CreateEngraving(ref As String, laser As Boolean) As MOPEngrave
             Dim myFeedRate As CamBam.Values.CBValue(Of Double),
             myDepthInc As CamBam.Values.CBValue(Of Double),
             myTarget As CamBam.Values.CBValue(Of Double),
@@ -120,7 +175,7 @@ Public Class CommonDetails
 
             Dim myEngrave = New CamBam.CAM.MOPEngrave()
             With myEngrave
-                .Name = IIf(laser, tankDetails + " Laser", tankDetails + " Spindle")
+                .Name = IIf(laser, Model.TankDimensions + " Laser", Model.TankDimensions + " Spindle")
                 .CutFeedrate = myFeedRate
                 .DepthIncrement = myDepthInc
                 .TargetDepth = myTarget
@@ -134,117 +189,115 @@ Public Class CommonDetails
 
             End With
             Return myEngrave
-        End Function
-        Public Shared Function CreateCopies(n As Integer) As Integer
-            Select Case n
-                Case 1
-                    Return DipstickConstants.SINGLE_COPY_X_OFFSET
-                Case 2
-                    Return DipstickConstants.DUAL_COPY_X_OFFSET
-                Case Else
-                    ' Default to single copy if invalid input
-                    Return DipstickConstants.SINGLE_COPY_X_OFFSET
-            End Select
-        End Function
-        Public Shared Sub WriteRef(ref As String, fullVolHeight As Single, x As Single)
-            Dim refYPos As Single = fullVolHeight + DipstickConstants.REF_Y_OFFSET
-            Dim myCamText As New MText With {
+    End Function
+
+    Public Function CreateCopies(n As Integer) As Integer
+        Select Case n
+            Case 1
+                Return DipstickConstants.SINGLE_COPY_X_OFFSET
+            Case 2
+                Return DipstickConstants.DUAL_COPY_X_OFFSET
+            Case Else
+                ' Default to single copy if invalid input
+                Return DipstickConstants.SINGLE_COPY_X_OFFSET
+        End Select
+    End Function
+
+    Public Sub WriteRef(ref As String, fullVolHeight As Single, x As Single)
+        Dim refYPos As Single = fullVolHeight + DipstickConstants.REF_Y_OFFSET
+        Dim myCamText As New MText With {
             .Text = ref,
             .Font = DipstickConstants.FONT_NAME,
             .Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString(),
             .Location = 1.5 + x & "," & refYPos & ",0"
         }
-            myUI.ActiveView.CADFile.Add(myCamText)
+        myUI.ActiveView.CADFile.Add(myCamText)
+    End Sub
 
+    Public Sub WriteUnits(u As String, h As Single, x As Single)
+        Dim myCamText As New MText()
+        Dim UniPos As Single = h + DipstickConstants.UNITS_Y_OFFSET
+        myCamText.Text = u
+        myCamText.Font = DipstickConstants.FONT_NAME
+        myCamText.Height = "5"
+        myCamText.Location = 1 + x & "," & UniPos & ",0"
+        myUI.ActiveView.CADFile.Add(myCamText)
+    End Sub
 
-        End Sub
-        Public Shared Sub WriteUnits(u As String, h As Single, x As Single)
-            Dim myCamText As New MText()
-            Dim UniPos As Single = h + DipstickConstants.UNITS_Y_OFFSET
-            myCamText.Text = u
-            myCamText.Font = DipstickConstants.FONT_NAME
-            myCamText.Height = "5"
-            myCamText.Location = 1 + x & "," & UniPos & ",0"
-            myUI.ActiveView.CADFile.Add(myCamText)
-        End Sub
-        Public Shared Sub WriteClientRef(yPos As Single, xPos As Single, text As String, ref As Boolean)
-            Dim secondLineText As New MText()
-            Dim UniPos As Single = yPos + DipstickConstants.CLIENT_REF_Y_OFFSET
+    Public Sub WriteClientRef(yPos As Single, xPos As Single, text As String, ref As Boolean)
+        Dim secondLineText As New MText()
+        Dim UniPos As Single = yPos + DipstickConstants.CLIENT_REF_Y_OFFSET
 
-            If ref Then
-                Dim refCamText As New MText()
-                Dim refPos As Single = yPos + 113
+        If ref Then
+            Dim refCamText As New MText()
+            Dim refPos As Single = yPos + 113
 
-                refCamText.Text = "REF"
-                refCamText.Font = DipstickConstants.FONT_NAME
-                refCamText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
-                refCamText.Location = 3 + xPos & "," & refPos & ",0"
-                myUI.ActiveView.CADFile.Add(refCamText)
-            End If
+            refCamText.Text = "REF"
+            refCamText.Font = DipstickConstants.FONT_NAME
+            refCamText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
+            refCamText.Location = 3 + xPos & "," & refPos & ",0"
+            myUI.ActiveView.CADFile.Add(refCamText)
+        End If
 
-            If Not String.IsNullOrWhiteSpace(text) Then
-                Dim myCamText As New MText With {
+        If Not String.IsNullOrWhiteSpace(text) Then
+            Dim myCamText As New MText With {
                 .Text = text,
                 .Font = DipstickConstants.FONT_NAME,
                 .Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString(),
                 .Location = 1 + xPos & "," & UniPos & ",0"
             }
-                myUI.ActiveView.CADFile.Add(myCamText)
+            myUI.ActiveView.CADFile.Add(myCamText)
+        End If
 
-            End If
+        If Not String.IsNullOrWhiteSpace(Model.TankRef) Then
+            secondLineText.Text = Model.TankRef
+            secondLineText.Font = DipstickConstants.FONT_NAME
+            secondLineText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
+            secondLineText.Location = 8 + xPos & "," & UniPos - 8 & ",0"
+            myUI.ActiveView.CADFile.Add(secondLineText)
+        End If
+    End Sub
 
-            If Not IsNothing(RefSecondLine) AndAlso Not String.IsNullOrWhiteSpace(RefSecondLine) Then
-                secondLineText.Text = RefSecondLine
-                secondLineText.Font = DipstickConstants.FONT_NAME
-                secondLineText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
-                secondLineText.Location = 8 + xPos & "," & UniPos - 8 & ",0"
-                myUI.ActiveView.CADFile.Add(secondLineText)
-            End If
-
-        End Sub
-
-        Public Shared Sub WriteVerticalInfo(firstLine As MText, secondLine As MText, yLocation As String)
-            ' Create NEW MText objects to avoid mutating the shared FirstLineText/SecondLineText objects
-            ' This prevents rotation and translation from accumulating across multiple runs
-            Dim firstLineCopy As New MText With {
+    Public Sub WriteVerticalInfo(firstLine As MText, secondLine As MText, yLocation As String)
+        ' Create NEW MText objects to avoid mutating the shared FirstLineText/SecondLineText objects
+        ' This prevents rotation and translation from accumulating across multiple runs
+        Dim firstLineCopy As New MText With {
             .Text = firstLine.Text,
             .Font = DipstickConstants.FONT_NAME,
             .Height = "6"
         }
-            firstLineCopy.Transform.RotZ(DipstickConstants.VERTICAL_TEXT_ROTATION)
+        firstLineCopy.Transform.RotZ(DipstickConstants.VERTICAL_TEXT_ROTATION)
 
-            If String.IsNullOrWhiteSpace(secondLine.Text) Then
-                firstLineCopy.Location = yLocation & ",-6"
-                myUI.ActiveView.CADFile.Add(firstLineCopy)
-
-            Else
-                Dim secondLineCopy As New MText With {
+        If String.IsNullOrWhiteSpace(secondLine.Text) Then
+            firstLineCopy.Location = yLocation & ",-6"
+            myUI.ActiveView.CADFile.Add(firstLineCopy)
+        Else
+            Dim secondLineCopy As New MText With {
                 .Text = secondLine.Text,
                 .Font = DipstickConstants.FONT_NAME,
                 .Height = "6"
             }
-                secondLineCopy.Transform.RotZ(DipstickConstants.VERTICAL_TEXT_ROTATION)
+            secondLineCopy.Transform.RotZ(DipstickConstants.VERTICAL_TEXT_ROTATION)
 
-                Dim firstLineYCentre As Double
-                Dim secondLineCentroid As New Point3F
-                Dim secondLineYCentre As Double
-                Dim DiffCentres As Double
+            Dim firstLineYCentre As Double
+            Dim secondLineCentroid As New Point3F
+            Dim secondLineYCentre As Double
+            Dim DiffCentres As Double
 
-                firstLineCopy.Location = yLocation & ",-2"
-                secondLineCopy.Location = yLocation & ",-10"
+            firstLineCopy.Location = yLocation & ",-2"
+            secondLineCopy.Location = yLocation & ",-10"
 
-                firstLineYCentre = firstLineCopy.GetCentroid().Y
-                secondLineYCentre = secondLineCopy.GetCentroid().Y
-                DiffCentres = firstLineYCentre - secondLineYCentre
+            firstLineYCentre = firstLineCopy.GetCentroid().Y
+            secondLineYCentre = secondLineCopy.GetCentroid().Y
+            DiffCentres = firstLineYCentre - secondLineYCentre
 
-                secondLineCopy.Transform.Translate(0, DiffCentres, 0)
-                myUI.ActiveView.CADFile.Add(firstLineCopy)
-                myUI.ActiveView.CADFile.Add(secondLineCopy)
-
-            End If
+            secondLineCopy.Transform.Translate(0, DiffCentres, 0)
+            myUI.ActiveView.CADFile.Add(firstLineCopy)
+            myUI.ActiveView.CADFile.Add(secondLineCopy)
+        End If
     End Sub
 
-    Public Shared Function IsDivisible(x As Integer, y As Integer) As Boolean
+    Public Function IsDivisible(x As Integer, y As Integer) As Boolean
         Return (x Mod y) = 0
     End Function
 End Class

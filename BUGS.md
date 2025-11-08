@@ -185,12 +185,33 @@ This is NOT a bug. The CamBam API follows the standard document-based applicatio
 
 ## Low Priority (Future Improvements)
 
-### 12. Shared State in CommonDetails
-**File:** `CommonDetails.vb`
-**Status:** OPEN (by design, but not ideal)
-**Issue:** All properties are Shared, creating global mutable state
+### 12. ✅ FIXED: Shared State in CommonDetails
+**File:** `CommonDetails.vb`, All forms
+**Status:** Fixed
+**Issue:** All properties were Shared, creating global mutable state
 **Impact:** Could cause issues if multiple forms are opened simultaneously
-**Fix:** Refactor to use DipstickModel instance instead of shared properties
+**Fix:** Refactored to use DipstickModel instance
+
+**Changes Made:**
+1. Added `Model As DipstickModel` instance property to CommonDetails
+2. Added instance `FirstLineText` and `SecondLineText` MText properties
+3. Updated constructor to populate both Model instance and old Shared properties (for backwards compatibility)
+4. Converted all Shared methods to instance methods:
+   - `CreateCADFile()`, `CreateLayer()`, `CreatePart()`, `CreateEngraving()`, `CreateCopies()`
+   - `WriteRef()`, `WriteUnits()`, `WriteClientRef()`, `WriteVerticalInfo()`
+5. Updated all forms (CalForm, UnCalForm, textForm) to:
+   - Remove `Imports CamBamPlugin.CamBamPlugin.CommonDetails`
+   - Call methods via `commonDetails.MethodName()` instead of bare method calls
+   - Access data via `commonDetails.Model.PropertyName`
+
+**Benefits:**
+- Each form instance now has its own data model
+- No risk of state collision between multiple open forms
+- Cleaner separation of concerns
+- Model includes built-in validation methods
+- Foundation laid for future unit testing
+
+**Note:** Old Shared properties temporarily retained for backwards compatibility during transition. Can be removed in future cleanup once fully validated.
 
 ### 13. Lack of Unit Tests
 **File:** All files
