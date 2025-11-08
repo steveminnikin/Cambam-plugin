@@ -1,4 +1,6 @@
-﻿Namespace CamBamPlugin
+﻿Imports CamBamPlugin.MyPlugin
+
+Namespace CamBamPlugin
 
 Public Class CommonDetails
     Shared Property ClientRef As String = ""
