@@ -1,5 +1,7 @@
 Imports System
 
+Namespace CamBamPlugin
+
 ''' <summary>
 ''' Represents the configuration data for generating a dipstick.
 ''' Replaces the scattered shared properties in CommonDetails.
@@ -138,3 +140,5 @@ Public Class DipstickModel
 #End Region
 
 End Class
+
+End Namespace

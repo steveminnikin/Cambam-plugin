@@ -1,4 +1,4 @@
-Imports System
+Namespace CamBamPlugin
 
 ''' <summary>
 ''' Constants used throughout the dipstick generation plugin.
@@ -181,3 +181,5 @@ Public Class DipstickConstants
 #End Region
 
 End Class
+
+End Namespace

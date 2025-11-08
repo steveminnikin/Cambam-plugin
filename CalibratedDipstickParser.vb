@@ -2,6 +2,8 @@ Imports System
 Imports System.IO
 Imports System.Collections.Generic
 
+Namespace CamBamPlugin
+
 ''' <summary>
 ''' Parses calibration CSV files and extracts metadata from filenames.
 ''' Replaces the parsing logic scattered in CalForm.
@@ -225,3 +227,5 @@ Public Class CalibratedDipstickParser
 #End Region
 
 End Class
+
+End Namespace

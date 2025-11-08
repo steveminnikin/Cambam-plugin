@@ -10,8 +10,9 @@
     <AssemblyName>CamBamPlugin</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -22,7 +23,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\..\..\..\Program Files %28x86%29\CamBam plus 0.9.8\plugins\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\..\Program Files %28x86%29\CamBam plus 1.0\plugins\</OutputPath>
     <DocumentationFile>CamBamPlugin.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
@@ -50,10 +51,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CamBam.CAD">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\CamBam plus 0.9.8\CamBam.CAD.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\CamBam plus 1.0\CamBam.CAD.dll</HintPath>
     </Reference>
     <Reference Include="CamBam.Geom">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\CamBam plus 0.9.8\CamBam.Geom.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\CamBam plus 1.0\CamBam.Geom.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

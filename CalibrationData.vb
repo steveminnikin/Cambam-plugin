@@ -1,6 +1,8 @@
 Imports System
 Imports System.Collections.Generic
 
+Namespace CamBamPlugin
+
 ''' <summary>
 ''' Represents calibration data parsed from a CSV file for calibrated dipstick generation.
 ''' </summary>
@@ -117,3 +119,5 @@ Public Class CalibrationData
 #End Region
 
 End Class
+
+End Namespace
