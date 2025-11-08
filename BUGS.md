@@ -10,9 +10,9 @@ This document lists known bugs found in the codebase, prioritized by severity.
 **Issue:** `ReadLine()` returns null at end of file, causing `NullReferenceException`
 **Impact:** Application crash when loading calibration files
 
-### 2. Missing Return Value in CreatePart
+### 2. ✅ FIXED: Missing Return Value in CreatePart
 **File:** `CommonDetails.vb:74-90`
-**Status:** OPEN
+**Status:** Fixed in commit 3957466
 **Issue:** Function doesn't return value when part already exists (line 88)
 ```vb
 Public Shared Function CreatePart(...) As CAMPart
@@ -26,9 +26,9 @@ End Function
 **Impact:** Returns uninitialized value, could cause null reference exceptions
 **Fix:** Return Nothing or retrieve and return the existing part
 
-### 3. Missing Return Value in CreateCopies
+### 3. ✅ FIXED: Missing Return Value in CreateCopies
 **File:** `CommonDetails.vb:134-141`
-**Status:** OPEN
+**Status:** Fixed in commit 3957466
 **Issue:** Function doesn't return value if `n` is not 1 or 2
 ```vb
 Public Shared Function CreateCopies(n As Integer) As Integer
@@ -42,9 +42,9 @@ End Function
 **Impact:** Returns uninitialized value if invalid input
 **Fix:** Add default case to return 0 or throw exception
 
-### 4. Missing Return Value in UnitConv
+### 4. ✅ FIXED: Missing Return Value in UnitConv
 **File:** `UnCalForm.vb:231-240`
-**Status:** OPEN
+**Status:** Fixed in commit 3957466
 **Issue:** Function doesn't return value if `SelectedIndex` is invalid
 ```vb
 Private Function UnitConv(x As Single) As Single
@@ -61,9 +61,9 @@ End Function
 
 ## High Priority Bugs (Can cause unexpected behavior)
 
-### 5. Silent Error Handling
+### 5. ✅ FIXED: Silent Error Handling
 **File:** `CalForm.vb:69`
-**Status:** OPEN
+**Status:** Fixed in commit 3957466
 **Issue:** Empty catch block silently swallows all exceptions
 ```vb
 Catch ex As Exception
