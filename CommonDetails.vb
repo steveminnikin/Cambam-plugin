@@ -85,6 +85,9 @@ Public Class CommonDetails
             myPart.MachineOps.Add(laserEngraveOp)
 
             Return myPart
+        Else
+            ' Part already exists, return it
+            Return myUI.ActiveView.CADFile.GetPart(DipstickConstants.PART_NAME)
         End If
 
     End Function
@@ -137,6 +140,9 @@ Public Class CommonDetails
                 Return DipstickConstants.SINGLE_COPY_X_OFFSET
             Case 2
                 Return DipstickConstants.DUAL_COPY_X_OFFSET
+            Case Else
+                ' Default to single copy if invalid input
+                Return DipstickConstants.SINGLE_COPY_X_OFFSET
         End Select
     End Function
     Public Shared Sub WriteRef(ref As String, fullVolHeight As Single, x As Single)

@@ -236,6 +236,9 @@ Public Class UnCalForm
                 Return x / 10
             Case 2
                 Return Round(x / 25.4, 0)
+            Case Else
+                ' Default to millimeters if invalid selection
+                Return x
         End Select
     End Function
 
