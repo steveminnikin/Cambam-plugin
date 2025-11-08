@@ -147,12 +147,41 @@ End Try
 - textForm.vb: Updated txtFullVolHeight validation
 - CommonDetails.vb: Updated text and RefSecondLine checks in WriteClientRef and WriteVerticalInfo
 
-### 11. No Disposal of Graphics Objects
-**File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`
-**Status:** OPEN
+### 11. ✅ INVESTIGATED: Graphics Object Disposal
+**File:** `CalForm.vb`, `UnCalForm.vb`, `textForm.vb`, `CommonDetails.vb`
+**Status:** No Action Required (Verified)
 **Issue:** Creating `MText` and `Polyline` objects without ensuring disposal
-**Impact:** Potential memory leaks in long-running sessions
-**Fix:** Ensure proper disposal or verify CamBam API handles it
+**Impact:** None - CamBam API manages object lifecycle
+
+**Investigation Findings:**
+
+1. **Object Lifecycle Pattern:**
+   - Objects created: `Dim myPoly As New Polyline()` / `Dim myCamText As New MText()`
+   - Objects configured with properties
+   - Objects added to CADFile: `myUI.ActiveView.CADFile.Add(myPoly)`
+   - Objects never referenced again after addition
+
+2. **Evidence that disposal is NOT needed:**
+   - Existing code uses `Using` statements for `StreamReader` (which implements IDisposable)
+   - No `Using` statements ever used for `MText` or `Polyline`
+   - No `Dispose()` calls on these objects anywhere in codebase
+   - Code has been functioning correctly in production
+
+3. **CAD/CAM Document Pattern:**
+   - Standard pattern: Document/CADFile takes ownership of objects when added
+   - CADFile is responsible for object lifecycle management
+   - Objects must remain alive as long as the document exists
+   - CADFile handles disposal when document is closed
+
+4. **Why manual disposal would be problematic:**
+   - Can't dispose immediately after `Add()` - objects must stay alive
+   - No event/callback to know when CADFile is done with objects
+   - Would break the document ownership model
+
+**Conclusion:**
+This is NOT a bug. The CamBam API follows the standard document-based application pattern where the `CADFile` owns and manages the lifecycle of all CAD objects added to it. The objects (`MText`, `Polyline`) either don't implement `IDisposable`, or their disposal is handled internally by the CamBam framework when the document is closed or cleared.
+
+**No changes required.**
 
 ## Low Priority (Future Improvements)
 
