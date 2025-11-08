@@ -87,6 +87,10 @@
     </Compile>
     <Compile Include="MyPlugin.vb" />
     <Compile Include="CommonDetails.vb" />
+    <Compile Include="DipstickConstants.vb" />
+    <Compile Include="DipstickModel.vb" />
+    <Compile Include="CalibrationData.vb" />
+    <Compile Include="CalibratedDipstickParser.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
