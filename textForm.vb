@@ -11,7 +11,6 @@ Public Class textForm
         If String.IsNullOrWhiteSpace(txtFullVolHeight.Text) Then
             MsgBox("You must enter a FV Height!")
         Else
-            Dim ystartPoint As String = "0"
             Dim myDoc As New CADFile
             Dim myLayer As Layer
             Dim myPart As CAMPart
@@ -30,7 +29,19 @@ Public Class textForm
             commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, 0)
             commonDetails.WriteClientRef(commonDetails.Model.Height, 0, commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
             If AddTank Then WriteTank(TankNumber, commonDetails.Model.Height, 0)
-            commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, ystartPoint)
+
+            ' Calculate vertical text position based on which elements are present
+            If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then
+                Dim verticalTextYOffset As Single
+                If Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef) Then
+                    ' ClientRef present (text-only form doesn't support WefcoVolume)
+                    verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_CLIENTREF_Y_OFFSET
+                Else
+                    ' No ClientRef
+                    verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_BASE_Y_OFFSET
+                End If
+                commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + verticalTextYOffset)
+            End If
 
 
 
