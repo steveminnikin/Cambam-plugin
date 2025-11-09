@@ -83,7 +83,22 @@ Public Class UnCalForm
         commonDetails.WriteUnits(cboUnits, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
         If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
         commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
-        ' If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + If(Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef), 148, 105))
+
+        ' Calculate vertical text position based on which elements are present
+        If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then
+            Dim verticalTextYOffset As Single
+            If commonDetails.Model.WefcoVolume > 0 Then
+                ' Wefco volume is highest element (at 153), position vertical text above it
+                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_WEFCO_Y_OFFSET
+            ElseIf Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef) Then
+                ' ClientRef present but no Wefco
+                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_CLIENTREF_Y_OFFSET
+            Else
+                ' No ClientRef or Wefco
+                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_BASE_Y_OFFSET
+            End If
+            commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + verticalTextYOffset)
+        End If
 
         myUI.ActiveView.RefreshView()
         commonDetails = Nothing
