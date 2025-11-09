@@ -163,12 +163,12 @@ Public Class CalibratedDipstickParser
     End Function
 
     ''' <summary>
-    ''' Reads volume/height pairs from CSV file
+    ''' Reads volume/height pairs from CSV file (public method for external use)
     ''' </summary>
     ''' <param name="filePath">Path to CSV file</param>
     ''' <param name="useRegularIncrements">If True, swap column order to height,volume</param>
     ''' <returns>SortedList with volume as key and height as value</returns>
-    Private Function ReadVolumeHeightPairs(filePath As String, useRegularIncrements As Boolean) As SortedList(Of String, String)
+    Public Function ReadVolumeHeightPairs(filePath As String, useRegularIncrements As Boolean) As SortedList(Of String, String)
         Dim pairs As New SortedList(Of String, String)
 
         Using reader As New StreamReader(filePath)

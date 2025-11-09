@@ -54,35 +54,21 @@ Public Class CalForm
 
     Private Function CreateVolumeHeightPairsFromFile(myFile As String, ref As String) As SortedList(Of String, String)
         Dim myList As New SortedList(Of String, String)
-        Dim myElements As String()
+        Dim parser As New CalibratedDipstickParser()
 
         Try
-            Using sR As New StreamReader(myFile)
-                    Dim line As String
-                    Do
-                        line = sR.ReadLine()
-                        If line Is Nothing Then Exit Do
+            ' Use the centralized CSV parser for better error handling and consistency
+            myList = parser.ReadVolumeHeightPairs(myFile, isRegIncrements)
+        Catch ex As IO.FileNotFoundException
+            MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As IO.IOException
+            MessageBox.Show("Error reading file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As FormatException
+            MessageBox.Show("Error parsing calibration file: " & ex.Message, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As Exception
+            MessageBox.Show("Unexpected error parsing calibration file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
-                        myElements = line.Split(",")
-                        If myElements.Length < 2 Then
-                            MessageBox.Show("Invalid CSV format: Each line must have at least 2 comma-separated values.", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Return myList
-                        End If
-
-                        If isRegIncrements Then
-                            myList.Add(myElements(1), myElements(0))
-                        Else
-                            myList.Add(myElements(0), myElements(1))
-                        End If
-                    Loop
-                End Using
-            Catch ex As IO.FileNotFoundException
-                MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Catch ex As IO.IOException
-                MessageBox.Show("Error reading file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Catch ex As Exception
-                MessageBox.Show("Error parsing calibration file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
         Return myList
     End Function
     Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)
