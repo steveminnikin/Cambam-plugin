@@ -3,29 +3,14 @@
 Namespace CamBamPlugin
 
 Public Class CommonDetails
-    ' NEW: Instance-based model replacing shared state
+    ' Instance-based model
     Public Property Model As New DipstickModel
     Public Property FirstLineText As New MText
     Public Property SecondLineText As New MText
 
-    ' OLD: Shared properties (deprecated, will be removed after migration)
-    Shared Property ClientRef As String = ""
-    Shared Property RefText As Boolean
-    Shared Property Copies As Single
-    Shared Property FullVol As String
-    Shared Property DipHeight As String
-    Shared Property Increments As String
-    Shared Property tankDetails As String
-    Shared Property MarkedVolIncrement As String
-    Shared Property OldFirstLineText As New MText
-    Shared Property OldSecondLineText As New MText
-    Shared Property Ref As String
-    Shared Property RefSecondLine As String
-    Shared Property Laser As Boolean
-
     Public Sub New(Optional calForm As CalForm = Nothing, Optional unCalForm As UnCalForm = Nothing, Optional textForm As textForm = Nothing)
         If Not IsNothing(calForm) Then
-            ' Populate NEW instance model
+            ' Populate instance model
             Model.ClientRef = calForm.txtClientRef.Text
             Model.IncludeStriker = calForm.chkStriker.Checked
             Model.Copies = CInt(calForm.NumDips.Value)
@@ -36,25 +21,14 @@ Public Class CommonDetails
             Single.TryParse(calForm.txtDipHeight.Text, Model.Height)
             Single.TryParse(calForm.txtIncrements.Text, Model.Increments)
             Decimal.TryParse(calForm.txtFullVol.Text, Model.FullVolume)
+            Integer.TryParse(calForm.txtMarkedVolumes.Text, Model.MarkedVolIncrement)
 
             ' Text objects
             FirstLineText.Text = calForm.txtAddInfo.Text
             SecondLineText.Text = calForm.txtSecondLine.Text
 
-            ' OLD: Also populate shared properties for backwards compatibility during migration
-            ClientRef = calForm.txtClientRef.Text
-            RefText = calForm.chkStriker.Checked
-            Copies = calForm.NumDips.Value
-            MarkedVolIncrement = calForm.txtMarkedVolumes.Text
-            Increments = calForm.txtIncrements.Text
-            DipHeight = calForm.txtDipHeight.Text
-            FullVol = calForm.txtFullVol.Text
-            OldFirstLineText.Text = calForm.txtAddInfo.Text
-            OldSecondLineText.Text = calForm.txtSecondLine.Text
-            Ref = calForm.txtRef.Text
-
         ElseIf Not IsNothing(unCalForm) Then
-            ' Populate NEW instance model
+            ' Populate instance model
             Model.Ref = unCalForm.txtRef.Text
             Model.Copies = CInt(unCalForm.NumDips.Value)
             Model.IsCalibrated = False
@@ -67,16 +41,8 @@ Public Class CommonDetails
             FirstLineText.Text = unCalForm.txtAddInfo.Text
             SecondLineText.Text = unCalForm.txtSecondLine.Text
 
-            ' OLD: Also populate shared properties for backwards compatibility
-            Ref = unCalForm.txtRef.Text
-            Increments = unCalForm.txtIncs.Text
-            DipHeight = unCalForm.txtHeight.Text
-            Copies = unCalForm.NumDips.Value
-            OldFirstLineText.Text = unCalForm.txtAddInfo.Text
-            OldSecondLineText.Text = unCalForm.txtSecondLine.Text
-
         Else
-            ' Populate NEW instance model
+            ' Populate instance model
             Model.Ref = textForm.txtOurRef.Text
             Model.ClientRef = textForm.txtClientRef.Text
             Model.IncludeStriker = textForm.chkRef.Checked
@@ -88,15 +54,6 @@ Public Class CommonDetails
             ' Text objects
             FirstLineText.Text = textForm.txtFirstVertical.Text
             SecondLineText.Text = textForm.txtSecondVertical.Text
-
-            ' OLD: Also populate shared properties for backwards compatibility
-            Ref = textForm.txtOurRef.Text
-            RefSecondLine = textForm.txtTankLetter.Text
-            RefText = textForm.chkRef.Checked
-            ClientRef = textForm.txtClientRef.Text
-            DipHeight = textForm.txtFullVolHeight.Text
-            OldFirstLineText.Text = textForm.txtFirstVertical.Text
-            OldSecondLineText.Text = textForm.txtSecondVertical.Text
         End If
 
     End Sub

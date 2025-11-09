@@ -50,6 +50,11 @@ Public Class DipstickModel
     Public Property Increments As Single
 
     ''' <summary>
+    ''' Marked volume increment - volume interval at which to display numbers (for calibrated dipsticks)
+    ''' </summary>
+    Public Property MarkedVolIncrement As Integer
+
+    ''' <summary>
     ''' Number of dipstick copies to generate (1 or 2)
     ''' </summary>
     Public Property Copies As Integer = 1

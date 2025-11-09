@@ -148,7 +148,7 @@ Public Class CalForm
 
     End Sub
     Private Function IsMultipleOfMarkedInterval(inc As Single) As Boolean
-        Return (inc Mod MarkedVolIncrement) = 0
+        Return (inc Mod commonDetails.Model.MarkedVolIncrement) = 0
     End Function
 
 
@@ -172,7 +172,8 @@ Public Class CalForm
                 isFileSelected = True
                 txtFullVol.Text = TrimFullVolume(myFile)
                 txtIncrements.Text = TrimIncrements(myFile)
-                tankDetails = TrimTankDimensionsFromFileName(myFile)
+                ' Store tank details in a local variable - will be populated to Model in constructor
+                Dim tankDims As String = TrimTankDimensionsFromFileName(myFile)
                 txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(txtIncrements.Text)
             Catch ex As Exception
                 MessageBox.Show("Error parsing filename: " & ex.Message & vbCrLf & vbCrLf & _
