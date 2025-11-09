@@ -9,7 +9,6 @@ Public Class CalForm
     Private isFileSelected As Boolean
     Private isRegIncrements As Boolean
     Private commonDetails As CommonDetails
-    Private WefcoVol As String
 
     Private Sub BtnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click
 
@@ -31,7 +30,6 @@ Public Class CalForm
         Dim myPart As CAMPart
         Dim myList As SortedList(Of String, String)
 
-        WefcoVol = txtWefco.Text & "000"
         isRegIncrements = chkRegIncs.Checked
         myDoc = commonDetails.CreateCADFile()
         myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
@@ -43,7 +41,7 @@ Public Class CalForm
         If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
         WriteSWC(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), "LITRE", Round(commonDetails.Model.FullVolume * 0.97))
         commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
-        If Not WefcoVol.Equals("000") Then WriteWefcoRef(WefcoVol, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+        If commonDetails.Model.WefcoVolume > 0 Then WriteWefcoRef(commonDetails.Model.WefcoVolume.ToString(), commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
         If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + If(Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef), 148, 105))
 
         myUI.ActiveView.RefreshView()

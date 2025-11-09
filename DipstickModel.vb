@@ -35,6 +35,11 @@ Public Class DipstickModel
     Public Property FullVolume As Decimal
 
     ''' <summary>
+    ''' Wefco volume in liters (optional, for calibrated dipsticks)
+    ''' </summary>
+    Public Property WefcoVolume As Integer
+
+    ''' <summary>
     ''' Height of the dipstick in millimeters
     ''' </summary>
     Public Property Height As Single

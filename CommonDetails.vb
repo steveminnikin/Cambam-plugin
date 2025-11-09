@@ -23,6 +23,12 @@ Public Class CommonDetails
             Decimal.TryParse(calForm.txtFullVol.Text, Model.FullVolume)
             Integer.TryParse(calForm.txtMarkedVolumes.Text, Model.MarkedVolIncrement)
 
+            ' Parse Wefco volume and multiply by 1000 (user enters in thousands)
+            Dim wefcoTemp As Integer
+            If Integer.TryParse(calForm.txtWefco.Text, wefcoTemp) Then
+                Model.WefcoVolume = wefcoTemp * 1000
+            End If
+
             ' Text objects
             FirstLineText.Text = calForm.txtAddInfo.Text
             SecondLineText.Text = calForm.txtSecondLine.Text
