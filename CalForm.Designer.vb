@@ -53,216 +53,206 @@ Partial Class CalForm
         Me.txtWefco = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
-        CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
-        '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.Color.DarkGray
-        Me.Button1.Text = "&Browse..."
-        Me.Button1.Location = New System.Drawing.Point(12, 12)
-        Me.Button1.Size = New System.Drawing.Size(90, 23)
-        Me.Button1.Name = "Button1"
-        Me.Button1.UseVisualStyleBackColor = False
-        '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'btnSubmit
-        '
-        Me.btnSubmit.BackColor = System.Drawing.Color.DarkGray
-        Me.btnSubmit.Text = "&Generate Dipstick"
-        Me.btnSubmit.Name = "btnSubmit"
-        Me.btnSubmit.UseVisualStyleBackColor = False
-        '
-        'txtRef
-        '
-        Me.txtRef.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtRef, "txtRef")
-        Me.txtRef.Name = "txtRef"
-        '
-        'Label1
-        '
-        resources.ApplyResources(Me.Label1, "Label1")
-        Me.Label1.Name = "Label1"
-        '
-        'NumDips
-        '
-        Me.NumDips.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.NumDips, "NumDips")
-        Me.NumDips.Name = "NumDips"
-        Me.NumDips.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Text = "Number of Copies:"
-        Me.Label2.Name = "Label2"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Text = "Client Reference:"
-        Me.Label3.Name = "Label3"
-        '
-        'txtClientRef
-        '
-        Me.txtClientRef.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtClientRef, "txtClientRef")
-        Me.txtClientRef.Name = "txtClientRef"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Text = "Show &REF Marker"
-        Me.Label4.Name = "Label4"
-        '
-        'chkStriker
-        '
-        resources.ApplyResources(Me.chkStriker, "chkStriker")
-        Me.chkStriker.Name = "chkStriker"
-        Me.chkStriker.UseVisualStyleBackColor = True
-        '
-        'txtAddInfo
-        '
-        Me.txtAddInfo.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtAddInfo, "txtAddInfo")
-        Me.txtAddInfo.Name = "txtAddInfo"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Text = "Vertical Text (Optional):"
-        Me.Label6.Name = "Label6"
-        '
-        'txtFullVol
-        '
-        Me.txtFullVol.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtFullVol, "txtFullVol")
-        Me.txtFullVol.Name = "txtFullVol"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Text = "Full Volume (Litres):"
-        Me.Label7.Name = "Label7"
-        '
-        'Label5
-        '
-        resources.ApplyResources(Me.Label5, "Label5")
-        Me.Label5.Name = "Label5"
-        '
-        'txtDipHeight
-        '
-        Me.txtDipHeight.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtDipHeight, "txtDipHeight")
-        Me.txtDipHeight.Name = "txtDipHeight"
-        '
-        'Label8
-        '
-        resources.ApplyResources(Me.Label8, "Label8")
-        Me.Label8.Name = "Label8"
-        '
-        'Label9
-        '
-        resources.ApplyResources(Me.Label9, "Label9")
-        Me.Label9.Name = "Label9"
-        '
-        'txtIncrements
-        '
-        Me.txtIncrements.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtIncrements, "txtIncrements")
-        Me.txtIncrements.Name = "txtIncrements"
-        '
-        'txtMarkedVolumes
-        '
-        Me.txtMarkedVolumes.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtMarkedVolumes, "txtMarkedVolumes")
-        Me.txtMarkedVolumes.Name = "txtMarkedVolumes"
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Text = "Mark Numbers Every (L):"
-        Me.Label10.Name = "Label10"
-        '
-        'txtSecondLine
-        '
-        Me.txtSecondLine.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtSecondLine, "txtSecondLine")
-        Me.txtSecondLine.Name = "txtSecondLine"
-        '
-        'Label11
-        '
-        resources.ApplyResources(Me.Label11, "Label11")
-        Me.Label11.Name = "Label11"
-        '
-        'chkRegIncs
-        '
-        resources.ApplyResources(Me.chkRegIncs, "chkRegIncs")
-        Me.chkRegIncs.Name = "chkRegIncs"
-        Me.chkRegIncs.UseVisualStyleBackColor = True
-        '
-        'txtWefco
-        '
-        Me.txtWefco.BackColor = System.Drawing.Color.White
-        resources.ApplyResources(Me.txtWefco, "txtWefco")
-        Me.txtWefco.Name = "txtWefco"
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Text = "Wefco Volume (1000s):"
-        Me.Label12.Name = "Label12"
-        '
-        'Label13
-        '
-        resources.ApplyResources(Me.Label13, "Label13")
-        Me.Label13.Name = "Label13"
-        '
-        'CalForm
-        '
-        resources.ApplyResources(Me, "$this")
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.Controls.Add(Me.Label13)
-        Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.txtWefco)
-        Me.Controls.Add(Me.chkRegIncs)
-        Me.Controls.Add(Me.txtSecondLine)
-        Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.txtMarkedVolumes)
-        Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.txtIncrements)
-        Me.Controls.Add(Me.Label9)
-        Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.txtDipHeight)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.txtFullVol)
-        Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.txtAddInfo)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.chkStriker)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.txtClientRef)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.NumDips)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.txtRef)
-        Me.Controls.Add(Me.btnSubmit)
-        Me.Controls.Add(Me.Button1)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "CalForm"
-        Me.Text = "Calibrated Dipstick Generator"
-        CType(Me.NumDips, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+            CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.SuspendLayout()
+            '
+            'Button1
+            '
+            Me.Button1.BackColor = System.Drawing.Color.DarkGray
+            resources.ApplyResources(Me.Button1, "Button1")
+            Me.Button1.Name = "Button1"
+            Me.Button1.UseVisualStyleBackColor = False
+            '
+            'OpenFileDialog1
+            '
+            Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+            '
+            'btnSubmit
+            '
+            Me.btnSubmit.BackColor = System.Drawing.Color.DarkGray
+            resources.ApplyResources(Me.btnSubmit, "btnSubmit")
+            Me.btnSubmit.Name = "btnSubmit"
+            Me.btnSubmit.UseVisualStyleBackColor = False
+            '
+            'txtRef
+            '
+            Me.txtRef.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtRef, "txtRef")
+            Me.txtRef.Name = "txtRef"
+            '
+            'Label1
+            '
+            resources.ApplyResources(Me.Label1, "Label1")
+            Me.Label1.Name = "Label1"
+            '
+            'NumDips
+            '
+            Me.NumDips.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.NumDips, "NumDips")
+            Me.NumDips.Name = "NumDips"
+            Me.NumDips.Value = New Decimal(New Integer() {1, 0, 0, 0})
+            '
+            'Label2
+            '
+            resources.ApplyResources(Me.Label2, "Label2")
+            Me.Label2.Name = "Label2"
+            '
+            'Label3
+            '
+            resources.ApplyResources(Me.Label3, "Label3")
+            Me.Label3.Name = "Label3"
+            '
+            'txtClientRef
+            '
+            Me.txtClientRef.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtClientRef, "txtClientRef")
+            Me.txtClientRef.Name = "txtClientRef"
+            '
+            'Label4
+            '
+            resources.ApplyResources(Me.Label4, "Label4")
+            Me.Label4.Name = "Label4"
+            '
+            'chkStriker
+            '
+            resources.ApplyResources(Me.chkStriker, "chkStriker")
+            Me.chkStriker.Name = "chkStriker"
+            Me.chkStriker.UseVisualStyleBackColor = True
+            '
+            'txtAddInfo
+            '
+            Me.txtAddInfo.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtAddInfo, "txtAddInfo")
+            Me.txtAddInfo.Name = "txtAddInfo"
+            '
+            'Label6
+            '
+            resources.ApplyResources(Me.Label6, "Label6")
+            Me.Label6.Name = "Label6"
+            '
+            'txtFullVol
+            '
+            Me.txtFullVol.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtFullVol, "txtFullVol")
+            Me.txtFullVol.Name = "txtFullVol"
+            '
+            'Label7
+            '
+            resources.ApplyResources(Me.Label7, "Label7")
+            Me.Label7.Name = "Label7"
+            '
+            'Label5
+            '
+            resources.ApplyResources(Me.Label5, "Label5")
+            Me.Label5.Name = "Label5"
+            '
+            'txtDipHeight
+            '
+            Me.txtDipHeight.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtDipHeight, "txtDipHeight")
+            Me.txtDipHeight.Name = "txtDipHeight"
+            '
+            'Label8
+            '
+            resources.ApplyResources(Me.Label8, "Label8")
+            Me.Label8.Name = "Label8"
+            '
+            'Label9
+            '
+            resources.ApplyResources(Me.Label9, "Label9")
+            Me.Label9.Name = "Label9"
+            '
+            'txtIncrements
+            '
+            Me.txtIncrements.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtIncrements, "txtIncrements")
+            Me.txtIncrements.Name = "txtIncrements"
+            '
+            'txtMarkedVolumes
+            '
+            Me.txtMarkedVolumes.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtMarkedVolumes, "txtMarkedVolumes")
+            Me.txtMarkedVolumes.Name = "txtMarkedVolumes"
+            '
+            'Label10
+            '
+            resources.ApplyResources(Me.Label10, "Label10")
+            Me.Label10.Name = "Label10"
+            '
+            'txtSecondLine
+            '
+            Me.txtSecondLine.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtSecondLine, "txtSecondLine")
+            Me.txtSecondLine.Name = "txtSecondLine"
+            '
+            'Label11
+            '
+            resources.ApplyResources(Me.Label11, "Label11")
+            Me.Label11.Name = "Label11"
+            '
+            'chkRegIncs
+            '
+            resources.ApplyResources(Me.chkRegIncs, "chkRegIncs")
+            Me.chkRegIncs.Name = "chkRegIncs"
+            Me.chkRegIncs.UseVisualStyleBackColor = True
+            '
+            'txtWefco
+            '
+            Me.txtWefco.BackColor = System.Drawing.Color.White
+            resources.ApplyResources(Me.txtWefco, "txtWefco")
+            Me.txtWefco.Name = "txtWefco"
+            '
+            'Label12
+            '
+            resources.ApplyResources(Me.Label12, "Label12")
+            Me.Label12.Name = "Label12"
+            '
+            'Label13
+            '
+            resources.ApplyResources(Me.Label13, "Label13")
+            Me.Label13.Name = "Label13"
+            '
+            'CalForm
+            '
+            resources.ApplyResources(Me, "$this")
+            Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+            Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+            Me.Controls.Add(Me.Label13)
+            Me.Controls.Add(Me.Label12)
+            Me.Controls.Add(Me.txtWefco)
+            Me.Controls.Add(Me.chkRegIncs)
+            Me.Controls.Add(Me.txtSecondLine)
+            Me.Controls.Add(Me.Label11)
+            Me.Controls.Add(Me.txtMarkedVolumes)
+            Me.Controls.Add(Me.Label10)
+            Me.Controls.Add(Me.txtIncrements)
+            Me.Controls.Add(Me.Label9)
+            Me.Controls.Add(Me.Label8)
+            Me.Controls.Add(Me.txtDipHeight)
+            Me.Controls.Add(Me.Label5)
+            Me.Controls.Add(Me.txtFullVol)
+            Me.Controls.Add(Me.Label7)
+            Me.Controls.Add(Me.txtAddInfo)
+            Me.Controls.Add(Me.Label6)
+            Me.Controls.Add(Me.chkStriker)
+            Me.Controls.Add(Me.Label4)
+            Me.Controls.Add(Me.txtClientRef)
+            Me.Controls.Add(Me.Label3)
+            Me.Controls.Add(Me.NumDips)
+            Me.Controls.Add(Me.Label2)
+            Me.Controls.Add(Me.Label1)
+            Me.Controls.Add(Me.txtRef)
+            Me.Controls.Add(Me.btnSubmit)
+            Me.Controls.Add(Me.Button1)
+            Me.MaximizeBox = False
+            Me.MinimizeBox = False
+            Me.Name = "CalForm"
+            CType(Me.NumDips, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.ResumeLayout(False)
+            Me.PerformLayout()
 
-    End Sub
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+        End Sub
+        Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents btnSubmit As System.Windows.Forms.Button
     Friend WithEvents txtRef As System.Windows.Forms.TextBox

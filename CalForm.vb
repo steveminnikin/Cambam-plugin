@@ -5,245 +5,245 @@ Imports CamBamPlugin.CamBamPlugin.MyPlugin
 
 Namespace CamBamPlugin
 
-Public Class CalForm
-    Private myFile As String
-    Private isFileSelected As Boolean
-    Private isRegIncrements As Boolean
-    Private commonDetails As CommonDetails
-    Private toolTip As New ToolTip()
+    Public Class CalForm
+        Private myFile As String
+        Private isFileSelected As Boolean
+        Private isRegIncrements As Boolean
+        Private commonDetails As CommonDetails
+        Private toolTip As New ToolTip()
 
-    Public Sub New()
-        InitializeComponent()
-        InitializeTooltips()
-        ApplyVisualHierarchy()
-    End Sub
+        Public Sub New()
+            InitializeComponent()
+            InitializeTooltips()
+            ApplyVisualHierarchy()
+        End Sub
 
-    Private Sub InitializeTooltips()
-        toolTip.AutoPopDelay = 5000
-        toolTip.InitialDelay = 500
-        toolTip.ReshowDelay = 200
-        toolTip.ShowAlways = True
+        Private Sub InitializeTooltips()
+            toolTip.AutoPopDelay = 5000
+            toolTip.InitialDelay = 500
+            toolTip.ReshowDelay = 200
+            toolTip.ShowAlways = True
 
-        ' Set tooltips for complex fields
-        toolTip.SetToolTip(txtMarkedVolumes, "Display volume numbers only at these intervals (e.g., 100 = show 100L, 200L, 300L, etc.)")
-        toolTip.SetToolTip(txtWefco, "Enter Wefco volume in thousands (e.g., enter 5 for 5000 litres)")
-        toolTip.SetToolTip(chkRegIncs, "Use evenly-spaced increments regardless of calibration data from CSV file")
-        toolTip.SetToolTip(txtFullVol, "Total tank capacity in litres")
-        toolTip.SetToolTip(txtDipHeight, "Maximum dipstick measurement height in millimeters")
-        toolTip.SetToolTip(txtIncrements, "Spacing between measurement marks in millimeters")
-        toolTip.SetToolTip(txtAddInfo, "Optional text displayed vertically on the dipstick (rotated 90°)")
-        toolTip.SetToolTip(txtSecondLine, "Optional second line of vertical text on the dipstick")
-        toolTip.SetToolTip(Button1, "Select a calibration CSV file containing volume/height pairs")
-    End Sub
+            ' Set tooltips for complex fields
+            toolTip.SetToolTip(txtMarkedVolumes, "Display volume numbers only at these intervals (e.g., 100 = show 100L, 200L, 300L, etc.)")
+            toolTip.SetToolTip(txtWefco, "Enter Wefco volume in thousands (e.g., enter 5 for 5000 litres)")
+            toolTip.SetToolTip(chkRegIncs, "Use evenly-spaced increments regardless of calibration data from CSV file")
+            toolTip.SetToolTip(txtFullVol, "Total tank capacity in litres")
+            toolTip.SetToolTip(txtDipHeight, "Maximum dipstick measurement height in millimeters")
+            toolTip.SetToolTip(txtIncrements, "Spacing between measurement marks in millimeters")
+            toolTip.SetToolTip(txtAddInfo, "Optional text displayed vertically on the dipstick (rotated 90°)")
+            toolTip.SetToolTip(txtSecondLine, "Optional second line of vertical text on the dipstick")
+            toolTip.SetToolTip(Button1, "Select a calibration CSV file containing volume/height pairs")
+        End Sub
 
-    Private Sub ApplyVisualHierarchy()
-        ' Make required field labels bold and add asterisk
-        If Label7 IsNot Nothing Then
-            Label7.Font = New Font(Label7.Font, FontStyle.Bold)
-            If Not Label7.Text.EndsWith("*") Then Label7.Text &= " *"
-        End If
-        If Label5 IsNot Nothing Then
-            Label5.Font = New Font(Label5.Font, FontStyle.Bold)
-            If Not Label5.Text.EndsWith("*") Then Label5.Text &= " *"
-        End If
-        If Label8 IsNot Nothing Then
-            Label8.Font = New Font(Label8.Font, FontStyle.Bold)
-            If Not Label8.Text.EndsWith("*") Then Label8.Text &= " *"
-        End If
-
-        ' Make buttons bold
-        btnSubmit.Font = New Font(btnSubmit.Font, FontStyle.Bold)
-        Button1.Font = New Font(Button1.Font, FontStyle.Bold)
-
-        ' Add note about required fields at top of form
-        Dim requiredNote As New Label()
-        requiredNote.Text = "* Required field"
-        requiredNote.Font = New Font("Microsoft Sans Serif", 8, FontStyle.Italic)
-        requiredNote.ForeColor = Color.FromArgb(100, 100, 100)
-        requiredNote.AutoSize = True
-        requiredNote.Location = New Point(12, 260)
-        Me.Controls.Add(requiredNote)
-    End Sub
-
-    Private Sub BtnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click
-
-        If Not isFileSelected Then
-            MessageBox.Show("You must select a file!", "File Required", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        ' Validate all numeric inputs before processing
-        If Not ValidateNumericInputs() Then
-            Return
-        End If
-
-        ' Show progress indication
-        Me.Cursor = Cursors.WaitCursor
-        btnSubmit.Enabled = False
-        btnSubmit.Text = "Generating..."
-        Application.DoEvents()
-
-        Try
-        'clear the current dipstick from the UI and create a fresh template
-        myUI.FileNew(True, True, True)
-        commonDetails = New CommonDetails(Me)
-        Dim myDoc As New CADFile
-        Dim myLayer As Layer
-        Dim myPart As CAMPart
-        Dim myList As SortedList(Of String, String)
-
-        isRegIncrements = chkRegIncs.Checked
-        myDoc = commonDetails.CreateCADFile()
-        myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
-        myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
-
-        myList = CreateVolumeHeightPairsFromFile(myFile, commonDetails.Model.Ref)
-        DrawLinesAndNumbers(myList, commonDetails.Model.Ref)
-        commonDetails.WriteUnits("LITRE", commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
-        If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
-        WriteSWC(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), "LITRE", Round(commonDetails.Model.FullVolume * 0.97))
-        commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
-        If commonDetails.Model.WefcoVolume > 0 Then WriteWefcoRef(commonDetails.Model.WefcoVolume.ToString(), commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
-
-        ' Calculate vertical text position based on which elements are present
-        If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then
-            Dim verticalTextYOffset As Single
-            If commonDetails.Model.WefcoVolume > 0 Then
-                ' Wefco volume is highest element (at 153), position vertical text above it
-                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_WEFCO_Y_OFFSET
-            ElseIf Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef) Then
-                ' ClientRef present but no Wefco
-                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_CLIENTREF_Y_OFFSET
-            Else
-                ' No ClientRef or Wefco
-                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_BASE_Y_OFFSET
+        Private Sub ApplyVisualHierarchy()
+            ' Make required field labels bold and add asterisk
+            If Label7 IsNot Nothing Then
+                Label7.Font = New Font(Label7.Font, FontStyle.Bold)
+                If Not Label7.Text.EndsWith("*") Then Label7.Text &= " *"
             End If
-            commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + verticalTextYOffset)
-        End If
+            If Label5 IsNot Nothing Then
+                Label5.Font = New Font(Label5.Font, FontStyle.Bold)
+                If Not Label5.Text.EndsWith("*") Then Label5.Text &= " *"
+            End If
+            If Label8 IsNot Nothing Then
+                Label8.Font = New Font(Label8.Font, FontStyle.Bold)
+                If Not Label8.Text.EndsWith("*") Then Label8.Text &= " *"
+            End If
 
-        myUI.ActiveView.RefreshView()
-        Me.ResetText()
-        commonDetails = Nothing
-        Me.Hide()
-        Catch ex As Exception
-            MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            ' Restore UI state
-            Me.Cursor = Cursors.Default
-            btnSubmit.Enabled = True
-            btnSubmit.Text = "&Generate Dipstick"
-        End Try
-    End Sub
+            ' Make buttons bold
+            btnSubmit.Font = New Font(btnSubmit.Font, FontStyle.Bold)
+            Button1.Font = New Font(Button1.Font, FontStyle.Bold)
 
-    Private Function CreateVolumeHeightPairsFromFile(myFile As String, ref As String) As SortedList(Of String, String)
-        Dim myList As New SortedList(Of String, String)
-        Dim parser As New CalibratedDipstickParser()
+            ' Add note about required fields at top of form
+            Dim requiredNote As New Label()
+            requiredNote.Text = "* Required field"
+            requiredNote.Font = New Font("Microsoft Sans Serif", 8, FontStyle.Italic)
+            requiredNote.ForeColor = Color.FromArgb(100, 100, 100)
+            requiredNote.AutoSize = True
+            requiredNote.Location = New Point(12, 260)
+            Me.Controls.Add(requiredNote)
+        End Sub
 
-        Try
-            ' Use the centralized CSV parser for better error handling and consistency
-            myList = parser.ReadVolumeHeightPairs(myFile, isRegIncrements)
-        Catch ex As IO.FileNotFoundException
-            MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Catch ex As IO.IOException
-            MessageBox.Show("Error reading file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Catch ex As FormatException
-            MessageBox.Show("Error parsing calibration file: " & ex.Message, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Catch ex As Exception
-            MessageBox.Show("Unexpected error parsing calibration file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+        Private Sub BtnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click
 
-        Return myList
-    End Function
-    Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)
-        Dim xOffset As Integer = commonDetails.Model.GetCopyOffset()
-        For Each i As KeyValuePair(Of String, String) In myList
-            Drawline(i.Key, xOffset)
-            If Not isRegIncrements Then
-                If IsMultipleOfMarkedInterval(i.Value) Or i.Value = commonDetails.Model.FullVolume.ToString() Or i.Value = commonDetails.Model.Increments.ToString() Then
+            If Not isFileSelected Then
+                MessageBox.Show("You must select a file!", "File Required", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            ' Validate all numeric inputs before processing
+            If Not ValidateNumericInputs() Then
+                Return
+            End If
+
+            ' Show progress indication
+            Me.Cursor = Cursors.WaitCursor
+            btnSubmit.Enabled = False
+            btnSubmit.Text = "Generating..."
+            Application.DoEvents()
+
+            Try
+                'clear the current dipstick from the UI and create a fresh template
+                myUI.FileNew(True, True, True)
+                commonDetails = New CommonDetails(Me)
+                Dim myDoc As New CADFile
+                Dim myLayer As Layer
+                Dim myPart As CAMPart
+                Dim myList As SortedList(Of String, String)
+
+                isRegIncrements = chkRegIncs.Checked
+                myDoc = commonDetails.CreateCADFile()
+                myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
+                myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
+
+                myList = CreateVolumeHeightPairsFromFile(myFile, commonDetails.Model.Ref)
+                DrawLinesAndNumbers(myList, commonDetails.Model.Ref)
+                commonDetails.WriteUnits("LITRE", commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+                If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+                WriteSWC(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), "LITRE", Round(commonDetails.Model.FullVolume * 0.97))
+                commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
+                If commonDetails.Model.WefcoVolume > 0 Then WriteWefcoRef(commonDetails.Model.WefcoVolume.ToString(), commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+
+                ' Calculate vertical text position based on which elements are present
+                If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then
+                    Dim verticalTextYOffset As Single
+                    If commonDetails.Model.WefcoVolume > 0 Then
+                        ' Wefco volume is highest element (at 153), position vertical text above it
+                        verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_WEFCO_Y_OFFSET
+                    ElseIf Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef) Then
+                        ' ClientRef present but no Wefco
+                        verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_CLIENTREF_Y_OFFSET
+                    Else
+                        ' No ClientRef or Wefco
+                        verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_BASE_Y_OFFSET
+                    End If
+                    commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + verticalTextYOffset)
+                End If
+
+                myUI.ActiveView.RefreshView()
+                Me.ResetText()
+                commonDetails = Nothing
+                Me.Hide()
+            Catch ex As Exception
+                MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Finally
+                ' Restore UI state
+                Me.Cursor = Cursors.Default
+                btnSubmit.Enabled = True
+                btnSubmit.Text = "&Generate Dipstick"
+            End Try
+        End Sub
+
+        Private Function CreateVolumeHeightPairsFromFile(myFile As String, ref As String) As SortedList(Of String, String)
+            Dim myList As New SortedList(Of String, String)
+            Dim parser As New CalibratedDipstickParser()
+
+            Try
+                ' Use the centralized CSV parser for better error handling and consistency
+                myList = parser.ReadVolumeHeightPairs(myFile, isRegIncrements)
+            Catch ex As IO.FileNotFoundException
+                MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Catch ex As IO.IOException
+                MessageBox.Show("Error reading file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Catch ex As FormatException
+                MessageBox.Show("Error parsing calibration file: " & ex.Message, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Catch ex As Exception
+                MessageBox.Show("Unexpected error parsing calibration file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+
+            Return myList
+        End Function
+        Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)
+            Dim xOffset As Integer = commonDetails.Model.GetCopyOffset()
+            For Each i As KeyValuePair(Of String, String) In myList
+                Drawline(i.Key, xOffset)
+                If Not isRegIncrements Then
+                    If IsMultipleOfMarkedInterval(i.Value) Or i.Value = commonDetails.Model.FullVolume.ToString() Or i.Value = commonDetails.Model.Increments.ToString() Then
+                        WriteNumber(i, xOffset)
+                    End If
+                Else
                     WriteNumber(i, xOffset)
                 End If
-            Else
-                WriteNumber(i, xOffset)
-            End If
-        Next
-    End Sub
+            Next
+        End Sub
 
-    Private Sub Drawline(l As Single, x As Single)
-        'sets the source file for incs
-        Dim myPoly As New Polyline()
-        myPoly.Add(x, l, 0)
-        myPoly.Add(x + DipstickConstants.LINE_LENGTH, l, 0)
-        'add it to active drawing
-        myUI.ActiveView.CADFile.Add(myPoly)
-    End Sub
+        Private Sub Drawline(l As Single, x As Single)
+            'sets the source file for incs
+            Dim myPoly As New Polyline()
+            myPoly.Add(x, l, 0)
+            myPoly.Add(x + DipstickConstants.LINE_LENGTH, l, 0)
+            'add it to active drawing
+            myUI.ActiveView.CADFile.Add(myPoly)
+        End Sub
 
-    Private Sub WriteNumber(i As KeyValuePair(Of String, String), x As Single)
-        Dim NoPos As Single = i.Key + DipstickConstants.CALIBRATED_NUMBER_Y_OFFSET
-        'add some text
-        'adjusts the size of the volume text so htat it always fits on to the dipstick
-        Dim myCamText As New MText With {
+        Private Sub WriteNumber(i As KeyValuePair(Of String, String), x As Single)
+            Dim NoPos As Single = i.Key + DipstickConstants.CALIBRATED_NUMBER_Y_OFFSET
+            'add some text
+            'adjusts the size of the volume text so htat it always fits on to the dipstick
+            Dim myCamText As New MText With {
             .Text = i.Value,
             .Font = DipstickConstants.FONT_NAME,
             .Height = IIf(i.Value > DipstickConstants.LARGE_NUMBER_THRESHOLD, DipstickConstants.LARGE_NUMBER_TEXT_HEIGHT.ToString(), DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()),
             .Location = DipstickConstants.NUMBER_X_OFFSET_MEDIUM + x & "," & NoPos & ",0"
         }
-        myUI.ActiveView.CADFile.Add(myCamText)
-    End Sub
+            myUI.ActiveView.CADFile.Add(myCamText)
+        End Sub
 
-    Private Sub WriteSWC(y As Single, x As Single, units As String, vol As Single)
-        Dim swcCamText As New MText()
-        Dim volCamText As New MText()
-        Dim unitsCamText As New MText()
-        Dim centreText As Single
-        'swc text
-        swcCamText.Text = "SWC"
-        swcCamText.Font = DipstickConstants.FONT_NAME
-        swcCamText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
-        swcCamText.Location = DipstickConstants.SWC_TEXT_X_OFFSET + x & "," & y + DipstickConstants.SWC_Y_OFFSET & ",0"
-        myUI.ActiveView.CADFile.Add(swcCamText)
-        'vol text
-        volCamText.Text = vol
-        volCamText.Font = DipstickConstants.FONT_NAME
-        volCamText.Height = IIf(vol > DipstickConstants.LARGE_NUMBER_THRESHOLD, DipstickConstants.LARGE_NUMBER_TEXT_HEIGHT.ToString(), DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString())
-        centreText = IIf(vol > DipstickConstants.MEDIUM_NUMBER_THRESHOLD, DipstickConstants.NUMBER_X_OFFSET_MEDIUM, DipstickConstants.NUMBER_X_OFFSET_SMALL)
-        volCamText.Location = centreText + x & "," & y + DipstickConstants.SWC_VOLUME_Y_OFFSET & ",0"
-        myUI.ActiveView.CADFile.Add(volCamText)
-        'units text
-        unitsCamText.Text = units
-        unitsCamText.Font = DipstickConstants.FONT_NAME
-        unitsCamText.Height = DipstickConstants.LARGE_NUMBER_TEXT_HEIGHT.ToString()
-        unitsCamText.Location = DipstickConstants.UNITS_TEXT_X_OFFSET + x & "," & y + DipstickConstants.SWC_UNITS_Y_OFFSET & ",0"
-        myUI.ActiveView.CADFile.Add(unitsCamText)
+        Private Sub WriteSWC(y As Single, x As Single, units As String, vol As Single)
+            Dim swcCamText As New MText()
+            Dim volCamText As New MText()
+            Dim unitsCamText As New MText()
+            Dim centreText As Single
+            'swc text
+            swcCamText.Text = "SWC"
+            swcCamText.Font = DipstickConstants.FONT_NAME
+            swcCamText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
+            swcCamText.Location = DipstickConstants.SWC_TEXT_X_OFFSET + x & "," & y + DipstickConstants.SWC_Y_OFFSET & ",0"
+            myUI.ActiveView.CADFile.Add(swcCamText)
+            'vol text
+            volCamText.Text = vol
+            volCamText.Font = DipstickConstants.FONT_NAME
+            volCamText.Height = IIf(vol > DipstickConstants.LARGE_NUMBER_THRESHOLD, DipstickConstants.LARGE_NUMBER_TEXT_HEIGHT.ToString(), DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString())
+            centreText = IIf(vol > DipstickConstants.MEDIUM_NUMBER_THRESHOLD, DipstickConstants.NUMBER_X_OFFSET_MEDIUM, DipstickConstants.NUMBER_X_OFFSET_SMALL)
+            volCamText.Location = centreText + x & "," & y + DipstickConstants.SWC_VOLUME_Y_OFFSET & ",0"
+            myUI.ActiveView.CADFile.Add(volCamText)
+            'units text
+            unitsCamText.Text = units
+            unitsCamText.Font = DipstickConstants.FONT_NAME
+            unitsCamText.Height = DipstickConstants.LARGE_NUMBER_TEXT_HEIGHT.ToString()
+            unitsCamText.Location = DipstickConstants.UNITS_TEXT_X_OFFSET + x & "," & y + DipstickConstants.SWC_UNITS_Y_OFFSET & ",0"
+            myUI.ActiveView.CADFile.Add(unitsCamText)
 
-    End Sub
-    Private Function IsMultipleOfMarkedInterval(inc As Single) As Boolean
-        Return (inc Mod commonDetails.Model.MarkedVolIncrement) = 0
-    End Function
+        End Sub
+        Private Function IsMultipleOfMarkedInterval(inc As Single) As Boolean
+            Return (inc Mod commonDetails.Model.MarkedVolIncrement) = 0
+        End Function
 
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-        ' Configure file dialog to only show CSV files
-        OpenFileDialog1.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*"
-        OpenFileDialog1.FilterIndex = 1
-        OpenFileDialog1.Title = "Select Calibration CSV File"
+            ' Configure file dialog to only show CSV files
+            OpenFileDialog1.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*"
+            OpenFileDialog1.FilterIndex = 1
+            OpenFileDialog1.Title = "Select Calibration CSV File"
 
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            myFile = OpenFileDialog1.FileName
+            If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+                myFile = OpenFileDialog1.FileName
 
-            ' Validate the selected file
-            If Not ValidateSelectedFile(myFile) Then
-                isFileSelected = False
-                Return
-            End If
+                ' Validate the selected file
+                If Not ValidateSelectedFile(myFile) Then
+                    isFileSelected = False
+                    Return
+                End If
 
-            Try
-                isFileSelected = True
-                txtFullVol.Text = TrimFullVolume(myFile)
-                txtIncrements.Text = TrimIncrements(myFile)
-                ' Store tank details in a local variable - will be populated to Model in constructor
-                Dim tankDims As String = TrimTankDimensionsFromFileName(myFile)
-                txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(txtIncrements.Text)
+                Try
+                    isFileSelected = True
+                    txtFullVol.Text = TrimFullVolume(myFile)
+                    txtIncrements.Text = TrimIncrements(myFile)
+                    ' Store tank details in a local variable - will be populated to Model in constructor
+                    Dim tankDims As String = TrimTankDimensionsFromFileName(myFile)
+                    txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(txtIncrements.Text)
             Catch ex As Exception
                 MessageBox.Show("Error parsing filename: " & ex.Message & vbCrLf & vbCrLf & _
                     "Expected format: [description]_FV [volume]_INCS [increment]_([dimensions])_other.csv", _
