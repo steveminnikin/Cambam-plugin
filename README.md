@@ -4,12 +4,22 @@ A CamBam plugin written in Visual Basic .NET that generates dipstick CAD files w
 
 ## Features
 
+### Core Functionality
 - **Calibrated Dipsticks**: Uses calibration data from CSV files to create accurate volume markings
 - **Uncalibrated Dipsticks**: Creates dipsticks with regular increments without calibration data
 - **Text-only Dipsticks**: Generates reference text without measurement markings
 - Supports both laser and spindle engraving operations
 - Multiple unit systems (mm, cm, inches)
 - Configurable text positioning and formatting
+
+### User Interface (Recent Improvements)
+- **Intuitive Controls**: Clear button labels ("Generate Dipstick", "Browse...") with keyboard shortcuts
+- **Helpful Tooltips**: 23 contextual tooltips with examples and guidance
+- **Visual Clarity**: Required fields marked with asterisks (*), bold formatting for important elements
+- **Progress Feedback**: Visual indication during dipstick generation with wait cursor
+- **Error Handling**: User-friendly error messages with clear descriptions
+- **Keyboard Navigation**: Logical tab order and Alt-key shortcuts (Alt+G, Alt+B, Alt+R, Alt+T)
+- **Dynamic Updates**: Unit labels automatically update when measurement system changes
 
 ## Prerequisites
 
@@ -119,7 +129,8 @@ CamBamPlugin/
 ├── Documentation
 │   ├── README.md               # This file
 │   ├── CLAUDE.md               # Detailed technical documentation
-│   └── BUGS.md                 # Known bugs and fixes
+│   ├── BUGS.md                 # Known bugs and fixes
+│   └── UI_UX_IMPROVEMENTS.md   # UI/UX improvement backlog and status
 │
 └── Project Files
     ├── CamBamPlugin.sln        # Visual Studio solution
@@ -210,11 +221,38 @@ These are expected at: `C:\Program Files (x86)\CamBam plus 1.0\`
 
 - **[CLAUDE.md](CLAUDE.md)** - Detailed technical documentation for AI assistance
 - **[BUGS.md](BUGS.md)** - Known bugs, fixes, and improvement suggestions
+- **[UI_UX_IMPROVEMENTS.md](UI_UX_IMPROVEMENTS.md)** - UI/UX improvement backlog and implementation details
 
-## Version History
+## Recent Updates
 
-- **Current (dev branch)**: Refactored with constants, data models, improved error handling
-- **Previous**: Original implementation with hardcoded values
+### November 2025 - UI/UX Enhancement Release
+**9 Major Improvements Across All Forms:**
+
+**Phase 1 - Quick Wins:**
+- Improved button naming and keyboard shortcuts (Alt+G, Alt+B, Alt+R, Alt+T)
+- Enhanced label clarity (removed ambiguous "?" labels)
+- Added 23 helpful tooltips with examples
+- Standardized tab order for keyboard navigation
+- Updated form titles with descriptive names
+
+**Phase 2 - Visual Polish:**
+- Added visual hierarchy with bold fonts for important elements
+- Standardized field widths for consistency
+- Improved unit display with dynamic labels
+- Professional, consistent appearance
+
+**Phase 3 - Validation & UX:**
+- Required field indicators with asterisks (*)
+- Progress indication during dipstick generation
+- Better error handling with user-friendly messages
+
+See [UI_UX_IMPROVEMENTS.md](UI_UX_IMPROVEMENTS.md) for complete details.
+
+### Previous Updates
+- Refactored with constants and data models
+- Improved CSV parsing with centralized parser
+- Enhanced error handling and validation
+- Fixed vertical text positioning bugs
 
 ## License
 
