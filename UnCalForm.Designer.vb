@@ -55,11 +55,11 @@ Partial Class UnCalForm
         'btnSubmit
         '
         Me.btnSubmit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSubmit.Location = New System.Drawing.Point(249, 346)
+        Me.btnSubmit.Location = New System.Drawing.Point(189, 346)
         Me.btnSubmit.Name = "btnSubmit"
-        Me.btnSubmit.Size = New System.Drawing.Size(75, 23)
-        Me.btnSubmit.TabIndex = 7
-        Me.btnSubmit.Text = "Submit"
+        Me.btnSubmit.Size = New System.Drawing.Size(135, 23)
+        Me.btnSubmit.TabIndex = 10
+        Me.btnSubmit.Text = "&Generate Dipstick"
         Me.btnSubmit.UseVisualStyleBackColor = True
         '
         'Label1
@@ -70,7 +70,7 @@ Partial Class UnCalForm
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(107, 16)
         Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Dipstick Position"
+        Me.Label1.Text = "Number of Copies:"
         '
         'CboUnits
         '
@@ -90,7 +90,7 @@ Partial Class UnCalForm
         Me.NumDips.Location = New System.Drawing.Point(203, 220)
         Me.NumDips.Name = "NumDips"
         Me.NumDips.Size = New System.Drawing.Size(50, 22)
-        Me.NumDips.TabIndex = 5
+        Me.NumDips.TabIndex = 6
         Me.NumDips.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label2
@@ -101,7 +101,7 @@ Partial Class UnCalForm
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(38, 16)
         Me.Label2.TabIndex = 4
-        Me.Label2.Text = "Units"
+        Me.Label2.Text = "Measurement Units:"
         '
         'Label3
         '
@@ -111,14 +111,14 @@ Partial Class UnCalForm
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(73, 16)
         Me.Label3.TabIndex = 5
-        Me.Label3.Text = "Increments"
+        Me.Label3.Text = "Increment Size:"
         '
         'txtIncs
         '
         Me.txtIncs.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtIncs.Location = New System.Drawing.Point(203, 103)
         Me.txtIncs.Name = "txtIncs"
-        Me.txtIncs.Size = New System.Drawing.Size(62, 22)
+        Me.txtIncs.Size = New System.Drawing.Size(70, 22)
         Me.txtIncs.TabIndex = 2
         '
         'lblIncs
@@ -151,15 +151,15 @@ Partial Class UnCalForm
         Me.txtTop.Name = "txtTop"
         Me.txtTop.Size = New System.Drawing.Size(81, 16)
         Me.txtTop.TabIndex = 9
-        Me.txtTop.Text = "Tank Height"
+        Me.txtTop.Text = "Dipstick Height:"
         '
         'txtHeight
         '
         Me.txtHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtHeight.Location = New System.Drawing.Point(203, 182)
         Me.txtHeight.Name = "txtHeight"
-        Me.txtHeight.Size = New System.Drawing.Size(62, 22)
-        Me.txtHeight.TabIndex = 4
+        Me.txtHeight.Size = New System.Drawing.Size(70, 22)
+        Me.txtHeight.TabIndex = 5
         '
         'lblHeight
         '
@@ -209,7 +209,7 @@ Partial Class UnCalForm
         '
         Me.txtRef.Location = New System.Drawing.Point(203, 36)
         Me.txtRef.Name = "txtRef"
-        Me.txtRef.Size = New System.Drawing.Size(81, 20)
+        Me.txtRef.Size = New System.Drawing.Size(90, 20)
         Me.txtRef.TabIndex = 0
         '
         'chkHalfIncs
@@ -218,7 +218,7 @@ Partial Class UnCalForm
         Me.chkHalfIncs.Location = New System.Drawing.Point(204, 316)
         Me.chkHalfIncs.Name = "chkHalfIncs"
         Me.chkHalfIncs.Size = New System.Drawing.Size(122, 17)
-        Me.chkHalfIncs.TabIndex = 6
+        Me.chkHalfIncs.TabIndex = 9
         Me.chkHalfIncs.Text = "Add Half Increments"
         Me.chkHalfIncs.UseVisualStyleBackColor = True
         '
@@ -230,14 +230,14 @@ Partial Class UnCalForm
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(92, 16)
         Me.Label5.TabIndex = 17
-        Me.Label5.Text = "Marked Every"
+        Me.Label5.Text = "Display Numbers Every:"
         '
         'txtMarkedIncrements
         '
         Me.txtMarkedIncrements.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMarkedIncrements.Location = New System.Drawing.Point(204, 146)
         Me.txtMarkedIncrements.Name = "txtMarkedIncrements"
-        Me.txtMarkedIncrements.Size = New System.Drawing.Size(62, 22)
+        Me.txtMarkedIncrements.Size = New System.Drawing.Size(70, 22)
         Me.txtMarkedIncrements.TabIndex = 3
         '
         'lblIntervals
@@ -256,8 +256,8 @@ Partial Class UnCalForm
         Me.txtSecondLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
         Me.txtSecondLine.Location = New System.Drawing.Point(135, 285)
         Me.txtSecondLine.Name = "txtSecondLine"
-        Me.txtSecondLine.Size = New System.Drawing.Size(176, 22)
-        Me.txtSecondLine.TabIndex = 23
+        Me.txtSecondLine.Size = New System.Drawing.Size(200, 22)
+        Me.txtSecondLine.TabIndex = 8
         '
         'Label11
         '
@@ -276,8 +276,8 @@ Partial Class UnCalForm
         Me.txtAddInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
         Me.txtAddInfo.Location = New System.Drawing.Point(135, 257)
         Me.txtAddInfo.Name = "txtAddInfo"
-        Me.txtAddInfo.Size = New System.Drawing.Size(176, 22)
-        Me.txtAddInfo.TabIndex = 21
+        Me.txtAddInfo.Size = New System.Drawing.Size(200, 22)
+        Me.txtAddInfo.TabIndex = 7
         '
         'Label6
         '
@@ -288,7 +288,7 @@ Partial Class UnCalForm
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(84, 16)
         Me.Label6.TabIndex = 22
-        Me.Label6.Text = "Vertical Info?"
+        Me.Label6.Text = "Vertical Text (Optional):"
         '
         'UnCalForm
         '
@@ -323,7 +323,7 @@ Partial Class UnCalForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "UnCalForm"
-        Me.Text = "Uncalibrated Dipstick"
+        Me.Text = "Uncalibrated Dipstick Generator"
         CType(Me.NumDips, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

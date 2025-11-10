@@ -47,26 +47,26 @@ Partial Class textForm
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(332, 284)
+        Me.Button1.Location = New System.Drawing.Point(272, 284)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 0
-        Me.Button1.Text = "Submit"
+        Me.Button1.Size = New System.Drawing.Size(135, 23)
+        Me.Button1.TabIndex = 10
+        Me.Button1.Text = "&Generate Dipstick"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'txtFirstVertical
         '
         Me.txtFirstVertical.Location = New System.Drawing.Point(169, 212)
         Me.txtFirstVertical.Name = "txtFirstVertical"
-        Me.txtFirstVertical.Size = New System.Drawing.Size(217, 20)
-        Me.txtFirstVertical.TabIndex = 2
+        Me.txtFirstVertical.Size = New System.Drawing.Size(200, 20)
+        Me.txtFirstVertical.TabIndex = 8
         '
         'txtSecondVertical
         '
         Me.txtSecondVertical.Location = New System.Drawing.Point(169, 238)
         Me.txtSecondVertical.Name = "txtSecondVertical"
-        Me.txtSecondVertical.Size = New System.Drawing.Size(217, 20)
-        Me.txtSecondVertical.TabIndex = 3
+        Me.txtSecondVertical.Size = New System.Drawing.Size(200, 20)
+        Me.txtSecondVertical.TabIndex = 9
         '
         'lblOurRef
         '
@@ -86,7 +86,7 @@ Partial Class textForm
         Me.txtOurRef.Location = New System.Drawing.Point(169, 53)
         Me.txtOurRef.Name = "txtOurRef"
         Me.txtOurRef.Size = New System.Drawing.Size(90, 22)
-        Me.txtOurRef.TabIndex = 4
+        Me.txtOurRef.TabIndex = 2
         '
         'chkRef
         '
@@ -95,7 +95,7 @@ Partial Class textForm
         Me.chkRef.Location = New System.Drawing.Point(361, 86)
         Me.chkRef.Name = "chkRef"
         Me.chkRef.Size = New System.Drawing.Size(15, 14)
-        Me.chkRef.TabIndex = 12
+        Me.chkRef.TabIndex = 4
         Me.chkRef.UseVisualStyleBackColor = True
         '
         'Label4
@@ -103,11 +103,11 @@ Partial Class textForm
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
         Me.Label4.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label4.Location = New System.Drawing.Point(313, 83)
+        Me.Label4.Location = New System.Drawing.Point(268, 83)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(42, 16)
+        Me.Label4.Size = New System.Drawing.Size(87, 16)
         Me.Label4.TabIndex = 10
-        Me.Label4.Text = "REF?"
+        Me.Label4.Text = "Show &REF Marker"
         '
         'txtClientRef
         '
@@ -116,7 +116,7 @@ Partial Class textForm
         Me.txtClientRef.Location = New System.Drawing.Point(169, 81)
         Me.txtClientRef.Name = "txtClientRef"
         Me.txtClientRef.Size = New System.Drawing.Size(90, 22)
-        Me.txtClientRef.TabIndex = 11
+        Me.txtClientRef.TabIndex = 3
         '
         'lblTheirRef
         '
@@ -125,9 +125,9 @@ Partial Class textForm
         Me.lblTheirRef.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.lblTheirRef.Location = New System.Drawing.Point(46, 87)
         Me.lblTheirRef.Name = "lblTheirRef"
-        Me.lblTheirRef.Size = New System.Drawing.Size(78, 16)
+        Me.lblTheirRef.Size = New System.Drawing.Size(117, 16)
         Me.lblTheirRef.TabIndex = 9
-        Me.lblTheirRef.Text = "Reference?"
+        Me.lblTheirRef.Text = "Client Reference:"
         '
         'Label11
         '
@@ -147,9 +147,9 @@ Partial Class textForm
         Me.Label6.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.Label6.Location = New System.Drawing.Point(46, 212)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(84, 16)
+        Me.Label6.Size = New System.Drawing.Size(157, 16)
         Me.Label6.TabIndex = 21
-        Me.Label6.Text = "Vertical Info?"
+        Me.Label6.Text = "Vertical Text (Optional):"
         '
         'txtFullVolHeight
         '
@@ -158,7 +158,7 @@ Partial Class textForm
         Me.txtFullVolHeight.Location = New System.Drawing.Point(169, 25)
         Me.txtFullVolHeight.Name = "txtFullVolHeight"
         Me.txtFullVolHeight.Size = New System.Drawing.Size(90, 22)
-        Me.txtFullVolHeight.TabIndex = 23
+        Me.txtFullVolHeight.TabIndex = 1
         '
         'lblFullVolume
         '
@@ -178,7 +178,7 @@ Partial Class textForm
         Me.txtTankLetter.Location = New System.Drawing.Point(264, 81)
         Me.txtTankLetter.Name = "txtTankLetter"
         Me.txtTankLetter.Size = New System.Drawing.Size(29, 22)
-        Me.txtTankLetter.TabIndex = 25
+        Me.txtTankLetter.TabIndex = 5
         '
         'GroupBox1
         '
@@ -196,7 +196,7 @@ Partial Class textForm
         Me.txtTankNumber.Location = New System.Drawing.Point(169, 109)
         Me.txtTankNumber.Name = "txtTankNumber"
         Me.txtTankNumber.Size = New System.Drawing.Size(29, 22)
-        Me.txtTankNumber.TabIndex = 31
+        Me.txtTankNumber.TabIndex = 7
         '
         'chkTank
         '
@@ -205,7 +205,7 @@ Partial Class textForm
         Me.chkTank.Location = New System.Drawing.Point(103, 115)
         Me.chkTank.Name = "chkTank"
         Me.chkTank.Size = New System.Drawing.Size(15, 14)
-        Me.chkTank.TabIndex = 30
+        Me.chkTank.TabIndex = 6
         Me.chkTank.UseVisualStyleBackColor = True
         '
         'Label1
@@ -215,9 +215,9 @@ Partial Class textForm
         Me.Label1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.Label1.Location = New System.Drawing.Point(46, 113)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(51, 16)
+        Me.Label1.Size = New System.Drawing.Size(150, 16)
         Me.Label1.TabIndex = 28
-        Me.Label1.Text = "TANK?"
+        Me.Label1.Text = "Include &Tank Number"
         '
         'Label2
         '
@@ -255,7 +255,7 @@ Partial Class textForm
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "textForm"
-        Me.Text = "Additional Info Form"
+        Me.Text = "Text-Only Dipstick Generator"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

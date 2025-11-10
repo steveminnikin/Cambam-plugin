@@ -93,25 +93,25 @@ Public Class DipstickConstants
     ''' </summary>
     Public Const WEFCO_UNITS_Y_OFFSET As Single = 145
 
-    ''' <summary>
-    ''' Y-axis offset for vertical text when Wefco volume is present (above Wefco at 153)
-    ''' </summary>
-    Public Const VERTICAL_TEXT_WITH_WEFCO_Y_OFFSET As Single = 165
+        ''' <summary>
+        ''' Y-axis offset for vertical text when Wefco volume is present (above Wefco at 153)
+        ''' </summary>
+        Public Const VERTICAL_TEXT_WITH_WEFCO_Y_OFFSET As Single = 165
 
-    ''' <summary>
-    ''' Y-axis offset for vertical text when ClientRef is present (no Wefco)
-    ''' </summary>
-    Public Const VERTICAL_TEXT_WITH_CLIENTREF_Y_OFFSET As Single = 148
+        ''' <summary>
+        ''' Y-axis offset for vertical text when ClientRef is present (no Wefco)
+        ''' </summary>
+        Public Const VERTICAL_TEXT_WITH_CLIENTREF_Y_OFFSET As Single = 148
 
-    ''' <summary>
-    ''' Y-axis offset for vertical text when no ClientRef or Wefco (base position)
-    ''' </summary>
-    Public Const VERTICAL_TEXT_BASE_Y_OFFSET As Single = 105
+        ''' <summary>
+        ''' Y-axis offset for vertical text when no ClientRef or Wefco (base position)
+        ''' </summary>
+        Public Const VERTICAL_TEXT_BASE_Y_OFFSET As Single = 105
 
-    ''' <summary>
-    ''' Y-axis offset above line for calibrated number positioning
-    ''' </summary>
-    Public Const CALIBRATED_NUMBER_Y_OFFSET As Single = 7
+        ''' <summary>
+        ''' Y-axis offset above line for calibrated number positioning
+        ''' </summary>
+        Public Const CALIBRATED_NUMBER_Y_OFFSET As Single = 7
 
     ''' <summary>
     ''' Y-axis offset above line for uncalibrated number positioning

@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms
 Imports System.Math
+Imports System.Drawing
 Imports CamBamPlugin.CamBamPlugin.MyPlugin
 
 Namespace CamBamPlugin
@@ -9,6 +10,60 @@ Public Class CalForm
     Private isFileSelected As Boolean
     Private isRegIncrements As Boolean
     Private commonDetails As CommonDetails
+    Private toolTip As New ToolTip()
+
+    Public Sub New()
+        InitializeComponent()
+        InitializeTooltips()
+        ApplyVisualHierarchy()
+    End Sub
+
+    Private Sub InitializeTooltips()
+        toolTip.AutoPopDelay = 5000
+        toolTip.InitialDelay = 500
+        toolTip.ReshowDelay = 200
+        toolTip.ShowAlways = True
+
+        ' Set tooltips for complex fields
+        toolTip.SetToolTip(txtMarkedVolumes, "Display volume numbers only at these intervals (e.g., 100 = show 100L, 200L, 300L, etc.)")
+        toolTip.SetToolTip(txtWefco, "Enter Wefco volume in thousands (e.g., enter 5 for 5000 litres)")
+        toolTip.SetToolTip(chkRegIncs, "Use evenly-spaced increments regardless of calibration data from CSV file")
+        toolTip.SetToolTip(txtFullVol, "Total tank capacity in litres")
+        toolTip.SetToolTip(txtDipHeight, "Maximum dipstick measurement height in millimeters")
+        toolTip.SetToolTip(txtIncrements, "Spacing between measurement marks in millimeters")
+        toolTip.SetToolTip(txtAddInfo, "Optional text displayed vertically on the dipstick (rotated 90°)")
+        toolTip.SetToolTip(txtSecondLine, "Optional second line of vertical text on the dipstick")
+        toolTip.SetToolTip(Button1, "Select a calibration CSV file containing volume/height pairs")
+    End Sub
+
+    Private Sub ApplyVisualHierarchy()
+        ' Make required field labels bold and add asterisk
+        If Label7 IsNot Nothing Then
+            Label7.Font = New Font(Label7.Font, FontStyle.Bold)
+            If Not Label7.Text.EndsWith("*") Then Label7.Text &= " *"
+        End If
+        If Label5 IsNot Nothing Then
+            Label5.Font = New Font(Label5.Font, FontStyle.Bold)
+            If Not Label5.Text.EndsWith("*") Then Label5.Text &= " *"
+        End If
+        If Label8 IsNot Nothing Then
+            Label8.Font = New Font(Label8.Font, FontStyle.Bold)
+            If Not Label8.Text.EndsWith("*") Then Label8.Text &= " *"
+        End If
+
+        ' Make buttons bold
+        btnSubmit.Font = New Font(btnSubmit.Font, FontStyle.Bold)
+        Button1.Font = New Font(Button1.Font, FontStyle.Bold)
+
+        ' Add note about required fields at top of form
+        Dim requiredNote As New Label()
+        requiredNote.Text = "* Required field"
+        requiredNote.Font = New Font("Microsoft Sans Serif", 8, FontStyle.Italic)
+        requiredNote.ForeColor = Color.FromArgb(100, 100, 100)
+        requiredNote.AutoSize = True
+        requiredNote.Location = New Point(12, 260)
+        Me.Controls.Add(requiredNote)
+    End Sub
 
     Private Sub BtnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click
 
@@ -22,6 +77,13 @@ Public Class CalForm
             Return
         End If
 
+        ' Show progress indication
+        Me.Cursor = Cursors.WaitCursor
+        btnSubmit.Enabled = False
+        btnSubmit.Text = "Generating..."
+        Application.DoEvents()
+
+        Try
         'clear the current dipstick from the UI and create a fresh template
         myUI.FileNew(True, True, True)
         commonDetails = New CommonDetails(Me)
@@ -63,6 +125,14 @@ Public Class CalForm
         Me.ResetText()
         commonDetails = Nothing
         Me.Hide()
+        Catch ex As Exception
+            MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Restore UI state
+            Me.Cursor = Cursors.Default
+            btnSubmit.Enabled = True
+            btnSubmit.Text = "&Generate Dipstick"
+        End Try
     End Sub
 
     Private Function CreateVolumeHeightPairsFromFile(myFile As String, ref As String) As SortedList(Of String, String)

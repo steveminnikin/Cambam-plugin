@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms
 Imports System.Math
+Imports System.Drawing
 Imports CamBamPlugin.CamBamPlugin.MyPlugin
 
 Namespace CamBamPlugin
@@ -10,6 +11,58 @@ Public Class UnCalForm
     Private _markedIncrements As Single
     Private commonDetails As CommonDetails
     Private isMarkedIncrement As Boolean
+    Private toolTip As New ToolTip()
+
+    Public Sub New()
+        InitializeComponent()
+        InitializeTooltips()
+        ApplyVisualHierarchy()
+    End Sub
+
+    Private Sub InitializeTooltips()
+        toolTip.AutoPopDelay = 5000
+        toolTip.InitialDelay = 500
+        toolTip.ReshowDelay = 200
+        toolTip.ShowAlways = True
+
+        ' Set tooltips for complex fields
+        toolTip.SetToolTip(txtMarkedIncrements, "Display measurement numbers only at these intervals (e.g., every 10mm, 50mm, etc.)")
+        toolTip.SetToolTip(chkHalfIncs, "Add shorter tick marks between main measurements for easier reading")
+        toolTip.SetToolTip(CboUnits, "Select measurement unit system - all inputs will use this unit")
+        toolTip.SetToolTip(txtHeight, "Total height of the dipstick in selected units")
+        toolTip.SetToolTip(NumDips, "Number of identical dipsticks to generate side-by-side (1 or 2)")
+        toolTip.SetToolTip(txtIncs, "Spacing between measurement marks in selected units")
+        toolTip.SetToolTip(txtAddInfo, "Optional text displayed vertically on the dipstick (rotated 90°)")
+        toolTip.SetToolTip(txtSecondLine, "Optional second line of vertical text on the dipstick")
+    End Sub
+
+    Private Sub ApplyVisualHierarchy()
+        ' Make required field labels bold and add asterisk
+        If Label3 IsNot Nothing Then
+            Label3.Font = New Font(Label3.Font, FontStyle.Bold)
+            If Not Label3.Text.Contains("*") Then Label3.Text = Label3.Text.Replace(":", ": *")
+        End If
+        If txtTop IsNot Nothing Then
+            txtTop.Font = New Font(txtTop.Font, FontStyle.Bold)
+            If Not txtTop.Text.Contains("*") Then txtTop.Text = txtTop.Text.Replace(":", ": *")
+        End If
+
+        ' Make buttons bold
+        btnSubmit.Font = New Font(btnSubmit.Font, FontStyle.Bold)
+
+        ' Initialize unit display with default selection (Millimetres)
+        CdoUnits_SelectedIndexChanged(Nothing, EventArgs.Empty)
+
+        ' Add note about required fields
+        Dim requiredNote As New Label()
+        requiredNote.Text = "* Required field"
+        requiredNote.Font = New Font("Microsoft Sans Serif", 8, FontStyle.Italic)
+        requiredNote.ForeColor = Color.FromArgb(100, 100, 100)
+        requiredNote.AutoSize = True
+        requiredNote.Location = New Point(12, 318)
+        Me.Controls.Add(requiredNote)
+    End Sub
+
     Private Property Increments As Single
         Get
             Return _increments
@@ -63,6 +116,13 @@ Public Class UnCalForm
             Return
         End If
 
+        ' Show progress indication
+        Me.Cursor = Cursors.WaitCursor
+        btnSubmit.Enabled = False
+        btnSubmit.Text = "Generating..."
+        Application.DoEvents()
+
+        Try
         'clear the current dipstick from the UI and create a fresh template
         myUI.FileNew(True, True, True)
         commonDetails = New CommonDetails(, Me)
@@ -103,6 +163,14 @@ Public Class UnCalForm
         myUI.ActiveView.RefreshView()
         commonDetails = Nothing
         Me.Hide()
+        Catch ex As Exception
+            MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Restore UI state
+            Me.Cursor = Cursors.Default
+            btnSubmit.Enabled = True
+            btnSubmit.Text = "&Generate Dipstick"
+        End Try
     End Sub
     Private Sub DrawLinesAndNumbers(cboUnits As String, markedIncrement As Single)
         Dim l As Single
@@ -175,20 +243,30 @@ Public Class UnCalForm
         myUI.ActiveView.CADFile.Add(myHalfIncs)
     End Sub
     Private Sub CdoUnits_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboUnits.SelectedIndexChanged
+        Dim unitAbbrev As String = "mm"  ' Default to millimeters
+
         Select Case CboUnits.SelectedIndex
             Case 0
-                lblIncs.Text = "MMs"
-                lblHeight.Text = "MMs"
-                lblIntervals.Text = "MMs"
+                unitAbbrev = "mm"
+                Label3.Text = "Increment Size (mm):"
+                txtTop.Text = "Dipstick Height (mm):"
+                Label5.Text = "Display Numbers Every (mm):"
             Case 1
-                lblIncs.Text = "CMs"
-                lblHeight.Text = "CMs"
-                lblIntervals.Text = "CMs"
+                unitAbbrev = "cm"
+                Label3.Text = "Increment Size (cm):"
+                txtTop.Text = "Dipstick Height (cm):"
+                Label5.Text = "Display Numbers Every (cm):"
             Case 2
-                lblIncs.Text = "In"
-                lblHeight.Text = "In"
-                lblIntervals.Text = "In"
+                unitAbbrev = "in"
+                Label3.Text = "Increment Size (in):"
+                txtTop.Text = "Dipstick Height (in):"
+                Label5.Text = "Display Numbers Every (in):"
         End Select
+
+        ' Update unit labels (keep for backwards compatibility)
+        lblIncs.Text = unitAbbrev
+        lblHeight.Text = unitAbbrev
+        lblIntervals.Text = unitAbbrev
     End Sub
 
     Private Sub txtIncs_LostFocus(sender As Object, e As EventArgs) Handles txtIncs.TextChanged

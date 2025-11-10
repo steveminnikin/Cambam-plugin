@@ -59,7 +59,9 @@ Partial Class CalForm
         'Button1
         '
         Me.Button1.BackColor = System.Drawing.Color.DarkGray
-        resources.ApplyResources(Me.Button1, "Button1")
+        Me.Button1.Text = "&Browse..."
+        Me.Button1.Location = New System.Drawing.Point(12, 12)
+        Me.Button1.Size = New System.Drawing.Size(90, 23)
         Me.Button1.Name = "Button1"
         Me.Button1.UseVisualStyleBackColor = False
         '
@@ -70,7 +72,7 @@ Partial Class CalForm
         'btnSubmit
         '
         Me.btnSubmit.BackColor = System.Drawing.Color.DarkGray
-        resources.ApplyResources(Me.btnSubmit, "btnSubmit")
+        Me.btnSubmit.Text = "&Generate Dipstick"
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.UseVisualStyleBackColor = False
         '
@@ -94,12 +96,14 @@ Partial Class CalForm
         '
         'Label2
         '
-        resources.ApplyResources(Me.Label2, "Label2")
+        Me.Label2.AutoSize = True
+        Me.Label2.Text = "Number of Copies:"
         Me.Label2.Name = "Label2"
         '
         'Label3
         '
-        resources.ApplyResources(Me.Label3, "Label3")
+        Me.Label3.AutoSize = True
+        Me.Label3.Text = "Client Reference:"
         Me.Label3.Name = "Label3"
         '
         'txtClientRef
@@ -110,7 +114,8 @@ Partial Class CalForm
         '
         'Label4
         '
-        resources.ApplyResources(Me.Label4, "Label4")
+        Me.Label4.AutoSize = True
+        Me.Label4.Text = "Show &REF Marker"
         Me.Label4.Name = "Label4"
         '
         'chkStriker
@@ -127,7 +132,8 @@ Partial Class CalForm
         '
         'Label6
         '
-        resources.ApplyResources(Me.Label6, "Label6")
+        Me.Label6.AutoSize = True
+        Me.Label6.Text = "Vertical Text (Optional):"
         Me.Label6.Name = "Label6"
         '
         'txtFullVol
@@ -138,7 +144,8 @@ Partial Class CalForm
         '
         'Label7
         '
-        resources.ApplyResources(Me.Label7, "Label7")
+        Me.Label7.AutoSize = True
+        Me.Label7.Text = "Full Volume (Litres):"
         Me.Label7.Name = "Label7"
         '
         'Label5
@@ -176,7 +183,8 @@ Partial Class CalForm
         '
         'Label10
         '
-        resources.ApplyResources(Me.Label10, "Label10")
+        Me.Label10.AutoSize = True
+        Me.Label10.Text = "Mark Numbers Every (L):"
         Me.Label10.Name = "Label10"
         '
         'txtSecondLine
@@ -204,7 +212,8 @@ Partial Class CalForm
         '
         'Label12
         '
-        resources.ApplyResources(Me.Label12, "Label12")
+        Me.Label12.AutoSize = True
+        Me.Label12.Text = "Wefco Volume (1000s):"
         Me.Label12.Name = "Label12"
         '
         'Label13
@@ -247,6 +256,7 @@ Partial Class CalForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "CalForm"
+        Me.Text = "Calibrated Dipstick Generator"
         CType(Me.NumDips, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
