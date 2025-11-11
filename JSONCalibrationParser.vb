@@ -41,6 +41,7 @@ Namespace CamBamPlugin
                 data.FullVolume = ExtractFullVolume(jsonData)
                 data.Increments = ExtractIncrements(jsonData)
                 data.TankDimensions = ExtractTankDimensions(jsonData)
+                data.TopHeight = ExtractTopHeight(jsonData)
 
                 ' Parse increment data for volume/height pairs
                 data.VolumeHeightPairs = ReadVolumeHeightPairs(jsonData, useRegularIncrements)
@@ -73,9 +74,9 @@ Namespace CamBamPlugin
             Return ReadVolumeHeightPairs(jsonData, useRegularIncrements)
         End Function
 
-        #End Region
+#End Region
 
-        #Region "Private Parsing Methods"
+#Region "Private Parsing Methods"
 
         ''' <summary>
         ''' Extracts full volume from JSON results section
@@ -112,6 +113,25 @@ Namespace CamBamPlugin
 
             Dim incrementsObj As Object = calculation("increments")
             Return Convert.ToInt32(incrementsObj)
+        End Function
+
+        ''' <summary>
+        ''' Extracts top height from JSON results section
+        ''' </summary>
+        Private Function ExtractTopHeight(jsonData As Dictionary(Of String, Object)) As Single
+            If Not jsonData.ContainsKey("results") Then
+                Throw New FormatException("JSON does not contain 'results' section")
+            End If
+
+            Dim results As Dictionary(Of String, Object) = CType(jsonData("results"), Dictionary(Of String, Object))
+
+            If Not results.ContainsKey("topHeight") Then
+                Throw New FormatException("JSON results section does not contain 'topHeight'")
+            End If
+
+            ' Handle both integer and double types from JSON deserialization
+            Dim topHeightObj As Object = results("topHeight")
+            Return Convert.ToSingle(topHeightObj)
         End Function
 
         ''' <summary>
@@ -171,9 +191,10 @@ Namespace CamBamPlugin
                 Throw New FormatException("JSON does not contain 'incrementData' array")
             End If
 
-            Dim incrementData As Object() = CType(jsonData("incrementData"), Object())
+            ' JavaScriptSerializer deserializes JSON arrays as ArrayList, not Object()
+            Dim incrementData As ArrayList = CType(jsonData("incrementData"), ArrayList)
 
-            If incrementData.Length = 0 Then
+            If incrementData.Count = 0 Then
                 Throw New FormatException("JSON incrementData array is empty")
             End If
 

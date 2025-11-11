@@ -31,6 +31,11 @@ Public Class CalibrationData
     Public Property TankDimensions As String
 
     ''' <summary>
+    ''' Top height value from JSON results (maximum dipstick height in mm)
+    ''' </summary>
+    Public Property TopHeight As Single
+
+    ''' <summary>
     ''' Original filename (without path)
     ''' </summary>
     Public Property FileName As String
@@ -51,6 +56,7 @@ Public Class CalibrationData
         FullVolume = 0
         Increments = 0
         TankDimensions = String.Empty
+        TopHeight = 0
         FileName = String.Empty
         FilePath = String.Empty
     End Sub

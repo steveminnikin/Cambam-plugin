@@ -245,6 +245,7 @@ Namespace CamBamPlugin
 
                     txtFullVol.Text = jsonData.FullVolume.ToString()
                     txtIncrements.Text = jsonData.Increments.ToString()
+                    txtDipHeight.Text = jsonData.TopHeight.ToString()
                     txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(jsonData.Increments)
 
                 Catch ex As Exception

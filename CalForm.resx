@@ -304,7 +304,7 @@
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 320</value>
+    <value>26, 316</value>
   </data>
   <data name="Label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -451,7 +451,7 @@
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 371</value>
+    <value>26, 369</value>
   </data>
   <data name="Label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -511,7 +511,7 @@
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 262</value>
+    <value>26, 254</value>
   </data>
   <data name="Label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -733,7 +733,7 @@
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 216</value>
+    <value>26, 206</value>
   </data>
   <data name="Label10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
