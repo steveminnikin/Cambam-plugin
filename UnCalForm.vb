@@ -30,7 +30,6 @@ Public Class UnCalForm
         toolTip.SetToolTip(chkHalfIncs, "Add shorter tick marks between main measurements for easier reading")
         toolTip.SetToolTip(CboUnits, "Select measurement unit system - all inputs will use this unit")
         toolTip.SetToolTip(txtHeight, "Total height of the dipstick in selected units")
-        toolTip.SetToolTip(NumDips, "Number of identical dipsticks to generate side-by-side (1 or 2)")
         toolTip.SetToolTip(txtIncs, "Spacing between measurement marks in selected units")
         toolTip.SetToolTip(txtAddInfo, "Optional text displayed vertically on the dipstick (rotated 90°)")
         toolTip.SetToolTip(txtSecondLine, "Optional second line of vertical text on the dipstick")
@@ -140,9 +139,9 @@ Public Class UnCalForm
         myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
 
         DrawLinesAndNumbers(cboUnits, markedIncrement)
-        commonDetails.WriteUnits(cboUnits, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
-        If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
-        commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
+        commonDetails.WriteUnits(cboUnits, commonDetails.Model.Height, 0)
+        If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, 0)
+        commonDetails.WriteClientRef(commonDetails.Model.Height, 0, commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
 
         ' Calculate vertical text position based on which elements are present
         If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then
@@ -174,7 +173,7 @@ Public Class UnCalForm
     End Sub
     Private Sub DrawLinesAndNumbers(cboUnits As String, markedIncrement As Single)
         Dim l As Single
-        Dim xOffset As Integer = commonDetails.Model.GetCopyOffset()
+        Dim xOffset As Integer = 0
 
         Do While l + Increments < DipHeight
             l += Increments

@@ -60,11 +60,6 @@ Public Class DipstickModel
     Public Property MarkedVolIncrement As Integer
 
     ''' <summary>
-    ''' Number of dipstick copies to generate (1 or 2)
-    ''' </summary>
-    Public Property Copies As Integer = 1
-
-    ''' <summary>
     ''' Whether to include striker in the design
     ''' </summary>
     Public Property IncludeStriker As Boolean = False
@@ -105,7 +100,6 @@ Public Class DipstickModel
         ' Basic validation rules
         If Height <= 0 Then Return False
         If Increments <= 0 Then Return False
-        If Copies < 1 Or Copies > 2 Then Return False
         If IsCalibrated AndAlso FullVolume <= 0 Then Return False
 
         Return True
@@ -118,7 +112,6 @@ Public Class DipstickModel
     Public Function GetValidationError() As String
         If Height <= 0 Then Return "Height must be greater than zero"
         If Increments <= 0 Then Return "Increments must be greater than zero"
-        If Copies < 1 Or Copies > 2 Then Return "Copies must be 1 or 2"
         If IsCalibrated AndAlso FullVolume <= 0 Then Return "Full volume must be greater than zero for calibrated dipsticks"
 
         Return String.Empty
@@ -133,18 +126,6 @@ Public Class DipstickModel
     ''' <returns>SWC value</returns>
     Public Function CalculateSWC() As Decimal
         Return FullVolume * DipstickConstants.SWC_PERCENTAGE
-    End Function
-
-    ''' <summary>
-    ''' Gets the X-offset for dipstick copies
-    ''' </summary>
-    ''' <returns>X-offset value</returns>
-    Public Function GetCopyOffset() As Single
-        If Copies = 1 Then
-            Return DipstickConstants.SINGLE_COPY_X_OFFSET
-        Else
-            Return DipstickConstants.DUAL_COPY_X_OFFSET
-        End If
     End Function
 
 #End Region

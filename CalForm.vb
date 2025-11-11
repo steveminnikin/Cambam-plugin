@@ -99,11 +99,11 @@ Namespace CamBamPlugin
 
                 myList = CreateVolumeHeightPairsFromFile(myFile, commonDetails.Model.Ref)
                 DrawLinesAndNumbers(myList, commonDetails.Model.Ref)
-                commonDetails.WriteUnits("LITRE", commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
-                If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
-                WriteSWC(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), "LITRE", Round(commonDetails.Model.FullVolume * 0.97))
-                commonDetails.WriteClientRef(commonDetails.Model.Height, commonDetails.Model.GetCopyOffset(), commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
-                If commonDetails.Model.WefcoVolume > 0 Then WriteWefcoRef(commonDetails.Model.WefcoVolume.ToString(), commonDetails.Model.Height, commonDetails.Model.GetCopyOffset())
+                commonDetails.WriteUnits("LITRE", commonDetails.Model.Height, 0)
+                If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, 0)
+                WriteSWC(commonDetails.Model.Height, 0, "LITRE", Round(commonDetails.Model.FullVolume * 0.97))
+                commonDetails.WriteClientRef(commonDetails.Model.Height, 0, commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
+                If commonDetails.Model.WefcoVolume > 0 Then WriteWefcoRef(commonDetails.Model.WefcoVolume.ToString(), commonDetails.Model.Height, 0)
 
                 ' Calculate vertical text position based on which elements are present
                 If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then
@@ -154,7 +154,7 @@ Namespace CamBamPlugin
             Return myList
         End Function
         Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)
-            Dim xOffset As Integer = commonDetails.Model.GetCopyOffset()
+            Dim xOffset As Integer = 0
             For Each i As KeyValuePair(Of String, String) In myList
                 Drawline(i.Key, xOffset)
                 If Not isRegIncrements Then

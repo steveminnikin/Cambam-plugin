@@ -13,7 +13,6 @@ Public Class CommonDetails
             ' Populate instance model
             Model.ClientRef = calForm.txtClientRef.Text
             Model.IncludeStriker = calForm.chkStriker.Checked
-            Model.Copies = CInt(calForm.NumDips.Value)
             Model.Ref = calForm.txtRef.Text
             Model.IsCalibrated = True
 
@@ -36,7 +35,6 @@ Public Class CommonDetails
         ElseIf Not IsNothing(unCalForm) Then
             ' Populate instance model
             Model.Ref = unCalForm.txtRef.Text
-            Model.Copies = CInt(unCalForm.NumDips.Value)
             Model.IsCalibrated = False
 
             ' Parse numeric values safely
@@ -152,18 +150,6 @@ Public Class CommonDetails
 
             End With
             Return myEngrave
-    End Function
-
-    Public Function CreateCopies(n As Integer) As Integer
-        Select Case n
-            Case 1
-                Return DipstickConstants.SINGLE_COPY_X_OFFSET
-            Case 2
-                Return DipstickConstants.DUAL_COPY_X_OFFSET
-            Case Else
-                ' Default to single copy if invalid input
-                Return DipstickConstants.SINGLE_COPY_X_OFFSET
-        End Select
     End Function
 
     Public Sub WriteRef(ref As String, fullVolHeight As Single, x As Single)

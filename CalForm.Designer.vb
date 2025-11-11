@@ -30,8 +30,6 @@ Partial Class CalForm
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.txtRef = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.NumDips = New System.Windows.Forms.NumericUpDown()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtClientRef = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -53,7 +51,6 @@ Partial Class CalForm
         Me.txtWefco = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
-            CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'Button1
@@ -84,18 +81,6 @@ Partial Class CalForm
             '
             resources.ApplyResources(Me.Label1, "Label1")
             Me.Label1.Name = "Label1"
-            '
-            'NumDips
-            '
-            Me.NumDips.BackColor = System.Drawing.Color.White
-            resources.ApplyResources(Me.NumDips, "NumDips")
-            Me.NumDips.Name = "NumDips"
-            Me.NumDips.Value = New Decimal(New Integer() {1, 0, 0, 0})
-            '
-            'Label2
-            '
-            resources.ApplyResources(Me.Label2, "Label2")
-            Me.Label2.Name = "Label2"
             '
             'Label3
             '
@@ -238,8 +223,6 @@ Partial Class CalForm
             Me.Controls.Add(Me.Label4)
             Me.Controls.Add(Me.txtClientRef)
             Me.Controls.Add(Me.Label3)
-            Me.Controls.Add(Me.NumDips)
-            Me.Controls.Add(Me.Label2)
             Me.Controls.Add(Me.Label1)
             Me.Controls.Add(Me.txtRef)
             Me.Controls.Add(Me.btnSubmit)
@@ -247,7 +230,6 @@ Partial Class CalForm
             Me.MaximizeBox = False
             Me.MinimizeBox = False
             Me.Name = "CalForm"
-            CType(Me.NumDips, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
             Me.PerformLayout()
 
@@ -257,8 +239,6 @@ Partial Class CalForm
     Friend WithEvents btnSubmit As System.Windows.Forms.Button
     Friend WithEvents txtRef As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents NumDips As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As Windows.Forms.Label
     Friend WithEvents txtClientRef As Windows.Forms.TextBox
     Friend WithEvents Label4 As Windows.Forms.Label

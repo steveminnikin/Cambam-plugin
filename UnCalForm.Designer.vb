@@ -26,9 +26,7 @@ Partial Class UnCalForm
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UnCalForm))
         Me.btnSubmit = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.CboUnits = New System.Windows.Forms.ComboBox()
-        Me.NumDips = New System.Windows.Forms.NumericUpDown()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtIncs = New System.Windows.Forms.TextBox()
@@ -49,7 +47,6 @@ Partial Class UnCalForm
         Me.Label11 = New System.Windows.Forms.Label()
         Me.txtAddInfo = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnSubmit
@@ -62,16 +59,6 @@ Partial Class UnCalForm
         Me.btnSubmit.Text = "&Generate Dipstick"
         Me.btnSubmit.UseVisualStyleBackColor = True
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(35, 227)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(107, 16)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Number of Copies:"
-        '
         'CboUnits
         '
         Me.CboUnits.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -83,15 +70,6 @@ Partial Class UnCalForm
         Me.CboUnits.Size = New System.Drawing.Size(97, 24)
         Me.CboUnits.TabIndex = 1
         Me.CboUnits.Text = "Millimetres"
-        '
-        'NumDips
-        '
-        Me.NumDips.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NumDips.Location = New System.Drawing.Point(203, 220)
-        Me.NumDips.Name = "NumDips"
-        Me.NumDips.Size = New System.Drawing.Size(50, 22)
-        Me.NumDips.TabIndex = 6
-        Me.NumDips.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label2
         '
@@ -315,24 +293,19 @@ Partial Class UnCalForm
         Me.Controls.Add(Me.txtIncs)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.NumDips)
         Me.Controls.Add(Me.CboUnits)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnSubmit)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "UnCalForm"
         Me.Text = "Uncalibrated Dipstick Generator"
-        CType(Me.NumDips, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents btnSubmit As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents CboUnits As System.Windows.Forms.ComboBox
-    Friend WithEvents NumDips As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtIncs As System.Windows.Forms.TextBox
