@@ -63,6 +63,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -95,7 +96,7 @@
     <Compile Include="DipstickConstants.vb" />
     <Compile Include="DipstickModel.vb" />
     <Compile Include="CalibrationData.vb" />
-    <Compile Include="CalibratedDipstickParser.vb" />
+    <Compile Include="JSONCalibrationParser.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

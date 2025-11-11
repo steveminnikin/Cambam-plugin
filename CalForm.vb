@@ -27,13 +27,13 @@ Namespace CamBamPlugin
             ' Set tooltips for complex fields
             toolTip.SetToolTip(txtMarkedVolumes, "Display volume numbers only at these intervals (e.g., 100 = show 100L, 200L, 300L, etc.)")
             toolTip.SetToolTip(txtWefco, "Enter Wefco volume in thousands (e.g., enter 5 for 5000 litres)")
-            toolTip.SetToolTip(chkRegIncs, "Use evenly-spaced increments regardless of calibration data from CSV file")
+            toolTip.SetToolTip(chkRegIncs, "Use evenly-spaced increments regardless of calibration data from JSON file")
             toolTip.SetToolTip(txtFullVol, "Total tank capacity in litres")
             toolTip.SetToolTip(txtDipHeight, "Maximum dipstick measurement height in millimeters")
             toolTip.SetToolTip(txtIncrements, "Spacing between measurement marks in millimeters")
             toolTip.SetToolTip(txtAddInfo, "Optional text displayed vertically on the dipstick (rotated 90°)")
             toolTip.SetToolTip(txtSecondLine, "Optional second line of vertical text on the dipstick")
-            toolTip.SetToolTip(Button1, "Select a calibration CSV file containing volume/height pairs")
+            toolTip.SetToolTip(Button1, "Select a JSON calibration file containing volume/height data")
         End Sub
 
         Private Sub ApplyVisualHierarchy()
@@ -137,19 +137,18 @@ Namespace CamBamPlugin
 
         Private Function CreateVolumeHeightPairsFromFile(myFile As String, ref As String) As SortedList(Of String, String)
             Dim myList As New SortedList(Of String, String)
-            Dim parser As New CalibratedDipstickParser()
 
             Try
-                ' Use the centralized CSV parser for better error handling and consistency
-                myList = parser.ReadVolumeHeightPairs(myFile, isRegIncrements)
+                Dim jsonParser As New JSONCalibrationParser()
+                myList = jsonParser.ReadVolumeHeightPairs(myFile, isRegIncrements)
             Catch ex As IO.FileNotFoundException
                 MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Catch ex As IO.IOException
                 MessageBox.Show("Error reading file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Catch ex As FormatException
-                MessageBox.Show("Error parsing calibration file: " & ex.Message, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error parsing JSON file: " & ex.Message, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Catch ex As Exception
-                MessageBox.Show("Unexpected error parsing calibration file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Unexpected error parsing JSON file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
             Return myList
@@ -223,10 +222,10 @@ Namespace CamBamPlugin
 
         Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-            ' Configure file dialog to only show CSV files
-            OpenFileDialog1.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*"
+            ' Configure file dialog to only show JSON files
+            OpenFileDialog1.Filter = "JSON Calibration Files (*.json)|*.json|All Files (*.*)|*.*"
             OpenFileDialog1.FilterIndex = 1
-            OpenFileDialog1.Title = "Select Calibration CSV File"
+            OpenFileDialog1.Title = "Select JSON Calibration File"
 
             If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
                 myFile = OpenFileDialog1.FileName
@@ -239,20 +238,23 @@ Namespace CamBamPlugin
 
                 Try
                     isFileSelected = True
-                    txtFullVol.Text = TrimFullVolume(myFile)
-                    txtIncrements.Text = TrimIncrements(myFile)
-                    ' Store tank details in a local variable - will be populated to Model in constructor
-                    Dim tankDims As String = TrimTankDimensionsFromFileName(myFile)
-                    txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(txtIncrements.Text)
-            Catch ex As Exception
-                MessageBox.Show("Error parsing filename: " & ex.Message & vbCrLf & vbCrLf & _
-                    "Expected format: [description]_FV [volume]_INCS [increment]_([dimensions])_other.csv", _
-                    "Invalid Filename Format", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                isFileSelected = False
-            End Try
-        End If
 
-    End Sub
+                    ' Extract metadata from JSON file and populate form fields
+                    Dim parser As New JSONCalibrationParser()
+                    Dim jsonData As CalibrationData = parser.Parse(myFile, False)
+
+                    txtFullVol.Text = jsonData.FullVolume.ToString()
+                    txtIncrements.Text = jsonData.Increments.ToString()
+                    txtMarkedVolumes.Text = AddSuggestedMarkedIncrements(jsonData.Increments)
+
+                Catch ex As Exception
+                    MessageBox.Show("Error parsing JSON calibration file: " & ex.Message, _
+                        "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    isFileSelected = False
+                End Try
+            End If
+
+        End Sub
 
     Private Function ValidateSelectedFile(filePath As String) As Boolean
         ' Check if file path is empty
@@ -268,11 +270,11 @@ Namespace CamBamPlugin
             Return False
         End If
 
-        ' Check if file has .csv extension
+        ' Check if file has .json extension
         Dim extension As String = System.IO.Path.GetExtension(filePath).ToLower()
-        If extension <> ".csv" Then
-            MessageBox.Show("The selected file is not a CSV file." & vbCrLf & vbCrLf & _
-                "Please select a file with .csv extension." & vbCrLf & _
+        If extension <> ".json" Then
+            MessageBox.Show("The selected file is not a JSON calibration file." & vbCrLf & vbCrLf & _
+                "Please select a file with .json extension." & vbCrLf & _
                 "Selected: " & extension, _
                 "Invalid File Type", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return False
@@ -373,56 +375,6 @@ Namespace CamBamPlugin
 
         Return True
     End Function
-
-    Private Function TrimFullVolume(myFile As String) As Integer
-        Dim fullVolume As String
-        Dim position As Integer
-
-        position = myFile.IndexOf("FV ")
-        fullVolume = myFile.Substring(position + 3)
-        position = fullVolume.IndexOf("_INCS")
-        fullVolume = fullVolume.Remove(position)
-
-        Return fullVolume
-    End Function
-    Private Function TrimIncrements(myFile As String) As Integer
-        Dim increments As String
-        Dim incrementsPlusDetails As String
-        Dim startPosition As Integer
-        Dim endPosition As Integer
-
-        startPosition = myFile.IndexOf("_INCS ")
-        incrementsPlusDetails = myFile.Remove(0, startPosition + 5)
-
-        endPosition = incrementsPlusDetails.IndexOf("_(")
-        increments = incrementsPlusDetails.Remove(endPosition)
-
-        Return increments
-    End Function
-    Function TrimTankDimensionsFromFileName(myFile As String) As String
-        Dim tankDimensions As String
-        Dim startPosition As Integer
-        Dim endPosition As Integer
-        Dim length As Integer
-
-        startPosition = myFile.IndexOf("(")
-        endPosition = myFile.IndexOf(")") - 1
-        length = endPosition - startPosition
-        tankDimensions = myFile.Substring(startPosition + 1, length)
-
-
-        Return tankDimensions
-    End Function
-
-    'Private Function TrimFullHeight(myFile As String) As Integer
-    '    Dim fullMark As String
-    '    Dim position As Integer
-
-    '    position = myFile.IndexOf("_@ ")
-    '    fullMark = myFile.Remove(0, position + 5)
-
-    '    Return fullMark
-    'End Function
 
     Private Function AddSuggestedMarkedIncrements(increments As Integer) As Integer
         Select Case increments

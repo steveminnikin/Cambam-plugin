@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a CamBam plugin written in Visual Basic .NET that generates dipstick CAD files with engraving toolpaths. The plugin integrates into CamBam (a CAD/CAM software) and provides three workflows for creating dipstick designs:
 
-1. **Calibrated dipsticks** - Uses calibration data from CSV files to create accurate volume markings
+1. **Calibrated dipsticks** - Uses calibration data from JSON files to create accurate volume markings
 2. **Uncalibrated dipsticks** - Creates dipsticks with regular increments without calibration data
 3. **Text-only dipsticks** - Generates reference text without measurement markings
 
@@ -21,12 +21,12 @@ msbuild CamBamPlugin.vbproj /p:Configuration=Debug
 The Debug configuration outputs directly to: `C:\Program Files (x86)\CamBam plus 0.9.8\plugins\`
 
 ### Dependencies
-- **Target Framework:** .NET Framework 3.5
+- **Target Framework:** .NET Framework 4.8
 - **Platform:** x86 (32-bit)
 - **External References:**
   - `CamBam.CAD.dll` - Located in CamBam installation directory
   - `CamBam.Geom.dll` - Located in CamBam installation directory
-  - System assemblies (Windows.Forms, Drawing, etc.)
+  - System assemblies (Windows.Forms, Drawing, Web.Extensions, etc.)
 
 ### Solution Structure
 - `CamBamPlugin.sln` - Visual Studio solution file
@@ -43,7 +43,7 @@ The Debug configuration outputs directly to: `C:\Program Files (x86)\CamBam plus
 ### Core Components
 
 **Forms (UI Layer):**
-- `CalForm.vb` - Calibrated dipstick generation with CSV file input
+- `CalForm.vb` - Calibrated dipstick generation with JSON file input
 - `UnCalForm.vb` - Uncalibrated dipstick with manual increment settings
 - `textForm.vb` - Text-only dipstick generation
 
@@ -52,6 +52,10 @@ The Debug configuration outputs directly to: `C:\Program Files (x86)\CamBam plus
   - Factory methods for creating CADFile, Layer, CAMPart, and MOPEngrave objects
   - Text rendering methods (`WriteRef`, `WriteUnits`, `WriteClientRef`, `WriteVerticalInfo`)
   - Engraving operation setup for both laser and spindle engraving
+- `JSONCalibrationParser.vb` - Parses JSON calibration files
+  - Extracts tank metadata (dimensions, full volume, increments)
+  - Reads volume/height pairs from incrementData array
+  - Returns SortedList for dipstick generation
 
 ### Data Flow
 
@@ -66,10 +70,11 @@ The Debug configuration outputs directly to: `C:\Program Files (x86)\CamBam plus
 ### Key Design Patterns
 
 **Calibrated Workflow (`CalForm`):**
-- Reads CSV files with volume/height pairs
-- Parses filename to extract tank details, full volume, and increments
+- Reads JSON files with volume/height pairs and tank metadata
+- Extracts tank details, full volume, and increments from JSON structure
 - Supports both regular increments and volume-based markings
 - Marks only specified volume intervals (e.g., every 100L)
+- JSON format includes: exportVersion, tank dimensions, calculation settings, results, and incrementData array
 
 **Uncalibrated Workflow (`UnCalForm`):**
 - Generates evenly-spaced lines at user-defined increments
