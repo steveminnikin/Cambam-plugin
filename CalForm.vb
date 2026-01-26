@@ -54,15 +54,6 @@ Namespace CamBamPlugin
             ' Make buttons bold
             btnSubmit.Font = New Font(btnSubmit.Font, FontStyle.Bold)
             Button1.Font = New Font(Button1.Font, FontStyle.Bold)
-
-            ' Add note about required fields at top of form
-            Dim requiredNote As New Label()
-            requiredNote.Text = "* Required field"
-            requiredNote.Font = New Font("Microsoft Sans Serif", 8, FontStyle.Italic)
-            requiredNote.ForeColor = Color.FromArgb(100, 100, 100)
-            requiredNote.AutoSize = True
-            requiredNote.Location = New Point(12, 260)
-            Me.Controls.Add(requiredNote)
         End Sub
 
         Private Sub BtnSubmit_Click(sender As Object, E As EventArgs) Handles btnSubmit.Click

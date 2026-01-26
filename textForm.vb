@@ -43,14 +43,6 @@ Public Class textForm
 
         ' Make buttons bold
         Button1.Font = New Font(Button1.Font, FontStyle.Bold)
-
-        ' Replace old "required" label with consistent asterisk note
-        If Label2 IsNot Nothing Then
-            Label2.Text = "* Required field"
-            Label2.Font = New Font("Microsoft Sans Serif", 8, FontStyle.Italic)
-            Label2.ForeColor = Color.FromArgb(100, 100, 100)
-            Label2.Location = New Point(12, 140)
-        End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

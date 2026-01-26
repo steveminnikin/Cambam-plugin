@@ -185,7 +185,16 @@ This is NOT a bug. The CamBam API follows the standard document-based applicatio
 
 ## Low Priority (Future Improvements)
 
-### 12. ✅ FIXED: Shared State in CommonDetails
+### 12. ✅ FIXED: Vertical Input Box Not Accepting Input
+**File:** `textForm.Designer.vb`
+**Status:** Fixed
+**Issue:** Vertical info input box was unable to receive user input in textForm
+**Root Cause:** GroupBox was added to form Controls after the textboxes, causing it to render on top and block input. Textboxes were positioned inside GroupBox area but were children of the form, not the GroupBox.
+**Fix:** Made txtFirstVertical, txtSecondVertical, and their labels children of GroupBox1 with coordinates relative to the GroupBox. Also applied consistent GroupBox treatment to CalForm and UnCalForm for visual consistency.
+
+---
+
+### 13. ✅ FIXED: Shared State in CommonDetails
 **File:** `CommonDetails.vb`, All forms
 **Status:** Fixed
 **Issue:** All properties were Shared, creating global mutable state
