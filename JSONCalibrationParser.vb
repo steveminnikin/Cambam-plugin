@@ -40,6 +40,7 @@ Namespace CamBamPlugin
                 ' Extract metadata from JSON structure
                 data.FullVolume = ExtractFullVolume(jsonData)
                 data.Increments = ExtractIncrements(jsonData)
+                data.TankType = ExtractTankType(jsonData)
                 data.TankDimensions = ExtractTankDimensions(jsonData)
                 data.TopHeight = ExtractTopHeight(jsonData)
 
@@ -135,8 +136,35 @@ Namespace CamBamPlugin
         End Function
 
         ''' <summary>
-        ''' Extracts tank dimensions from JSON tank section
-        ''' Returns formatted string like "5415x1542x1545"
+        ''' Extracts tank type from JSON tank section
+        ''' Returns tank type string like "Rectangular", "Horizontal Flat Ends", "Horizontal Dished Ends"
+        ''' </summary>
+        Private Function ExtractTankType(jsonData As Dictionary(Of String, Object)) As String
+            Try
+                If Not jsonData.ContainsKey("tank") Then
+                    Return String.Empty
+                End If
+
+                Dim tank As Dictionary(Of String, Object) = CType(jsonData("tank"), Dictionary(Of String, Object))
+
+                If Not tank.ContainsKey("type") Then
+                    Return String.Empty
+                End If
+
+                Return Convert.ToString(tank("type"))
+            Catch ex As Exception
+                Return String.Empty
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Extracts tank dimensions from JSON tank section based on tank type.
+        ''' Returns formatted string with underscore separators for use as filename.
+        ''' - Rectangular: length_width_height (e.g., "1235_2545_1555")
+        ''' - Horizontal Flat Ends: diameter_length (e.g., "2488_2999")
+        ''' - Horizontal Dished Ends: diameter_stLength_dishEndRad_knuckleRad (e.g., "2488_2999_2500_70")
+        '''   OR diameter_stLength_ovLength if ovLength is provided instead
+        '''   Optional _tilt_dipPoint appended if those values are present
         ''' </summary>
         Private Function ExtractTankDimensions(jsonData As Dictionary(Of String, Object)) As String
             Try
@@ -152,23 +180,54 @@ Namespace CamBamPlugin
 
                 Dim dimensions As Dictionary(Of String, Object) = CType(tank("dimensions"), Dictionary(Of String, Object))
 
-                ' Build dimension string based on available properties
+                ' Get tank type to determine which dimensions to use
+                Dim tankType As String = String.Empty
+                If tank.ContainsKey("type") Then
+                    tankType = Convert.ToString(tank("type"))
+                End If
+
                 Dim dimList As New List(Of String)()
 
-                If dimensions.ContainsKey("length") AndAlso dimensions("length") IsNot Nothing Then
-                    dimList.Add(Convert.ToInt32(dimensions("length")).ToString())
-                End If
+                Select Case tankType
+                    Case "Rectangular"
+                        ' Rectangular: length_width_height
+                        AddDimensionIfValid(dimList, dimensions, "length")
+                        AddDimensionIfValid(dimList, dimensions, "width")
+                        AddDimensionIfValid(dimList, dimensions, "height")
 
-                If dimensions.ContainsKey("width") AndAlso dimensions("width") IsNot Nothing Then
-                    dimList.Add(Convert.ToInt32(dimensions("width")).ToString())
-                End If
+                    Case "Horizontal Flat Ends"
+                        ' Horizontal Flat Ends: flatDiameter_flatLength
+                        AddDimensionIfValid(dimList, dimensions, "flatDiameter")
+                        AddDimensionIfValid(dimList, dimensions, "flatLength")
 
-                If dimensions.ContainsKey("height") AndAlso dimensions("height") IsNot Nothing Then
-                    dimList.Add(Convert.ToInt32(dimensions("height")).ToString())
-                End If
+                    Case "Horizontal Dished Ends"
+                        ' Horizontal Dished Ends: dishDiameter_stLength_dishEndRad_knuckleRad
+                        ' OR dishDiameter_stLength_ovLength (if ovLength provided instead of dishEndRad/knuckleRad)
+                        AddDimensionIfValid(dimList, dimensions, "dishDiameter")
+                        AddDimensionIfValid(dimList, dimensions, "stLength")
+
+                        ' Check if ovLength is provided (alternative to dishEndRad/knuckleRad)
+                        If HasValidDimension(dimensions, "ovLength") Then
+                            AddDimensionIfValid(dimList, dimensions, "ovLength")
+                        Else
+                            ' Use dishEndRad and knuckleRad
+                            AddDimensionIfValid(dimList, dimensions, "dishEndRad")
+                            AddDimensionIfValid(dimList, dimensions, "knuckleRad")
+                        End If
+
+                        ' Add optional tilt and dipPoint if present
+                        AddDimensionIfValid(dimList, dimensions, "tilt")
+                        AddDimensionIfValid(dimList, dimensions, "dipPoint")
+
+                    Case Else
+                        ' Fallback: try rectangular dimensions for backwards compatibility
+                        AddDimensionIfValid(dimList, dimensions, "length")
+                        AddDimensionIfValid(dimList, dimensions, "width")
+                        AddDimensionIfValid(dimList, dimensions, "height")
+                End Select
 
                 If dimList.Count > 0 Then
-                    Return String.Join("x", dimList.ToArray())
+                    Return String.Join("_", dimList.ToArray())
                 End If
 
                 Return String.Empty
@@ -177,6 +236,55 @@ Namespace CamBamPlugin
                 Return String.Empty
             End Try
         End Function
+
+        ''' <summary>
+        ''' Helper function to check if a dimension field exists and has a valid (non-null) value
+        ''' </summary>
+        Private Function HasValidDimension(dimensions As Dictionary(Of String, Object), fieldName As String) As Boolean
+            If Not dimensions.ContainsKey(fieldName) Then
+                Return False
+            End If
+
+            Dim value As Object = dimensions(fieldName)
+            If value Is Nothing Then
+                Return False
+            End If
+
+            ' Check if it's a numeric value (not zero for optional fields like tilt)
+            Try
+                Dim numValue As Double = Convert.ToDouble(value)
+                Return True
+            Catch
+                ' For string values like dipPoint, check if not empty
+                Dim strValue As String = Convert.ToString(value)
+                Return Not String.IsNullOrWhiteSpace(strValue)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Helper function to add a dimension value to the list if it exists and is valid
+        ''' </summary>
+        Private Sub AddDimensionIfValid(dimList As List(Of String), dimensions As Dictionary(Of String, Object), fieldName As String)
+            If Not HasValidDimension(dimensions, fieldName) Then
+                Return
+            End If
+
+            Dim value As Object = dimensions(fieldName)
+
+            ' Try to convert to integer for numeric values
+            Try
+                Dim numValue As Double = Convert.ToDouble(value)
+                ' Use integer if it's a whole number, otherwise keep decimal
+                If numValue = Math.Floor(numValue) Then
+                    dimList.Add(Convert.ToInt32(numValue).ToString())
+                Else
+                    dimList.Add(numValue.ToString())
+                End If
+            Catch
+                ' For string values (like dipPoint), add as-is
+                dimList.Add(Convert.ToString(value))
+            End Try
+        End Sub
 
         ''' <summary>
         ''' Reads volume/height pairs from parsed JSON data

@@ -9,19 +9,38 @@ This document tracks planned features and enhancements for the CamBam Dipstick P
 
 ## Pending Features
 
-### 1. Automatic CAD Object Naming Based on Tank Dimensions
-**Status:** Not Started
-**Priority:** TBD
-**Description:** Automatically name/label CAD objects based on the tank dimensions (e.g., height, volume, diameter) to improve organization and identification in CamBam.
-
-**Potential Implementation:**
-- Extract tank dimensions from JSON calibration data or user input
-- Generate descriptive names like "Dipstick_1500mm_5000L" or similar
-- Apply to CADFile, Layer, or Part names
+*No pending features at this time.*
 
 ---
 
 ## Completed Features
+
+### 1. Automatic CAD Object Naming Based on Tank Dimensions
+**Status:** Completed (2026-01-26)
+**Priority:** High
+**Description:** Automatically name CAD files based on tank shape and dimensions for easy identification. The filename is generated based on tank type:
+
+**Naming Conventions:**
+| Tank Type | Format | Example |
+|-----------|--------|---------|
+| Rectangular | length_width_height | `1235_2545_1555.nc` |
+| Horizontal Flat Ends | diameter_length | `2488_2999.nc` |
+| Horizontal Dished Ends | diameter_stLength_dishEndRad_knuckleRad | `2488_2999_2500_70.nc` |
+| (with tilt/dipPoint) | ...add _tilt_dipPoint if present | `2488_2999_2500_70_5_center.nc` |
+| (with ovLength) | diameter_stLength_ovLength | `2488_2999_3500.nc` |
+
+**Implementation:**
+- `JSONCalibrationParser.vb` - Updated `ExtractTankDimensions()` to detect tank type and extract appropriate dimension fields
+- `JSONCalibrationParser.vb` - Added `ExtractTankType()` helper method
+- `JSONCalibrationParser.vb` - Added `HasValidDimension()` and `AddDimensionIfValid()` helper methods
+- `CalibrationData.vb` - Added `TankType` property
+
+**JSON Fields Used:**
+- **Rectangular:** `length`, `width`, `height`
+- **Horizontal Flat Ends:** `flatDiameter`, `flatLength`
+- **Horizontal Dished Ends:** `dishDiameter`, `stLength`, `dishEndRad`, `knuckleRad`, `ovLength` (optional alternative), `tilt` (optional), `dipPoint` (optional)
+
+---
 
 ### 2. Excel Document for Manual Calibration Data Entry
 **Status:** Completed (2026-01-26)

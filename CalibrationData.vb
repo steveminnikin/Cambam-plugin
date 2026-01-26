@@ -26,9 +26,17 @@ Public Class CalibrationData
     Public Property Increments As Integer
 
     ''' <summary>
-    ''' Tank dimensions extracted from filename (e.g. 1200x800x600)
+    ''' Tank dimensions formatted for filename based on tank type.
+    ''' - Rectangular: "length_width_height" (e.g., "1235_2545_1555")
+    ''' - Horizontal Flat Ends: "diameter_length" (e.g., "2488_2999")
+    ''' - Horizontal Dished Ends: "diameter_stLength_dishEndRad_knuckleRad" (e.g., "2488_2999_2500_70")
     ''' </summary>
     Public Property TankDimensions As String
+
+    ''' <summary>
+    ''' Tank type from JSON (e.g., "Rectangular", "Horizontal Flat Ends", "Horizontal Dished Ends")
+    ''' </summary>
+    Public Property TankType As String
 
     ''' <summary>
     ''' Top height value from JSON results (maximum dipstick height in mm)
@@ -56,6 +64,7 @@ Public Class CalibrationData
         FullVolume = 0
         Increments = 0
         TankDimensions = String.Empty
+        TankType = String.Empty
         TopHeight = 0
         FileName = String.Empty
         FilePath = String.Empty
