@@ -1,7 +1,7 @@
 # Feature Backlog
 
 **Created:** 2026-01-25
-**Last Updated:** 2026-01-25
+**Last Updated:** 2026-01-26
 
 This document tracks planned features and enhancements for the CamBam Dipstick Plugin.
 
@@ -21,27 +21,25 @@ This document tracks planned features and enhancements for the CamBam Dipstick P
 
 ---
 
-### 2. Excel Document for Manual Calibration Data Entry
-**Status:** Not Started
-**Priority:** TBD
-**Description:** Create an Excel spreadsheet/template that allows users to manually enter height and volume pairs, which then outputs the required JSON file format for the plugin to read.
-
-**Requirements:**
-- Excel template with columns for height (mm) and volume (L)
-- Validation of entered data
-- Export functionality to generate properly formatted JSON
-- Include tank metadata fields (dimensions, full volume, increments)
-
-**Potential Approaches:**
-- VBA macro in Excel to export JSON
-- Standalone converter utility
-- Excel formula-based JSON generation
-
----
-
 ## Completed Features
 
-*(None yet)*
+### 2. Excel Document for Manual Calibration Data Entry
+**Status:** Completed (2026-01-26)
+**Priority:** High
+**Description:** Created an Excel spreadsheet/template that allows users to manually enter height and volume pairs, which outputs the required JSON file format for the plugin to read.
+
+**Implementation:**
+- `DipstickCalibrationTemplate.xlsm` - Excel template with structured data entry sections
+- `JSONExport.bas` - VBA module for exporting to JSON format
+- `CreateExcelTemplate.ps1` - PowerShell script for template generation
+- `EXCEL_TEMPLATE_README.md` - Setup and usage instructions
+
+**Features Delivered:**
+- Excel template with columns for volume (L) and height (mm)
+- Validation of required fields before export
+- VBA macro exports properly formatted JSON
+- Includes tank metadata fields (dimensions, full volume, increments)
+- Clear instructions for importing VBA module and using template
 
 ---
 

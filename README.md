@@ -5,7 +5,7 @@ A CamBam plugin written in Visual Basic .NET that generates dipstick CAD files w
 ## Features
 
 ### Core Functionality
-- **Calibrated Dipsticks**: Uses calibration data from CSV files to create accurate volume markings
+- **Calibrated Dipsticks**: Uses calibration data from JSON files to create accurate volume markings
 - **Uncalibrated Dipsticks**: Creates dipsticks with regular increments without calibration data
 - **Text-only Dipsticks**: Generates reference text without measurement markings
 - Supports both laser and spindle engraving operations
@@ -130,7 +130,14 @@ CamBamPlugin/
 │   ├── README.md               # This file
 │   ├── CLAUDE.md               # Detailed technical documentation
 │   ├── BUGS.md                 # Known bugs and fixes
+│   ├── BACKLOG.md              # Feature backlog and requests
 │   └── UI_UX_IMPROVEMENTS.md   # UI/UX improvement backlog and status
+│
+├── Excel Template (Manual Calibration)
+│   ├── DipstickCalibrationTemplate.xlsm  # Excel template for data entry
+│   ├── JSONExport.bas                    # VBA module for JSON export
+│   ├── CreateExcelTemplate.ps1           # PowerShell script to generate template
+│   └── EXCEL_TEMPLATE_README.md          # Template usage instructions
 │
 └── Project Files
     ├── CamBamPlugin.sln        # Visual Studio solution
@@ -166,27 +173,45 @@ CamBamPlugin/
 2. Or double-click in Solution Explorer to open designer
 3. Make changes and test with F5
 
-## CSV File Format (Calibrated Dipsticks)
+## JSON File Format (Calibrated Dipsticks)
 
-The calibrated dipstick workflow expects CSV files with specific naming:
+The calibrated dipstick workflow expects JSON files with the following structure:
 
-**Filename Format:**
-```
-[description]_FV [volume]_INCS [increment]_([dimensions])_other.csv
+```json
+{
+  "tank": {
+    "dimensions": {
+      "length": 1000,
+      "width": 500,
+      "height": 800
+    }
+  },
+  "calculation": {
+    "increments": 100
+  },
+  "results": {
+    "fullVolume": 5000,
+    "topHeight": 750
+  },
+  "incrementData": [
+    { "volume": 0, "height": 0 },
+    { "volume": 100, "height": 45 },
+    { "volume": 200, "height": 89 }
+  ]
+}
 ```
 
-**Example:**
-```
-Tank123_FV 5000_INCS 25_(1200x800x600)_calibrated.csv
-```
+### Creating JSON Files Manually
 
-**CSV Content:**
-```
-height1,volume1
-height2,volume2
-height3,volume3
-...
-```
+Use the included Excel template for manual calibration data entry:
+
+1. Open `DipstickCalibrationTemplate.xlsm`
+2. Import `JSONExport.bas` into the VBA editor (Alt+F11 > File > Import)
+3. Fill in required fields (Increments, Full Volume, Top Height)
+4. Enter volume/height pairs in the data table
+5. Run the `ExportToJSON` macro to generate the JSON file
+
+See [EXCEL_TEMPLATE_README.md](EXCEL_TEMPLATE_README.md) for detailed instructions.
 
 ## Configuration
 
@@ -221,9 +246,17 @@ These are expected at: `C:\Program Files (x86)\CamBam plus 1.0\`
 
 - **[CLAUDE.md](CLAUDE.md)** - Detailed technical documentation for AI assistance
 - **[BUGS.md](BUGS.md)** - Known bugs, fixes, and improvement suggestions
+- **[BACKLOG.md](BACKLOG.md)** - Feature backlog and planned enhancements
 - **[UI_UX_IMPROVEMENTS.md](UI_UX_IMPROVEMENTS.md)** - UI/UX improvement backlog and implementation details
+- **[EXCEL_TEMPLATE_README.md](EXCEL_TEMPLATE_README.md)** - Excel template usage for manual calibration data
 
 ## Recent Updates
+
+### January 2026 - JSON Migration & Excel Template
+- **JSON Calibration Format**: Replaced CSV with structured JSON for calibration data
+- **Excel Template**: Added `DipstickCalibrationTemplate.xlsm` for manual data entry with JSON export
+- **Form Layout Fixes**: Fixed GroupBox z-order issues blocking vertical text input
+- **Improved Form Layouts**: Consistent spacing and GroupBox containment across all forms
 
 ### November 2025 - UI/UX Enhancement Release
 **9 Major Improvements Across All Forms:**
