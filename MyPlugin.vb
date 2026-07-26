@@ -1,6 +1,7 @@
 ﻿
 Imports System.Windows.Forms
-Imports CamBamPlugin.CommonDetails
+
+Namespace CamBamPlugin
 
 Public Class MyPlugin
     Public Shared myUI As CamBamUI
@@ -38,3 +39,5 @@ Public Class MyPlugin
         mytextForm.Show()
     End Sub
 End Class
+
+End Namespace

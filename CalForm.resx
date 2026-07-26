@@ -112,33 +112,34 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Button1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>293, 39</value>
+    <value>340, 50</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Button1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="Button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 24</value>
+    <value>105, 26</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Button1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>33</value>
   </data>
   <data name="Button1.Text" xml:space="preserve">
-    <value>Select File...</value>
+    <value>&amp;Browse...</value>
   </data>
   <data name="&gt;&gt;Button1.Name" xml:space="preserve">
     <value>Button1</value>
   </data>
   <data name="&gt;&gt;Button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Button1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -146,29 +147,29 @@
   <data name="&gt;&gt;Button1.ZOrder" xml:space="preserve">
     <value>26</value>
   </data>
-  <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="btnSubmit.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
   <data name="btnSubmit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>316, 398</value>
+    <value>301, 458</value>
+  </data>
+  <data name="btnSubmit.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="btnSubmit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>126, 26</value>
   </data>
   <data name="btnSubmit.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>32</value>
   </data>
   <data name="btnSubmit.Text" xml:space="preserve">
-    <value>Submit</value>
+    <value>&amp;Generate Dipstick</value>
   </data>
   <data name="&gt;&gt;btnSubmit.Name" xml:space="preserve">
     <value>btnSubmit</value>
   </data>
   <data name="&gt;&gt;btnSubmit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnSubmit.Parent" xml:space="preserve">
     <value>$this</value>
@@ -180,10 +181,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtRef.Location" type="System.Drawing.Point, System.Drawing">
-    <value>155, 40</value>
+    <value>181, 46</value>
+  </data>
+  <data name="txtRef.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtRef.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 22</value>
+    <value>105, 22</value>
   </data>
   <data name="txtRef.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -192,7 +196,7 @@
     <value>txtRef</value>
   </data>
   <data name="&gt;&gt;txtRef.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtRef.Parent" xml:space="preserve">
     <value>$this</value>
@@ -204,13 +208,16 @@
     <value>True</value>
   </data>
   <data name="Label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 46</value>
+    <value>26, 53</value>
+  </data>
+  <data name="Label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 16</value>
+    <value>87, 15</value>
   </data>
   <data name="Label1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -222,7 +229,7 @@
     <value>Label1</value>
   </data>
   <data name="&gt;&gt;Label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -234,14 +241,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="NumDips.Location" type="System.Drawing.Point, System.Drawing">
-    <value>131, 96</value>
+    <value>181, 107</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="NumDips.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="NumDips.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 22</value>
+    <value>59, 22</value>
   </data>
   <data name="NumDips.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -250,7 +256,7 @@
     <value>NumDips</value>
   </data>
   <data name="&gt;&gt;NumDips.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NumDips.Parent" xml:space="preserve">
     <value>$this</value>
@@ -262,25 +268,28 @@
     <value>True</value>
   </data>
   <data name="Label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 102</value>
+    <value>26, 115</value>
+  </data>
+  <data name="Label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 16</value>
+    <value>109, 15</value>
   </data>
   <data name="Label2.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>31</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
-    <value>Dipstick Position</value>
+    <value>Number of Copies:</value>
   </data>
   <data name="&gt;&gt;Label2.Name" xml:space="preserve">
     <value>Label2</value>
   </data>
   <data name="&gt;&gt;Label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -292,28 +301,28 @@
     <value>True</value>
   </data>
   <data name="Label3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
-  <data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 272</value>
+    <value>26, 316</value>
+  </data>
+  <data name="Label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 16</value>
+    <value>101, 15</value>
   </data>
   <data name="Label3.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>30</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
-    <value>Reference?</value>
+    <value>Client Reference:</value>
   </data>
   <data name="&gt;&gt;Label3.Name" xml:space="preserve">
     <value>Label3</value>
   </data>
   <data name="&gt;&gt;Label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
     <value>$this</value>
@@ -325,10 +334,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtClientRef.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 272</value>
+    <value>179, 314</value>
+  </data>
+  <data name="txtClientRef.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtClientRef.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 22</value>
+    <value>105, 22</value>
   </data>
   <data name="txtClientRef.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -337,7 +349,7 @@
     <value>txtClientRef</value>
   </data>
   <data name="&gt;&gt;txtClientRef.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtClientRef.Parent" xml:space="preserve">
     <value>$this</value>
@@ -348,29 +360,26 @@
   <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="Label4.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
-  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 274</value>
+    <value>323, 296</value>
+  </data>
+  <data name="Label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 16</value>
+    <value>107, 15</value>
   </data>
   <data name="Label4.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>29</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
-    <value>REF</value>
+    <value>Show &amp;REF Marker</value>
   </data>
   <data name="&gt;&gt;Label4.Name" xml:space="preserve">
     <value>Label4</value>
   </data>
   <data name="&gt;&gt;Label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
     <value>$this</value>
@@ -382,10 +391,13 @@
     <value>True</value>
   </data>
   <data name="chkStriker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 273</value>
+    <value>340, 315</value>
+  </data>
+  <data name="chkStriker.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="chkStriker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 17</value>
+    <value>44, 19</value>
   </data>
   <data name="chkStriker.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -397,7 +409,7 @@
     <value>chkStriker</value>
   </data>
   <data name="&gt;&gt;chkStriker.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chkStriker.Parent" xml:space="preserve">
     <value>$this</value>
@@ -409,10 +421,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtAddInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>155, 317</value>
+    <value>181, 366</value>
+  </data>
+  <data name="txtAddInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtAddInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>212, 22</value>
+    <value>246, 22</value>
   </data>
   <data name="txtAddInfo.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -421,7 +436,7 @@
     <value>txtAddInfo</value>
   </data>
   <data name="&gt;&gt;txtAddInfo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtAddInfo.Parent" xml:space="preserve">
     <value>$this</value>
@@ -433,28 +448,28 @@
     <value>True</value>
   </data>
   <data name="Label6.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
-  <data name="Label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 320</value>
+    <value>26, 369</value>
+  </data>
+  <data name="Label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 16</value>
+    <value>133, 15</value>
   </data>
   <data name="Label6.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>28</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
-    <value>Vertical Info?</value>
+    <value>Vertical Text (Optional):</value>
   </data>
   <data name="&gt;&gt;Label6.Name" xml:space="preserve">
     <value>Label6</value>
   </data>
   <data name="&gt;&gt;Label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label6.Parent" xml:space="preserve">
     <value>$this</value>
@@ -466,10 +481,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtFullVol.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 218</value>
+    <value>179, 251</value>
+  </data>
+  <data name="txtFullVol.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtFullVol.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 22</value>
+    <value>105, 22</value>
   </data>
   <data name="txtFullVol.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -478,7 +496,7 @@
     <value>txtFullVol</value>
   </data>
   <data name="&gt;&gt;txtFullVol.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtFullVol.Parent" xml:space="preserve">
     <value>$this</value>
@@ -490,28 +508,28 @@
     <value>True</value>
   </data>
   <data name="Label7.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
-  <data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>31, 221</value>
+    <value>26, 254</value>
+  </data>
+  <data name="Label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 16</value>
+    <value>116, 15</value>
   </data>
   <data name="Label7.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>27</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
-    <value>Full Volume</value>
+    <value>Full Volume (Litres):</value>
   </data>
   <data name="&gt;&gt;Label7.Name" xml:space="preserve">
     <value>Label7</value>
   </data>
   <data name="&gt;&gt;Label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
     <value>$this</value>
@@ -529,10 +547,13 @@
     <value>NoControl</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 224</value>
+    <value>298, 259</value>
+  </data>
+  <data name="Label5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>19, 16</value>
+    <value>18, 16</value>
   </data>
   <data name="Label5.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -544,7 +565,7 @@
     <value>Label5</value>
   </data>
   <data name="&gt;&gt;Label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label5.Parent" xml:space="preserve">
     <value>$this</value>
@@ -556,10 +577,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtDipHeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>280, 218</value>
+    <value>326, 251</value>
+  </data>
+  <data name="txtDipHeight.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtDipHeight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 22</value>
+    <value>105, 22</value>
   </data>
   <data name="txtDipHeight.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -568,7 +592,7 @@
     <value>txtDipHeight</value>
   </data>
   <data name="&gt;&gt;txtDipHeight.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtDipHeight.Parent" xml:space="preserve">
     <value>$this</value>
@@ -586,10 +610,13 @@
     <value>NoControl</value>
   </data>
   <data name="Label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>376, 224</value>
+    <value>438, 259</value>
+  </data>
+  <data name="Label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 16</value>
+    <value>29, 16</value>
   </data>
   <data name="Label8.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -601,7 +628,7 @@
     <value>Label8</value>
   </data>
   <data name="&gt;&gt;Label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label8.Parent" xml:space="preserve">
     <value>$this</value>
@@ -613,16 +640,19 @@
     <value>True</value>
   </data>
   <data name="Label9.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 144</value>
+    <value>26, 166</value>
+  </data>
+  <data name="Label9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 16</value>
+    <value>68, 15</value>
   </data>
   <data name="Label9.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -634,7 +664,7 @@
     <value>Label9</value>
   </data>
   <data name="&gt;&gt;Label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label9.Parent" xml:space="preserve">
     <value>$this</value>
@@ -646,10 +676,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtIncrements.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 141</value>
+    <value>179, 163</value>
+  </data>
+  <data name="txtIncrements.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtIncrements.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 22</value>
+    <value>105, 22</value>
   </data>
   <data name="txtIncrements.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -658,7 +691,7 @@
     <value>txtIncrements</value>
   </data>
   <data name="&gt;&gt;txtIncrements.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtIncrements.Parent" xml:space="preserve">
     <value>$this</value>
@@ -670,10 +703,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtMarkedVolumes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>155, 178</value>
+    <value>181, 205</value>
+  </data>
+  <data name="txtMarkedVolumes.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtMarkedVolumes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 22</value>
+    <value>105, 22</value>
   </data>
   <data name="txtMarkedVolumes.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -682,7 +718,7 @@
     <value>txtMarkedVolumes</value>
   </data>
   <data name="&gt;&gt;txtMarkedVolumes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtMarkedVolumes.Parent" xml:space="preserve">
     <value>$this</value>
@@ -694,28 +730,28 @@
     <value>True</value>
   </data>
   <data name="Label10.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
-  <data name="Label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>33, 181</value>
+    <value>26, 206</value>
+  </data>
+  <data name="Label10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 16</value>
+    <value>142, 15</value>
   </data>
   <data name="Label10.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+    <value>26</value>
   </data>
   <data name="Label10.Text" xml:space="preserve">
-    <value>Marked Volumes</value>
+    <value>Mark Numbers Every (L):</value>
   </data>
   <data name="&gt;&gt;Label10.Name" xml:space="preserve">
     <value>Label10</value>
   </data>
   <data name="&gt;&gt;Label10.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label10.Parent" xml:space="preserve">
     <value>$this</value>
@@ -727,10 +763,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtSecondLine.Location" type="System.Drawing.Point, System.Drawing">
-    <value>155, 345</value>
+    <value>181, 398</value>
+  </data>
+  <data name="txtSecondLine.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtSecondLine.Size" type="System.Drawing.Size, System.Drawing">
-    <value>212, 22</value>
+    <value>246, 22</value>
   </data>
   <data name="txtSecondLine.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -739,7 +778,7 @@
     <value>txtSecondLine</value>
   </data>
   <data name="&gt;&gt;txtSecondLine.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtSecondLine.Parent" xml:space="preserve">
     <value>$this</value>
@@ -751,16 +790,19 @@
     <value>True</value>
   </data>
   <data name="Label11.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="Label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="Label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 348</value>
+    <value>26, 401</value>
+  </data>
+  <data name="Label11.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 16</value>
+    <value>76, 15</value>
   </data>
   <data name="Label11.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -772,7 +814,7 @@
     <value>Label11</value>
   </data>
   <data name="&gt;&gt;Label11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label11.Parent" xml:space="preserve">
     <value>$this</value>
@@ -784,10 +826,13 @@
     <value>True</value>
   </data>
   <data name="chkRegIncs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>280, 96</value>
+    <value>326, 111</value>
+  </data>
+  <data name="chkRegIncs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="chkRegIncs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 17</value>
+    <value>141, 19</value>
   </data>
   <data name="chkRegIncs.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -799,7 +844,7 @@
     <value>chkRegIncs</value>
   </data>
   <data name="&gt;&gt;chkRegIncs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chkRegIncs.Parent" xml:space="preserve">
     <value>$this</value>
@@ -811,10 +856,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtWefco.Location" type="System.Drawing.Point, System.Drawing">
-    <value>280, 175</value>
+    <value>326, 202</value>
+  </data>
+  <data name="txtWefco.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="txtWefco.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 22</value>
+    <value>47, 22</value>
   </data>
   <data name="txtWefco.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -823,7 +871,7 @@
     <value>txtWefco</value>
   </data>
   <data name="&gt;&gt;txtWefco.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtWefco.Parent" xml:space="preserve">
     <value>$this</value>
@@ -834,29 +882,26 @@
   <data name="Label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="Label12.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt</value>
-  </data>
-  <data name="Label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="Label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>277, 147</value>
+    <value>323, 173</value>
+  </data>
+  <data name="Label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 16</value>
+    <value>134, 15</value>
   </data>
   <data name="Label12.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
+    <value>25</value>
   </data>
   <data name="Label12.Text" xml:space="preserve">
-    <value>Wefco Ref</value>
+    <value>Wefco Volume (1000s):</value>
   </data>
   <data name="&gt;&gt;Label12.Name" xml:space="preserve">
     <value>Label12</value>
   </data>
   <data name="&gt;&gt;Label12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label12.Parent" xml:space="preserve">
     <value>$this</value>
@@ -874,10 +919,13 @@
     <value>NoControl</value>
   </data>
   <data name="Label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>327, 178</value>
+    <value>382, 205</value>
+  </data>
+  <data name="Label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 16</value>
+    <value>63, 16</value>
   </data>
   <data name="Label13.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -889,7 +937,7 @@
     <value>Label13</value>
   </data>
   <data name="&gt;&gt;Label13.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label13.Parent" xml:space="preserve">
     <value>$this</value>
@@ -897,14 +945,17 @@
   <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>428, 443</value>
+    <value>500, 511</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1288,19 +1339,22 @@
         oKJiFaMGgIqKVYwaACoqVjFqAKioWMX4L8z5zF/7Ht0pAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Calibrated Dipstick</value>
+    <value>Calibrated Dipstick Generator</value>
   </data>
   <data name="&gt;&gt;OpenFileDialog1.Name" xml:space="preserve">
     <value>OpenFileDialog1</value>
   </data>
   <data name="&gt;&gt;OpenFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>CalForm</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

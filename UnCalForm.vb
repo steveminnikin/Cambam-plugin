@@ -1,7 +1,9 @@
 ﻿Imports System.Windows.Forms
-Imports CamBamPlugin.MyPlugin
 Imports System.Math
-Imports CamBamPlugin.CommonDetails
+Imports System.Drawing
+Imports CamBamPlugin.CamBamPlugin.MyPlugin
+
+Namespace CamBamPlugin
 
 Public Class UnCalForm
     Private _dipHeight As Single
@@ -9,6 +11,57 @@ Public Class UnCalForm
     Private _markedIncrements As Single
     Private commonDetails As CommonDetails
     Private isMarkedIncrement As Boolean
+    Private toolTip As New ToolTip()
+
+    Public Sub New()
+        InitializeComponent()
+        InitializeTooltips()
+        ApplyVisualHierarchy()
+    End Sub
+
+    Private Sub InitializeTooltips()
+        toolTip.AutoPopDelay = 5000
+        toolTip.InitialDelay = 500
+        toolTip.ReshowDelay = 200
+        toolTip.ShowAlways = True
+
+        ' Set tooltips for complex fields
+        toolTip.SetToolTip(txtMarkedIncrements, "Display measurement numbers only at these intervals (e.g., every 10mm, 50mm, etc.)")
+        toolTip.SetToolTip(chkHalfIncs, "Add shorter tick marks between main measurements for easier reading")
+        toolTip.SetToolTip(CboUnits, "Select measurement unit system - all inputs will use this unit")
+        toolTip.SetToolTip(txtHeight, "Total height of the dipstick in selected units")
+        toolTip.SetToolTip(txtIncs, "Spacing between measurement marks in selected units")
+        toolTip.SetToolTip(txtAddInfo, "Optional text displayed vertically on the dipstick (rotated 90°)")
+        toolTip.SetToolTip(txtSecondLine, "Optional second line of vertical text on the dipstick")
+    End Sub
+
+    Private Sub ApplyVisualHierarchy()
+        ' Make required field labels bold and add asterisk
+        If Label3 IsNot Nothing Then
+            Label3.Font = New Font(Label3.Font, FontStyle.Bold)
+            If Not Label3.Text.Contains("*") Then Label3.Text = Label3.Text.Replace(":", ": *")
+        End If
+        If txtTop IsNot Nothing Then
+            txtTop.Font = New Font(txtTop.Font, FontStyle.Bold)
+            If Not txtTop.Text.Contains("*") Then txtTop.Text = txtTop.Text.Replace(":", ": *")
+        End If
+
+        ' Make buttons bold
+        btnSubmit.Font = New Font(btnSubmit.Font, FontStyle.Bold)
+
+        ' Initialize unit display with default selection (Millimetres)
+        CdoUnits_SelectedIndexChanged(Nothing, EventArgs.Empty)
+
+        ' Add note about required fields
+        Dim requiredNote As New Label()
+        requiredNote.Text = "* Required field"
+        requiredNote.Font = New Font("Microsoft Sans Serif", 8, FontStyle.Italic)
+        requiredNote.ForeColor = Color.FromArgb(100, 100, 100)
+        requiredNote.AutoSize = True
+        requiredNote.Location = New Point(12, 318)
+        Me.Controls.Add(requiredNote)
+    End Sub
+
     Private Property Increments As Single
         Get
             Return _increments
@@ -18,9 +71,9 @@ Public Class UnCalForm
                 Case 0
                     _increments = value
                 Case 1
-                    _increments = value * 10
+                    _increments = value * DipstickConstants.MM_PER_CM
                 Case 2
-                    _increments = value * 25.4
+                    _increments = value * DipstickConstants.MM_PER_INCH
             End Select
         End Set
     End Property
@@ -33,9 +86,9 @@ Public Class UnCalForm
                 Case 0
                     _markedIncrements = value
                 Case 1
-                    _markedIncrements = value * 10
+                    _markedIncrements = value * DipstickConstants.MM_PER_CM
                 Case 2
-                    _markedIncrements = value * 25.4
+                    _markedIncrements = value * DipstickConstants.MM_PER_INCH
             End Select
         End Set
     End Property
@@ -48,15 +101,27 @@ Public Class UnCalForm
                 Case 0
                     _dipHeight = value
                 Case 1
-                    _dipHeight = value * 10
+                    _dipHeight = value * DipstickConstants.MM_PER_CM
                 Case 2
-                    _dipHeight = value * 25.4
+                    _dipHeight = value * DipstickConstants.MM_PER_INCH
             End Select
         End Set
     End Property
 
     Private Sub BtnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
 
+        ' Validate marked increments if provided
+        If Not ValidateMarkedIncrements() Then
+            Return
+        End If
+
+        ' Show progress indication
+        Me.Cursor = Cursors.WaitCursor
+        btnSubmit.Enabled = False
+        btnSubmit.Text = "Generating..."
+        Application.DoEvents()
+
+        Try
         'clear the current dipstick from the UI and create a fresh template
         myUI.FileNew(True, True, True)
         commonDetails = New CommonDetails(, Me)
@@ -67,35 +132,58 @@ Public Class UnCalForm
         Dim markedIncrement As Single
 
         cboUnits = GetUnitString(Me.CboUnits.SelectedIndex)
-        markedIncrement = Me.txtMarkedIncrements.Text
+        markedIncrement = If(String.IsNullOrWhiteSpace(Me.txtMarkedIncrements.Text), 0, CSng(Me.txtMarkedIncrements.Text))
 
-        myDoc = CreateCADFile()
-        myLayer = CreateLayer(myDoc, Ref)
-        myPart = CreatePart(myDoc, Ref)
+        myDoc = commonDetails.CreateCADFile()
+        myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
+        myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
 
         DrawLinesAndNumbers(cboUnits, markedIncrement)
-        WriteUnits(cboUnits, DipHeight, CreateCopies(Copies))
-        If Not Ref.Equals("") Then WriteRef(Ref, DipHeight, CreateCopies(Copies))
-        WriteClientRef(DipHeight, CreateCopies(Copies), ClientRef, RefText)
-        ' If Not FirstLineText.Text.Equals("") Then WriteVerticalInfo(FirstLineText, SecondLineText, DipHeight + If(Not ClientRef = "", 148, 105))
+        commonDetails.WriteUnits(cboUnits, commonDetails.Model.Height, 0)
+        If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, 0)
+        commonDetails.WriteClientRef(commonDetails.Model.Height, 0, commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
+
+        ' Calculate vertical text position based on which elements are present
+        If Not String.IsNullOrWhiteSpace(commonDetails.FirstLineText.Text) Then
+            Dim verticalTextYOffset As Single
+            If commonDetails.Model.WefcoVolume > 0 Then
+                ' Wefco volume is highest element (at 153), position vertical text above it
+                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_WEFCO_Y_OFFSET
+            ElseIf Not String.IsNullOrWhiteSpace(commonDetails.Model.ClientRef) Then
+                ' ClientRef present but no Wefco
+                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_WITH_CLIENTREF_Y_OFFSET
+            Else
+                ' No ClientRef or Wefco
+                verticalTextYOffset = DipstickConstants.VERTICAL_TEXT_BASE_Y_OFFSET
+            End If
+            commonDetails.WriteVerticalInfo(commonDetails.FirstLineText, commonDetails.SecondLineText, commonDetails.Model.Height + verticalTextYOffset)
+        End If
 
         myUI.ActiveView.RefreshView()
         commonDetails = Nothing
         Me.Hide()
+        Catch ex As Exception
+            MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Restore UI state
+            Me.Cursor = Cursors.Default
+            btnSubmit.Enabled = True
+            btnSubmit.Text = "&Generate Dipstick"
+        End Try
     End Sub
     Private Sub DrawLinesAndNumbers(cboUnits As String, markedIncrement As Single)
-
         Dim l As Single
+        Dim xOffset As Integer = 0
 
         Do While l + Increments < DipHeight
             l += Increments
             If chkHalfIncs.Checked Then
-                DrawHalfIncs(l - (Increments / 2), CreateCopies(Copies))
+                DrawHalfIncs(l - (Increments / 2), xOffset)
             End If
-            DrawLine(l, CreateCopies(Copies))
+            DrawLine(l, xOffset)
             If isMultipleOfMarkedInterval(UnitConv(l), markedIncrement) Or l = DipHeight Or l = Increments Then
                 isMarkedIncrement = True
-                WriteNumber(l, UnitConv(l), CreateCopies(Copies))
+                WriteNumber(l, UnitConv(l), xOffset)
             Else
                 isMarkedIncrement = False
             End If
@@ -103,28 +191,28 @@ Public Class UnCalForm
         'adds top line for inches
         'If CboUnits.SelectedIndex = 2 Then
         If chkHalfIncs.Checked Then
-            DrawHalfIncs(DipHeight - (Increments / 2), CreateCopies(Copies))
+            DrawHalfIncs(DipHeight - (Increments / 2), xOffset)
         End If
 
-        DrawLine(DipHeight, CreateCopies(Copies))
-        WriteNumber(DipHeight, UnitConv(DipHeight), CreateCopies(Copies))
+        DrawLine(DipHeight, xOffset)
+        WriteNumber(DipHeight, UnitConv(DipHeight), xOffset)
     End Sub
     Private Sub DrawLine(l As Single, x As Single)
         Dim myPoly As New Polyline()
 
         myPoly.Add(x, l, 0)
-        myPoly.Add(x + 20, l, 0)
+        myPoly.Add(x + DipstickConstants.LINE_LENGTH, l, 0)
         'add it to active drawing
         myUI.ActiveView.CADFile.Add(myPoly)
     End Sub
     Private Sub WriteNumber(l As Single, n As Single, x As Single)
         Dim myCamText As New MText()
-        Dim NoPos As Single = l + 6.5
+        Dim NoPos As Single = l + DipstickConstants.UNCALIBRATED_NUMBER_Y_OFFSET
 
         myCamText.Text = n
-        myCamText.Font = "1CamBam_Stick_3"
-        myCamText.Height = "5.5"
-        myCamText.Location = 0.5 + x & "," & NoPos & ",0"
+        myCamText.Font = DipstickConstants.FONT_NAME
+        myCamText.Height = DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()
+        myCamText.Location = DipstickConstants.NUMBER_X_OFFSET_MEDIUM + x & "," & NoPos & ",0"
         myUI.ActiveView.CADFile.Add(myCamText)
 
 
@@ -137,44 +225,54 @@ Public Class UnCalForm
         If isMarkedIncrement Then
             Select Case CboUnits.SelectedIndex
                 Case 0
-                    myHalfIncs.Add(x + 15, incr, 0)
-                    myHalfIncs.Add(x + 20, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_MM, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
                 Case 1
-                    myHalfIncs.Add(x + 12, incr, 0)
-                    myHalfIncs.Add(x + 20, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_CM, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
                 Case 2
-                    myHalfIncs.Add(x + 10, incr, 0)
-                    myHalfIncs.Add(x + 20, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_INCH, incr, 0)
+                    myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
 
             End Select
         Else
-            myHalfIncs.Add(x + 10, incr, 0)
-            myHalfIncs.Add(x + 20, incr, 0)
+            myHalfIncs.Add(x + DipstickConstants.HALF_INC_OFFSET_INCH, incr, 0)
+            myHalfIncs.Add(x + DipstickConstants.LINE_LENGTH, incr, 0)
         End If
         myUI.ActiveView.CADFile.Add(myHalfIncs)
     End Sub
     Private Sub CdoUnits_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboUnits.SelectedIndexChanged
+        Dim unitAbbrev As String = "mm"  ' Default to millimeters
+
         Select Case CboUnits.SelectedIndex
             Case 0
-                lblIncs.Text = "MMs"
-                lblHeight.Text = "MMs"
-                lblIntervals.Text = "MMs"
+                unitAbbrev = "mm"
+                Label3.Text = "Increment Size (mm):"
+                txtTop.Text = "Dipstick Height (mm):"
+                Label5.Text = "Display Numbers Every (mm):"
             Case 1
-                lblIncs.Text = "CMs"
-                lblHeight.Text = "CMs"
-                lblIntervals.Text = "CMs"
+                unitAbbrev = "cm"
+                Label3.Text = "Increment Size (cm):"
+                txtTop.Text = "Dipstick Height (cm):"
+                Label5.Text = "Display Numbers Every (cm):"
             Case 2
-                lblIncs.Text = "In"
-                lblHeight.Text = "In"
-                lblIntervals.Text = "In"
+                unitAbbrev = "in"
+                Label3.Text = "Increment Size (in):"
+                txtTop.Text = "Dipstick Height (in):"
+                Label5.Text = "Display Numbers Every (in):"
         End Select
+
+        ' Update unit labels (keep for backwards compatibility)
+        lblIncs.Text = unitAbbrev
+        lblHeight.Text = unitAbbrev
+        lblIntervals.Text = unitAbbrev
     End Sub
 
     Private Sub txtIncs_LostFocus(sender As Object, e As EventArgs) Handles txtIncs.TextChanged
         txtVal.Visible = False
         valInc.Visible = False
         btnSubmit.Enabled = True
-        If txtIncs.Text = "" Then
+        If String.IsNullOrWhiteSpace(txtIncs.Text) Then
             txtVal.Text = "You must enter a value in the Increments box"
             txtVal.Visible = True
             valInc.Visible = True
@@ -196,7 +294,7 @@ Public Class UnCalForm
         txtVal.Visible = False
         ValHei.Visible = False
         btnSubmit.Enabled = True
-        If txtHeight.Text = "" Then
+        If String.IsNullOrWhiteSpace(txtHeight.Text) Then
             txtVal.Text = "You must enter a value in the Height box"
             txtVal.Visible = True
             ValHei.Visible = True
@@ -231,11 +329,33 @@ Public Class UnCalForm
             Case 0
                 Return x
             Case 1
-                Return x / 10
+                Return x / DipstickConstants.MM_PER_CM
             Case 2
-                Return Round(x / 25.4, 0)
+                Return Round(x / DipstickConstants.MM_PER_INCH, 0)
+            Case Else
+                ' Default to millimeters if invalid selection
+                Return x
         End Select
+    End Function
+
+    Private Function ValidateMarkedIncrements() As Boolean
+        ' Marked increments is optional, but if provided must be valid
+        If Not String.IsNullOrWhiteSpace(txtMarkedIncrements.Text) Then
+            Dim markedInc As Single
+            If Not Single.TryParse(txtMarkedIncrements.Text, markedInc) Then
+                MessageBox.Show("Marked Increments must be a valid number.", _
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return False
+            ElseIf markedInc < 0 Then
+                MessageBox.Show("Marked Increments cannot be negative.", _
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return False
+            End If
+        End If
+        Return True
     End Function
 
 
 End Class
+
+End Namespace

@@ -10,22 +10,29 @@
     <AssemblyName>CamBamPlugin</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <!-- CamBam installation folder. Set the CamBamDir environment variable (or
+         msbuild /p:CamBamDir=...) if CamBam is installed somewhere else; the
+         probes below only apply when it is not set. -->
+    <CamBamDir Condition=" '$(CamBamDir)' == '' And Exists('C:\Program Files\CamBam plus 1.0\CamBam.CAD.dll') ">C:\Program Files\CamBam plus 1.0</CamBamDir>
+    <CamBamDir Condition=" '$(CamBamDir)' == '' And Exists('C:\Program Files (x86)\CamBam plus 1.0\CamBam.CAD.dll') ">C:\Program Files (x86)\CamBam plus 1.0</CamBamDir>
+    <CamBamDir Condition=" '$(CamBamDir)' == '' And Exists('C:\Program Files (x86)\CamBam plus 0.9.8\CamBam.CAD.dll') ">C:\Program Files (x86)\CamBam plus 0.9.8</CamBamDir>
+    <CamBamDir Condition=" '$(CamBamDir)' == '' And Exists('C:\Program Files\CamBam plus 0.9.8\CamBam.CAD.dll') ">C:\Program Files\CamBam plus 0.9.8</CamBamDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\..\..\..\..\Program Files %28x86%29\CamBam plus 0.9.8\plugins\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>CamBamPlugin.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <!-- AnyCPU so the plugin loads into both the 32 and 64-bit CamBam -->
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(CamBamDir)\CamBam.exe</StartProgram>
+    <StartWorkingDirectory>$(CamBamDir)</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +42,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>CamBamPlugin.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -50,14 +58,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CamBam.CAD">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\CamBam plus 0.9.8\CamBam.CAD.dll</HintPath>
+      <HintPath>$(CamBamDir)\CamBam.CAD.dll</HintPath>
     </Reference>
     <Reference Include="CamBam.Geom">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\CamBam plus 0.9.8\CamBam.Geom.dll</HintPath>
+      <HintPath>$(CamBamDir)\CamBam.Geom.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -87,10 +96,15 @@
     </Compile>
     <Compile Include="MyPlugin.vb" />
     <Compile Include="CommonDetails.vb" />
+    <Compile Include="DipstickConstants.vb" />
+    <Compile Include="DipstickModel.vb" />
+    <Compile Include="CalibrationData.vb" />
+    <Compile Include="JSONCalibrationParser.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -147,7 +161,17 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- Fail early with a clear message when the CamBam DLLs cannot be found -->
+  <Target Name="CheckCamBamDir" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition=" '$(CamBamDir)' == '' Or !Exists('$(CamBamDir)\CamBam.CAD.dll') "
+           Text="CamBam.CAD.dll not found. Set the CamBamDir environment variable (or msbuild /p:CamBamDir=...) to your CamBam installation folder - the one containing CamBam.exe, CamBam.CAD.dll and CamBam.Geom.dll." />
+  </Target>
+  <!-- Best-effort deploy: copy the built plugin into CamBam's plugins folder.
+       Warns instead of failing when the folder is missing or needs elevation. -->
+  <Target Name="CopyToCamBamPlugins" AfterTargets="Build" Condition="Exists('$(CamBamDir)\plugins')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(CamBamDir)\plugins" ContinueOnError="true" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

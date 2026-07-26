@@ -1,4 +1,6 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+﻿Namespace CamBamPlugin
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UnCalForm
     Inherits System.Windows.Forms.Form
 
@@ -24,9 +26,7 @@ Partial Class UnCalForm
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UnCalForm))
         Me.btnSubmit = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.CboUnits = New System.Windows.Forms.ComboBox()
-        Me.NumDips = New System.Windows.Forms.NumericUpDown()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtIncs = New System.Windows.Forms.TextBox()
@@ -47,28 +47,18 @@ Partial Class UnCalForm
         Me.Label11 = New System.Windows.Forms.Label()
         Me.txtAddInfo = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        CType(Me.NumDips, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SuspendLayout()
         '
         'btnSubmit
         '
         Me.btnSubmit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSubmit.Location = New System.Drawing.Point(249, 346)
+        Me.btnSubmit.Location = New System.Drawing.Point(189, 355)
         Me.btnSubmit.Name = "btnSubmit"
-        Me.btnSubmit.Size = New System.Drawing.Size(75, 23)
-        Me.btnSubmit.TabIndex = 7
-        Me.btnSubmit.Text = "Submit"
+        Me.btnSubmit.Size = New System.Drawing.Size(145, 28)
+        Me.btnSubmit.TabIndex = 10
+        Me.btnSubmit.Text = "&Generate Dipstick"
         Me.btnSubmit.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(35, 227)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(107, 16)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Dipstick Position"
         '
         'CboUnits
         '
@@ -82,15 +72,6 @@ Partial Class UnCalForm
         Me.CboUnits.TabIndex = 1
         Me.CboUnits.Text = "Millimetres"
         '
-        'NumDips
-        '
-        Me.NumDips.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NumDips.Location = New System.Drawing.Point(203, 220)
-        Me.NumDips.Name = "NumDips"
-        Me.NumDips.Size = New System.Drawing.Size(50, 22)
-        Me.NumDips.TabIndex = 5
-        Me.NumDips.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
         'Label2
         '
         Me.Label2.AutoSize = True
@@ -99,7 +80,7 @@ Partial Class UnCalForm
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(38, 16)
         Me.Label2.TabIndex = 4
-        Me.Label2.Text = "Units"
+        Me.Label2.Text = "Measurement Units:"
         '
         'Label3
         '
@@ -109,14 +90,14 @@ Partial Class UnCalForm
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(73, 16)
         Me.Label3.TabIndex = 5
-        Me.Label3.Text = "Increments"
+        Me.Label3.Text = "Increment Size:"
         '
         'txtIncs
         '
         Me.txtIncs.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtIncs.Location = New System.Drawing.Point(203, 103)
         Me.txtIncs.Name = "txtIncs"
-        Me.txtIncs.Size = New System.Drawing.Size(62, 22)
+        Me.txtIncs.Size = New System.Drawing.Size(70, 22)
         Me.txtIncs.TabIndex = 2
         '
         'lblIncs
@@ -149,15 +130,15 @@ Partial Class UnCalForm
         Me.txtTop.Name = "txtTop"
         Me.txtTop.Size = New System.Drawing.Size(81, 16)
         Me.txtTop.TabIndex = 9
-        Me.txtTop.Text = "Tank Height"
+        Me.txtTop.Text = "Dipstick Height:"
         '
         'txtHeight
         '
         Me.txtHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtHeight.Location = New System.Drawing.Point(203, 182)
         Me.txtHeight.Name = "txtHeight"
-        Me.txtHeight.Size = New System.Drawing.Size(62, 22)
-        Me.txtHeight.TabIndex = 4
+        Me.txtHeight.Size = New System.Drawing.Size(70, 22)
+        Me.txtHeight.TabIndex = 5
         '
         'lblHeight
         '
@@ -207,17 +188,17 @@ Partial Class UnCalForm
         '
         Me.txtRef.Location = New System.Drawing.Point(203, 36)
         Me.txtRef.Name = "txtRef"
-        Me.txtRef.Size = New System.Drawing.Size(81, 20)
+        Me.txtRef.Size = New System.Drawing.Size(90, 20)
         Me.txtRef.TabIndex = 0
         '
         'chkHalfIncs
         '
         Me.chkHalfIncs.AutoSize = True
-        Me.chkHalfIncs.Location = New System.Drawing.Point(204, 316)
+        Me.chkHalfIncs.Location = New System.Drawing.Point(20, 320)
         Me.chkHalfIncs.Name = "chkHalfIncs"
-        Me.chkHalfIncs.Size = New System.Drawing.Size(122, 17)
-        Me.chkHalfIncs.TabIndex = 6
-        Me.chkHalfIncs.Text = "Add Half Increments"
+        Me.chkHalfIncs.Size = New System.Drawing.Size(145, 20)
+        Me.chkHalfIncs.TabIndex = 9
+        Me.chkHalfIncs.Text = "Add &Half Increments"
         Me.chkHalfIncs.UseVisualStyleBackColor = True
         '
         'Label5
@@ -228,14 +209,14 @@ Partial Class UnCalForm
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(92, 16)
         Me.Label5.TabIndex = 17
-        Me.Label5.Text = "Marked Every"
+        Me.Label5.Text = "Display Numbers Every:"
         '
         'txtMarkedIncrements
         '
         Me.txtMarkedIncrements.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMarkedIncrements.Location = New System.Drawing.Point(204, 146)
         Me.txtMarkedIncrements.Name = "txtMarkedIncrements"
-        Me.txtMarkedIncrements.Size = New System.Drawing.Size(62, 22)
+        Me.txtMarkedIncrements.Size = New System.Drawing.Size(70, 22)
         Me.txtMarkedIncrements.TabIndex = 3
         '
         'lblIntervals
@@ -252,51 +233,62 @@ Partial Class UnCalForm
         '
         Me.txtSecondLine.BackColor = System.Drawing.Color.White
         Me.txtSecondLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        Me.txtSecondLine.Location = New System.Drawing.Point(135, 285)
+        Me.txtSecondLine.Location = New System.Drawing.Point(100, 50)
         Me.txtSecondLine.Name = "txtSecondLine"
-        Me.txtSecondLine.Size = New System.Drawing.Size(176, 22)
-        Me.txtSecondLine.TabIndex = 23
+        Me.txtSecondLine.Size = New System.Drawing.Size(200, 22)
+        Me.txtSecondLine.TabIndex = 8
         '
         'Label11
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
         Me.Label11.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label11.Location = New System.Drawing.Point(35, 288)
+        Me.Label11.Location = New System.Drawing.Point(15, 53)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(83, 16)
         Me.Label11.TabIndex = 24
-        Me.Label11.Text = "Second Line"
+        Me.Label11.Text = "Second Line:"
         '
         'txtAddInfo
         '
         Me.txtAddInfo.BackColor = System.Drawing.Color.White
         Me.txtAddInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        Me.txtAddInfo.Location = New System.Drawing.Point(135, 257)
+        Me.txtAddInfo.Location = New System.Drawing.Point(100, 22)
         Me.txtAddInfo.Name = "txtAddInfo"
-        Me.txtAddInfo.Size = New System.Drawing.Size(176, 22)
-        Me.txtAddInfo.TabIndex = 21
+        Me.txtAddInfo.Size = New System.Drawing.Size(200, 22)
+        Me.txtAddInfo.TabIndex = 7
         '
         'Label6
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
         Me.Label6.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label6.Location = New System.Drawing.Point(35, 260)
+        Me.Label6.Location = New System.Drawing.Point(15, 25)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(84, 16)
         Me.Label6.TabIndex = 22
-        Me.Label6.Text = "Vertical Info?"
+        Me.Label6.Text = "First Line:"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.txtAddInfo)
+        Me.GroupBox1.Controls.Add(Me.txtSecondLine)
+        Me.GroupBox1.Controls.Add(Me.Label6)
+        Me.GroupBox1.Controls.Add(Me.Label11)
+        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        Me.GroupBox1.Location = New System.Drawing.Point(20, 220)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(315, 85)
+        Me.GroupBox1.TabIndex = 25
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Vertical Text (Optional)"
         '
         'UnCalForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(349, 381)
-        Me.Controls.Add(Me.txtSecondLine)
-        Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.txtAddInfo)
-        Me.Controls.Add(Me.Label6)
+        Me.ClientSize = New System.Drawing.Size(349, 395)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.lblIntervals)
         Me.Controls.Add(Me.txtMarkedIncrements)
         Me.Controls.Add(Me.Label5)
@@ -313,24 +305,19 @@ Partial Class UnCalForm
         Me.Controls.Add(Me.txtIncs)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.NumDips)
         Me.Controls.Add(Me.CboUnits)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnSubmit)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "UnCalForm"
-        Me.Text = "Uncalibrated Dipstick"
-        CType(Me.NumDips, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Text = "Uncalibrated Dipstick Generator"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents btnSubmit As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents CboUnits As System.Windows.Forms.ComboBox
-    Friend WithEvents NumDips As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtIncs As System.Windows.Forms.TextBox
@@ -351,4 +338,7 @@ Partial Class UnCalForm
     Friend WithEvents Label11 As Windows.Forms.Label
     Friend WithEvents txtAddInfo As Windows.Forms.TextBox
     Friend WithEvents Label6 As Windows.Forms.Label
+    Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
 End Class
+
+End Namespace
