@@ -2,7 +2,7 @@
 
 > **Historical note (2026-07-26):** this audit was written against the legacy
 > `master` code (`7339ef7`), before the `dev` refactor was consolidated. Many
-> of the source-level findings below were since fixed on `dev` (see `BUGS.md`);
+> of the source-level findings below were since fixed on `dev` (see `CHANGELOG.md`);
 > the build-system recommendations have been ported into `CamBamPlugin.vbproj`.
 > Kept as a historical record.
 

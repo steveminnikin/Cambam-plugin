@@ -130,9 +130,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CalForm.nqo-GN.resx">
-      <DependentUpon>CalForm.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CalForm.resx">
       <DependentUpon>CalForm.vb</DependentUpon>
     </EmbeddedResource>

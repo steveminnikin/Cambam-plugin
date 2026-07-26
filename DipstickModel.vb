@@ -70,11 +70,6 @@ Public Class DipstickModel
     Public Property IncludeTank As Boolean = False
 
     ''' <summary>
-    ''' Engraving type: True for laser, False for spindle
-    ''' </summary>
-    Public Property IsLaser As Boolean = False
-
-    ''' <summary>
     ''' Whether this is a calibrated dipstick (uses calibration data)
     ''' </summary>
     Public Property IsCalibrated As Boolean = False

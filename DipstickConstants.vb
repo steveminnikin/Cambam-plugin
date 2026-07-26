@@ -31,19 +31,9 @@ Public Class DipstickConstants
 
 #Region "Engraving Settings"
     ''' <summary>
-    ''' Feed rate for laser engraving in mm/min
-    ''' </summary>
-    Public Const LASER_FEED_RATE As Double = 500.0
-
-    ''' <summary>
     ''' Feed rate for spindle engraving in mm/min
     ''' </summary>
     Public Const SPINDLE_FEED_RATE As Double = 500.0
-
-    ''' <summary>
-    ''' Depth increment for laser engraving in mm
-    ''' </summary>
-    Public Const LASER_DEPTH_INCREMENT As Double = 0.01
 
     ''' <summary>
     ''' Depth increment for spindle engraving in mm
@@ -150,16 +140,6 @@ Public Class DipstickConstants
     ''' Length of half-increment line markings in millimeters
     ''' </summary>
     Public Const HALF_LINE_LENGTH As Single = 15
-
-    ''' <summary>
-    ''' X-offset for single dipstick copy
-    ''' </summary>
-    Public Const SINGLE_COPY_X_OFFSET As Single = 0
-
-    ''' <summary>
-    ''' X-offset for dual dipstick copies
-    ''' </summary>
-    Public Const DUAL_COPY_X_OFFSET As Single = 30
 
 #End Region
 

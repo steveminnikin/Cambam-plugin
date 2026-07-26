@@ -1,0 +1,18 @@
+name: Tests
+
+on:
+  push:
+    branches: [master, dev, "claude/**"]
+  pull_request:
+
+jobs:
+  test:
+    # Windows runner: the plugin targets .NET Framework 4.8 and the parser
+    # uses JavaScriptSerializer (System.Web.Extensions), neither of which
+    # runs on Linux. Only the CamBam-free test project is built - the main
+    # plugin needs the CamBam DLLs, which are not available in CI.
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run unit tests
+        run: dotnet test CamBamPlugin.Tests/CamBamPlugin.Tests.vbproj -c Release --nologo

@@ -62,8 +62,8 @@ Namespace CamBamPlugin
         ''' </summary>
         ''' <param name="filePath">Path to JSON file</param>
         ''' <param name="useRegularIncrements">If True, generates regular increments</param>
-        ''' <returns>SortedList with height as key and volume as value</returns>
-        Public Function ReadVolumeHeightPairs(filePath As String, useRegularIncrements As Boolean) As SortedList(Of String, String)
+        ''' <returns>SortedList keyed by height (mm) with volume (litres) as value, sorted numerically</returns>
+        Public Function ReadVolumeHeightPairs(filePath As String, useRegularIncrements As Boolean) As SortedList(Of Decimal, Decimal)
             If Not File.Exists(filePath) Then
                 Throw New FileNotFoundException("JSON file not found", filePath)
             End If
@@ -291,9 +291,9 @@ Namespace CamBamPlugin
         ''' </summary>
         ''' <param name="jsonData">Parsed JSON data dictionary</param>
         ''' <param name="useRegularIncrements">If True, generates regular increments</param>
-        ''' <returns>SortedList with height as key and volume as value</returns>
-        Private Function ReadVolumeHeightPairs(jsonData As Dictionary(Of String, Object), useRegularIncrements As Boolean) As SortedList(Of String, String)
-            Dim pairs As New SortedList(Of String, String)()
+        ''' <returns>SortedList keyed by height (mm) with volume (litres) as value, sorted numerically</returns>
+        Private Function ReadVolumeHeightPairs(jsonData As Dictionary(Of String, Object), useRegularIncrements As Boolean) As SortedList(Of Decimal, Decimal)
+            Dim pairs As New SortedList(Of Decimal, Decimal)()
 
             If Not jsonData.ContainsKey("incrementData") Then
                 Throw New FormatException("JSON does not contain 'incrementData' array")
@@ -313,9 +313,10 @@ Namespace CamBamPlugin
                     Continue For ' Skip invalid entries
                 End If
 
-                ' Extract volume and height
-                Dim volume As String = Convert.ToInt32(dataPoint("volume")).ToString()
-                Dim height As String = Convert.ToDouble(dataPoint("height")).ToString()
+                ' Extract volume and height as numbers so entries sort numerically
+                ' (string keys sorted "100" before "20"); volumes are engraved as whole litres
+                Dim volume As Decimal = Convert.ToInt32(dataPoint("volume"))
+                Dim height As Decimal = Convert.ToDecimal(dataPoint("height"))
 
                 ' Add to sorted list: Key = height, Value = volume
                 ' This matches the format expected by CalForm

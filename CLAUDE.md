@@ -54,7 +54,7 @@ with the `CamBamDir` environment variable or `msbuild /p:CamBamDir=...`.
 - `CommonDetails.vb` - Shared functionality and CAD object creation
   - Factory methods for creating CADFile, Layer, CAMPart, and MOPEngrave objects
   - Text rendering methods (`WriteRef`, `WriteUnits`, `WriteClientRef`, `WriteVerticalInfo`)
-  - Engraving operation setup for both laser and spindle engraving
+  - Engraving operation setup for spindle engraving
 - `JSONCalibrationParser.vb` - Parses JSON calibration files
   - Extracts tank metadata (dimensions, full volume, increments)
   - Reads volume/height pairs from incrementData array
@@ -86,9 +86,7 @@ with the `CamBamDir` environment variable or `msbuild /p:CamBamDir=...`.
 - Unit conversion properties handle display vs. internal units
 
 **Shared CAM Configuration:**
-- Engraving operations configured for both laser and spindle
-- Laser: shallow depth (0.01mm), 500mm/min feed rate
-- Spindle: 0.45mm depth, 500mm/min feed rate
+- Spindle engraving: 0.45mm depth, 500mm/min feed rate
 - Uses "1CamBam_Stick_3" font for all text
 - Velocity mode set to ExactStop for precise engraving
 
@@ -99,7 +97,7 @@ The codebase uses a coordinate-based positioning system where Y-coordinates are 
 - Units text: `height + 14`
 - SWC text: `height + 76`
 - Client reference: `height + 105`
-- Vertical info text is rotated 90 degrees (RotZ(1.571)) and centered
+- Vertical info text is rotated 90 degrees (RotZ(Math.PI / 2)) and centered
 
 ### Important Constants and Conventions
 
@@ -107,7 +105,6 @@ The codebase uses a coordinate-based positioning system where Y-coordinates are 
 - Default text heights: 5.5mm (5mm for large numbers >99999)
 - Tool number: 10
 - Tool diameter: 1.0mm
-- X-offset for copies: 0 (single) or 30 (dual)
 - SWC (Safe Working Capacity): 97% of full volume
 
 ## Common Development Patterns
@@ -119,7 +116,4 @@ All CAD objects are added through `myUI.ActiveView.CADFile.Add()`. The pattern i
 3. Add to CADFile via UI reference
 
 ### Creating Engraving Operations
-Use `CommonDetails.CreateEngraving(ref, isLaser)` which returns a configured `MOPEngrave` object with appropriate parameters for laser or spindle engraving.
-
-### Handling Multiple Dipstick Copies
-`CommonDetails.CreateCopies(n)` returns X-offset: 0 for single, 30 for dual copies.
+Use `CommonDetails.CreateEngraving(ref)` which returns a configured `MOPEngrave` object with the spindle engraving parameters.

@@ -69,10 +69,6 @@ Public Class CommonDetails
         myDoc = myUI.ActiveView.CADFile
         myArcCentreMode = ArcCenterModes.IncrementalFromP1
         myDoc.MachiningOptions.ArcCenterMode = myArcCentreMode
-        If Model.IsLaser Then
-            myDoc.MachiningOptions.Style = "laserEngrave"
-            myDoc.MachiningOptions.PostProcessor = "Laser"
-        End If
 
         Return myDoc
     End Function
@@ -90,15 +86,10 @@ Public Class CommonDetails
     Public Function CreatePart(myDoc As CADFile, Optional ref As String = "") As CAMPart
         If Not myUI.ActiveView.CADFile.HasPart(DipstickConstants.PART_NAME) Then
             Dim myPart As New CAMPart
-            Dim spindleEngravingOp As MOPEngrave
-            Dim laserEngraveOp As MOPEngrave
-
-            spindleEngravingOp = CreateEngraving(ref, False)
-            laserEngraveOp = CreateEngraving(ref, True)
+            Dim engravingOp As MOPEngrave = CreateEngraving(ref)
 
             myPart = myDoc.CreatePart(DipstickConstants.PART_NAME)
-            myPart.MachineOps.Add(spindleEngravingOp)
-            myPart.MachineOps.Add(laserEngraveOp)
+            myPart.MachineOps.Add(engravingOp)
 
             Return myPart
         Else
@@ -108,7 +99,7 @@ Public Class CommonDetails
         End If
     End Function
 
-    Public Function CreateEngraving(ref As String, laser As Boolean) As MOPEngrave
+    Public Function CreateEngraving(ref As String) As MOPEngrave
             Dim myFeedRate As CamBam.Values.CBValue(Of Double),
             myDepthInc As CamBam.Values.CBValue(Of Double),
             myTarget As CamBam.Values.CBValue(Of Double),
@@ -119,24 +110,17 @@ Public Class CommonDetails
             myCustomHeader As New CamBam.Values.CBValue(Of String)
 
             myVelocityMode.SetValue(VelocityModes.ExactStop)
-            If laser Then
-                myFeedRate.SetValue(DipstickConstants.LASER_FEED_RATE)
-                myDepthInc.SetValue(DipstickConstants.LASER_DEPTH_INCREMENT)
-                myTarget.SetValue(-DipstickConstants.LASER_DEPTH_INCREMENT)
-                myClearance.SetValue(DipstickConstants.LASER_DEPTH_INCREMENT)
-            Else
-                myFeedRate.SetValue(DipstickConstants.SPINDLE_FEED_RATE)
-                myDepthInc.SetValue(DipstickConstants.SPINDLE_DEPTH_INCREMENT)
-                myTarget.SetValue(-DipstickConstants.SPINDLE_DEPTH_INCREMENT)
-                myClearance.SetValue(0.4)
-            End If
+            myFeedRate.SetValue(DipstickConstants.SPINDLE_FEED_RATE)
+            myDepthInc.SetValue(DipstickConstants.SPINDLE_DEPTH_INCREMENT)
+            myTarget.SetValue(-DipstickConstants.SPINDLE_DEPTH_INCREMENT)
+            myClearance.SetValue(0.4)
             myToolDiameter.SetValue(DipstickConstants.TOOL_DIAMETER)
             myToolNumber.SetValue(DipstickConstants.TOOL_NUMBER)
             myCustomHeader.SetValue(If(Model.FullVolume > 0, "( Full Volume: " & Model.FullVolume & " )", ""))
 
             Dim myEngrave = New CamBam.CAM.MOPEngrave()
             With myEngrave
-                .Name = IIf(laser, Model.TankDimensions + " Laser", Model.TankDimensions + " Spindle")
+                .Name = Trim(Model.TankDimensions & " Engrave")
                 .CutFeedrate = myFeedRate
                 .DepthIncrement = myDepthInc
                 .TargetDepth = myTarget
@@ -146,7 +130,7 @@ Public Class CommonDetails
                 '.StartPoint = myStartPoint
                 .VelocityMode = myVelocityMode
                 .CustomMOPHeader = myCustomHeader
-                .Style = IIf(laser, "laserEngrave", "Engrave")
+                .Style = "Engrave"
 
             End With
             Return myEngrave

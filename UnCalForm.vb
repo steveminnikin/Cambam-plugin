@@ -161,14 +161,16 @@ Public Class UnCalForm
 
         myUI.ActiveView.RefreshView()
         commonDetails = Nothing
-        Me.Hide()
+        Me.Close()
         Catch ex As Exception
             MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            ' Restore UI state
-            Me.Cursor = Cursors.Default
-            btnSubmit.Enabled = True
-            btnSubmit.Text = "&Generate Dipstick"
+            ' Restore UI state (skipped when the form closed itself after success)
+            If Not Me.IsDisposed Then
+                Me.Cursor = Cursors.Default
+                btnSubmit.Enabled = True
+                btnSubmit.Text = "&Generate Dipstick"
+            End If
         End Try
     End Sub
     Private Sub DrawLinesAndNumbers(cboUnits As String, markedIncrement As Single)

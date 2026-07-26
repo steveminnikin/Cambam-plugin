@@ -4,16 +4,16 @@ Imports System.Collections.Generic
 Namespace CamBamPlugin
 
 ''' <summary>
-''' Represents calibration data parsed from a CSV file for calibrated dipstick generation.
+''' Represents calibration data parsed from a JSON file for calibrated dipstick generation.
 ''' </summary>
 Public Class CalibrationData
 
 #Region "Properties"
     ''' <summary>
-    ''' Dictionary mapping volume (in liters) to height (in millimeters).
-    ''' Key: Volume as string, Value: Height as string
+    ''' Calibration points sorted numerically by height.
+    ''' Key: Height in millimeters, Value: Volume in litres
     ''' </summary>
-    Public Property VolumeHeightPairs As SortedList(Of String, String)
+    Public Property VolumeHeightPairs As SortedList(Of Decimal, Decimal)
 
     ''' <summary>
     ''' Full volume capacity extracted from filename
@@ -60,7 +60,7 @@ Public Class CalibrationData
     ''' Initializes a new instance of CalibrationData
     ''' </summary>
     Public Sub New()
-        VolumeHeightPairs = New SortedList(Of String, String)
+        VolumeHeightPairs = New SortedList(Of Decimal, Decimal)
         FullVolume = 0
         Increments = 0
         TankDimensions = String.Empty
@@ -94,15 +94,16 @@ Public Class CalibrationData
     End Function
 
     ''' <summary>
-    ''' Gets the height for a specific volume
+    ''' Gets the height at which a specific volume is marked
     ''' </summary>
-    ''' <param name="volume">Volume to look up</param>
-    ''' <returns>Height as string, or Nothing if not found</returns>
-    Public Function GetHeight(volume As String) As String
-        If VolumeHeightPairs.ContainsKey(volume) Then
-            Return VolumeHeightPairs(volume)
+    ''' <param name="volume">Volume in litres to look up</param>
+    ''' <returns>Height in millimeters, or 0 if the volume has no calibration point</returns>
+    Public Function GetHeightForVolume(volume As Decimal) As Decimal
+        Dim index As Integer = VolumeHeightPairs.IndexOfValue(volume)
+        If index >= 0 Then
+            Return VolumeHeightPairs.Keys(index)
         End If
-        Return Nothing
+        Return 0
     End Function
 
     ''' <summary>
@@ -110,17 +111,7 @@ Public Class CalibrationData
     ''' </summary>
     ''' <returns>Full volume height as Single</returns>
     Public Function GetFullVolumeHeight() As Single
-        Dim fullVolStr As String = FullVolume.ToString()
-        Dim heightStr As String = GetHeight(fullVolStr)
-
-        If Not String.IsNullOrEmpty(heightStr) Then
-            Dim height As Single
-            If Single.TryParse(heightStr, height) Then
-                Return height
-            End If
-        End If
-
-        Return 0
+        Return CSng(GetHeightForVolume(FullVolume))
     End Function
 
     ''' <summary>

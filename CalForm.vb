@@ -75,24 +75,24 @@ Namespace CamBamPlugin
             Application.DoEvents()
 
             Try
+                isRegIncrements = chkRegIncs.Checked
+
+                'parse the calibration file first so a bad file aborts the run
+                'before the current document is cleared
+                Dim myList As SortedList(Of Decimal, Decimal) = CreateVolumeHeightPairsFromFile(myFile)
+                If myList Is Nothing Then Return
+
                 'clear the current dipstick from the UI and create a fresh template
                 myUI.FileNew(True, True, True)
                 commonDetails = New CommonDetails(Me)
-                Dim myDoc As New CADFile
-                Dim myLayer As Layer
-                Dim myPart As CAMPart
-                Dim myList As SortedList(Of String, String)
+                Dim myDoc As CADFile = commonDetails.CreateCADFile()
+                Dim myLayer As Layer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
+                Dim myPart As CAMPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
 
-                isRegIncrements = chkRegIncs.Checked
-                myDoc = commonDetails.CreateCADFile()
-                myLayer = commonDetails.CreateLayer(myDoc, commonDetails.Model.Ref)
-                myPart = commonDetails.CreatePart(myDoc, commonDetails.Model.Ref)
-
-                myList = CreateVolumeHeightPairsFromFile(myFile, commonDetails.Model.Ref)
                 DrawLinesAndNumbers(myList, commonDetails.Model.Ref)
                 commonDetails.WriteUnits("LITRE", commonDetails.Model.Height, 0)
                 If Not String.IsNullOrWhiteSpace(commonDetails.Model.Ref) Then commonDetails.WriteRef(commonDetails.Model.Ref, commonDetails.Model.Height, 0)
-                WriteSWC(commonDetails.Model.Height, 0, "LITRE", Round(commonDetails.Model.FullVolume * 0.97))
+                WriteSWC(commonDetails.Model.Height, 0, "LITRE", Round(commonDetails.Model.CalculateSWC()))
                 commonDetails.WriteClientRef(commonDetails.Model.Height, 0, commonDetails.Model.ClientRef, commonDetails.Model.IncludeStriker)
                 If commonDetails.Model.WefcoVolume > 0 Then WriteWefcoRef(commonDetails.Model.WefcoVolume.ToString(), commonDetails.Model.Height, 0)
 
@@ -115,23 +115,27 @@ Namespace CamBamPlugin
                 myUI.ActiveView.RefreshView()
                 Me.ResetText()
                 commonDetails = Nothing
-                Me.Hide()
+                Me.Close()
             Catch ex As Exception
                 MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Finally
-                ' Restore UI state
-                Me.Cursor = Cursors.Default
-                btnSubmit.Enabled = True
-                btnSubmit.Text = "&Generate Dipstick"
+                ' Restore UI state (skipped when the form closed itself after success)
+                If Not Me.IsDisposed Then
+                    Me.Cursor = Cursors.Default
+                    btnSubmit.Enabled = True
+                    btnSubmit.Text = "&Generate Dipstick"
+                End If
             End Try
         End Sub
 
-        Private Function CreateVolumeHeightPairsFromFile(myFile As String, ref As String) As SortedList(Of String, String)
-            Dim myList As New SortedList(Of String, String)
-
+        ''' <summary>
+        ''' Parses the JSON calibration file. Returns Nothing on any failure so the
+        ''' caller aborts generation rather than producing a dipstick with no lines.
+        ''' </summary>
+        Private Function CreateVolumeHeightPairsFromFile(myFile As String) As SortedList(Of Decimal, Decimal)
             Try
                 Dim jsonParser As New JSONCalibrationParser()
-                myList = jsonParser.ReadVolumeHeightPairs(myFile, isRegIncrements)
+                Return jsonParser.ReadVolumeHeightPairs(myFile, isRegIncrements)
             Catch ex As IO.FileNotFoundException
                 MessageBox.Show("File not found: " & myFile, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Catch ex As IO.IOException
@@ -142,14 +146,14 @@ Namespace CamBamPlugin
                 MessageBox.Show("Unexpected error parsing JSON file: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
-            Return myList
+            Return Nothing
         End Function
-        Private Sub DrawLinesAndNumbers(myList As SortedList(Of String, String), ref As String)
+        Private Sub DrawLinesAndNumbers(myList As SortedList(Of Decimal, Decimal), ref As String)
             Dim xOffset As Integer = 0
-            For Each i As KeyValuePair(Of String, String) In myList
+            For Each i As KeyValuePair(Of Decimal, Decimal) In myList
                 Drawline(i.Key, xOffset)
                 If Not isRegIncrements Then
-                    If IsMultipleOfMarkedInterval(i.Value) Or i.Value = commonDetails.Model.FullVolume.ToString() Or i.Value = commonDetails.Model.Increments.ToString() Then
+                    If IsMultipleOfMarkedInterval(i.Value) OrElse i.Value = commonDetails.Model.FullVolume OrElse i.Value = CDec(commonDetails.Model.Increments) Then
                         WriteNumber(i, xOffset)
                     End If
                 Else
@@ -167,12 +171,12 @@ Namespace CamBamPlugin
             myUI.ActiveView.CADFile.Add(myPoly)
         End Sub
 
-        Private Sub WriteNumber(i As KeyValuePair(Of String, String), x As Single)
+        Private Sub WriteNumber(i As KeyValuePair(Of Decimal, Decimal), x As Single)
             Dim NoPos As Single = i.Key + DipstickConstants.CALIBRATED_NUMBER_Y_OFFSET
             'add some text
             'adjusts the size of the volume text so htat it always fits on to the dipstick
             Dim myCamText As New MText With {
-            .Text = i.Value,
+            .Text = i.Value.ToString(),
             .Font = DipstickConstants.FONT_NAME,
             .Height = IIf(i.Value > DipstickConstants.LARGE_NUMBER_THRESHOLD, DipstickConstants.LARGE_NUMBER_TEXT_HEIGHT.ToString(), DipstickConstants.DEFAULT_TEXT_HEIGHT.ToString()),
             .Location = DipstickConstants.NUMBER_X_OFFSET_MEDIUM + x & "," & NoPos & ",0"
@@ -206,8 +210,9 @@ Namespace CamBamPlugin
             myUI.ActiveView.CADFile.Add(unitsCamText)
 
         End Sub
-        Private Function IsMultipleOfMarkedInterval(inc As Single) As Boolean
-            Return (inc Mod commonDetails.Model.MarkedVolIncrement) = 0
+        Private Function IsMultipleOfMarkedInterval(vol As Decimal) As Boolean
+            If commonDetails.Model.MarkedVolIncrement <= 0 Then Return False
+            Return (vol Mod commonDetails.Model.MarkedVolIncrement) = 0
         End Function
 
 

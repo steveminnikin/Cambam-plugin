@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- net48 matches the plugin; tests run on the .NET Framework runtime (Windows) -->
+    <TargetFramework>net48</TargetFramework>
+    <RootNamespace></RootNamespace>
+    <OptionStrict>Off</OptionStrict>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+  </ItemGroup>
+
+  <!-- Compile the plugin sources that have no CamBam dependency, so the tests
+       build without a CamBam installation -->
+  <ItemGroup>
+    <Compile Include="..\JSONCalibrationParser.vb" Link="JSONCalibrationParser.vb" />
+    <Compile Include="..\CalibrationData.vb" Link="CalibrationData.vb" />
+    <Compile Include="..\DipstickModel.vb" Link="DipstickModel.vb" />
+    <Compile Include="..\DipstickConstants.vb" Link="DipstickConstants.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- JavaScriptSerializer used by JSONCalibrationParser -->
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+
+</Project>

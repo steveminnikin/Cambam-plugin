@@ -8,7 +8,7 @@ A CamBam plugin written in Visual Basic .NET that generates dipstick CAD files w
 - **Calibrated Dipsticks**: Uses calibration data from JSON files to create accurate volume markings
 - **Uncalibrated Dipsticks**: Creates dipsticks with regular increments without calibration data
 - **Text-only Dipsticks**: Generates reference text without measurement markings
-- Supports both laser and spindle engraving operations
+- Generates spindle engraving operations with G-code output
 - Multiple unit systems (mm, cm, inches)
 - Configurable text positioning and formatting
 
@@ -49,6 +49,17 @@ msbuild CamBamPlugin.vbproj /p:Configuration=Debug
 After either build, the DLL is also copied into `$(CamBamDir)\plugins` when that
 folder exists (best-effort — a locked file or missing permissions won't fail the
 build).
+
+### Running the Tests
+
+Unit tests for the JSON parser and data models live in `CamBamPlugin.Tests`
+(no CamBam installation needed):
+
+```bash
+dotnet test CamBamPlugin.Tests/CamBamPlugin.Tests.vbproj
+```
+
+They also run automatically in GitHub Actions on every push and pull request.
 
 ## Debugging in Visual Studio
 
@@ -127,7 +138,10 @@ CamBamPlugin/
 │   ├── DipstickConstants.vb    # Constants and configuration
 │   ├── DipstickModel.vb        # Data model
 │   ├── CalibrationData.vb      # Calibration data model
-│   └── CalibratedDipstickParser.vb  # CSV parsing logic
+│   └── JSONCalibrationParser.vb # JSON calibration file parsing
+│
+├── Tests
+│   └── CamBamPlugin.Tests/     # Unit tests (JSON parser, model validation)
 │
 ├── Plugin Entry Point
 │   └── MyPlugin.vb             # CamBam plugin initialization
@@ -135,9 +149,7 @@ CamBamPlugin/
 ├── Documentation
 │   ├── README.md               # This file
 │   ├── CLAUDE.md               # Detailed technical documentation
-│   ├── BUGS.md                 # Known bugs and fixes
-│   ├── BACKLOG.md              # Feature backlog and requests
-│   └── UI_UX_IMPROVEMENTS.md   # UI/UX improvement backlog and status
+│   └── CHANGELOG.md            # Project history and completed work
 │
 ├── Excel Template (Manual Calibration)
 │   ├── DipstickCalibrationTemplate.xlsm  # Excel template for data entry
@@ -225,7 +237,6 @@ See [EXCEL_TEMPLATE_README.md](EXCEL_TEMPLATE_README.md) for detailed instructio
 
 Edit `DipstickConstants.vb` to modify:
 
-- **Laser Engraving**: Feed rate, depth increment
 - **Spindle Engraving**: Feed rate, depth increment
 - **Tool Settings**: Diameter, tool number
 - **Text Positioning**: Y-offsets for various text elements
@@ -253,9 +264,7 @@ CamBam plus 1.0 / 0.9.8 install paths, or overridable as described above.
 ## Additional Documentation
 
 - **[CLAUDE.md](CLAUDE.md)** - Detailed technical documentation for AI assistance
-- **[BUGS.md](BUGS.md)** - Known bugs, fixes, and improvement suggestions
-- **[BACKLOG.md](BACKLOG.md)** - Feature backlog and planned enhancements
-- **[UI_UX_IMPROVEMENTS.md](UI_UX_IMPROVEMENTS.md)** - UI/UX improvement backlog and implementation details
+- **[CHANGELOG.md](CHANGELOG.md)** - Project history, completed features, and fixed bugs
 - **[EXCEL_TEMPLATE_README.md](EXCEL_TEMPLATE_README.md)** - Excel template usage for manual calibration data
 
 ## Recent Updates
@@ -287,7 +296,7 @@ CamBam plus 1.0 / 0.9.8 install paths, or overridable as described above.
 - Progress indication during dipstick generation
 - Better error handling with user-friendly messages
 
-See [UI_UX_IMPROVEMENTS.md](UI_UX_IMPROVEMENTS.md) for complete details.
+See [CHANGELOG.md](CHANGELOG.md) for complete details.
 
 ### Previous Updates
 - Refactored with constants and data models

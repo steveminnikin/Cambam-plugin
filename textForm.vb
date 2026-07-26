@@ -94,14 +94,16 @@ Public Class textForm
             myUI.ActiveView.RefreshView()
             Me.ResetText()
             commonDetails = Nothing
-            Me.Hide()
+            Me.Close()
             Catch ex As Exception
                 MessageBox.Show("Error generating dipstick: " & ex.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Finally
-                ' Restore UI state
-                Me.Cursor = Cursors.Default
-                Button1.Enabled = True
-                Button1.Text = "&Generate Dipstick"
+                ' Restore UI state (skipped when the form closed itself after success)
+                If Not Me.IsDisposed Then
+                    Me.Cursor = Cursors.Default
+                    Button1.Enabled = True
+                    Button1.Text = "&Generate Dipstick"
+                End If
             End Try
         End If
     End Sub
