@@ -18,11 +18,14 @@ This is a CamBam plugin written in Visual Basic .NET that generates dipstick CAD
 msbuild CamBamPlugin.vbproj /p:Configuration=Debug
 ```
 
-The Debug configuration outputs directly to: `C:\Program Files (x86)\CamBam plus 0.9.8\plugins\`
+Output goes to `bin\Debug\` (or `bin\Release\`), and a post-build step copies the
+DLL into CamBam's `plugins` folder when it can. The CamBam installation folder is
+auto-detected (CamBam plus 1.0 and 0.9.8 standard paths are probed); override it
+with the `CamBamDir` environment variable or `msbuild /p:CamBamDir=...`.
 
 ### Dependencies
 - **Target Framework:** .NET Framework 4.8
-- **Platform:** x86 (32-bit)
+- **Platform:** AnyCPU (loads into both 32- and 64-bit CamBam)
 - **External References:**
   - `CamBam.CAD.dll` - Located in CamBam installation directory
   - `CamBam.Geom.dll` - Located in CamBam installation directory

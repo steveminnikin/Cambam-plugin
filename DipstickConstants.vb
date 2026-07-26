@@ -136,7 +136,7 @@ Public Class DipstickConstants
     ''' <summary>
     ''' Rotation angle for vertical text (90 degrees in radians)
     ''' </summary>
-    Public Const VERTICAL_TEXT_ROTATION As Double = 1.571
+    Public Const VERTICAL_TEXT_ROTATION As Double = Math.PI / 2
 
 #End Region
 

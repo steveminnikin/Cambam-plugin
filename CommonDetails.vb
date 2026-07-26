@@ -132,7 +132,7 @@ Public Class CommonDetails
             End If
             myToolDiameter.SetValue(DipstickConstants.TOOL_DIAMETER)
             myToolNumber.SetValue(DipstickConstants.TOOL_NUMBER)
-            myCustomHeader.SetValue("( Full Volume: " & ")")
+            myCustomHeader.SetValue(If(Model.FullVolume > 0, "( Full Volume: " & Model.FullVolume & " )", ""))
 
             Dim myEngrave = New CamBam.CAM.MOPEngrave()
             With myEngrave

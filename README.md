@@ -25,8 +25,10 @@ A CamBam plugin written in Visual Basic .NET that generates dipstick CAD files w
 
 - **Visual Studio 2012 or later** (with VB.NET support)
 - **.NET Framework 4.8** (or compatible version)
-- **CamBam Plus 1.0** installed at `C:\Program Files (x86)\CamBam plus 1.0\`
-- **Platform**: x86 (32-bit)
+- **CamBam Plus 1.0** (or 0.9.8) installed — the standard install paths are
+  auto-detected; set the `CamBamDir` environment variable (or
+  `msbuild /p:CamBamDir=...`) for a non-standard location
+- **Platform**: AnyCPU (loads into both 32- and 64-bit CamBam)
 
 ## Building the Project
 
@@ -41,8 +43,12 @@ msbuild CamBamPlugin.vbproj /p:Configuration=Debug
 ```
 
 ### Build Output
-- **Debug**: Outputs DLL directly to `C:\Program Files (x86)\CamBam plus 1.0\plugins\`
+- **Debug**: Outputs to `bin\Debug\`
 - **Release**: Outputs to `bin\Release\`
+
+After either build, the DLL is also copied into `$(CamBamDir)\plugins` when that
+folder exists (best-effort — a locked file or missing permissions won't fail the
+build).
 
 ## Debugging in Visual Studio
 
@@ -84,7 +90,7 @@ The project is already configured to launch CamBam when you press F5. Here's wha
 ### Important Notes
 
 - **Close CamBam before rebuilding**: If CamBam is running, the DLL file is locked and the build will fail with a "file copy" error
-- **CamBam must be installed**: The debug configuration expects CamBam at `C:\Program Files (x86)\CamBam plus 1.0\CamBam.exe`
+- **CamBam must be installed**: F5 launches `$(CamBamDir)\CamBam.exe`; the folder is auto-detected or set via the `CamBamDir` environment variable
 - **Plugin loads on startup**: CamBam loads plugins from the `plugins\` folder automatically
 
 ### Troubleshooting Debug Issues
@@ -227,11 +233,12 @@ Edit `DipstickConstants.vb` to modify:
 
 ### Debug Paths
 
-If your CamBam installation is in a different location, edit `CamBamPlugin.vbproj`:
+If your CamBam installation is in a different location, set the `CamBamDir`
+environment variable (or pass it on the command line) — no project file edits
+needed:
 
-```xml
-<StartProgram>C:\Your\Path\To\CamBam.exe</StartProgram>
-<OutputPath>C:\Your\Path\To\plugins\</OutputPath>
+```bash
+msbuild CamBamPlugin.vbproj /p:Configuration=Debug /p:CamBamDir="C:\Your\Path\To\CamBam"
 ```
 
 ## External References
@@ -240,7 +247,8 @@ The plugin references CamBam DLLs:
 - `CamBam.CAD.dll` - CAD object creation
 - `CamBam.Geom.dll` - Geometry operations
 
-These are expected at: `C:\Program Files (x86)\CamBam plus 1.0\`
+These are resolved from `$(CamBamDir)` — auto-detected from the standard
+CamBam plus 1.0 / 0.9.8 install paths, or overridable as described above.
 
 ## Additional Documentation
 

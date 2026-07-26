@@ -129,3 +129,41 @@ promoting. `BUGS.md`/`BACKLOG.md` indicate testing was still in progress on
 
 End state: `master` = released/current, `dev` = integration branch,
 short-lived feature branches cut from `dev`.
+
+---
+
+## Execution record (2026-07-26)
+
+Step 1 was executed on `claude/branch-consolidation-review-d3n5qf` (based on
+`dev`) and merged to `dev`:
+
+- `CamBamPlugin.vbproj`: audit branch build system ported — `CamBamDir`
+  auto-detection with env-var/`/p:` override, `$(CamBamDir)` HintPaths,
+  AnyCPU, `bin\` output, best-effort copy-to-plugins target, fail-early
+  missing-DLL check; kept `dev`'s compile list, `System.Web.Extensions`
+  reference, and F5 debug launch (now parameterised on `$(CamBamDir)`).
+  Legacy `Scc*` source-control properties removed.
+- `CamBamPlugin.sln`: took the audit branch's cleaned version (stale phantom
+  CamBam.exe project referencing an old machine removed).
+- Untracked from git: `*.suo`, `CamBamPlugin.sln.ide/`, `*.vspscc`,
+  `*.vssscc`, `.claude/settings.local.json`; `.gitignore` extended.
+- Restored `.github/workflows/claude.yml` and `claude-code-review.yml` from
+  `master`.
+- Audit source fixes checked against `dev`: fixed the empty G-code header
+  (`CommonDetails.vb` now emits the actual full volume, blank when unset) and
+  the inexact rotation constant (`DipstickConstants.VERTICAL_TEXT_ROTATION`
+  is now `Math.PI / 2` instead of `1.571`). Modal-disposal and FullVol
+  null-safety were already covered by `dev`'s design.
+- `AUDIT.md` carried over with a historical note; `README.md`/`CLAUDE.md`
+  build sections updated.
+
+Step 2 (build + smoke test in CamBam) could not run in the Linux review
+environment — **build and test the three workflows before merging the
+`dev` → `master` PR.**
+
+Branches deleted (recovery SHAs, restorable with
+`git branch <name> <sha>` while the objects remain on the remote):
+
+- `feature/json-calibration-import` @ `0c608bd` (fully merged into `dev`)
+- `claude/fix-text-input-bug-3ZB22` @ `58f8a87` (superseded by `dev`)
+- `claude/cambam-plugin-audit-1aaa59` @ `3081f89` (build work ported)
